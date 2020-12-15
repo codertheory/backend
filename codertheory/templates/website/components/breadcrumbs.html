@@ -1,0 +1,25 @@
+<div class="container">
+  <div class="row">
+    <div class="breadcrumbs-wrap inline-items with-border">
+      <a href="{% url "website:home-view" %}" class="btn btn--transparent btn--round">
+        <svg class="utouch-icon utouch-icon-home-icon-silhouette">
+          <use xlink:href="#utouch-icon-home-icon-silhouette"></use>
+        </svg>
+      </a>
+      <ul class="breadcrumbs">
+        {% for breadcrumb in breadcrumbs %}
+          <li class="breadcrumbs-item {% if breadcrumb.first %} active {% endif %}">
+            {% if breadcrumb.2 %}
+              <a href="{{ breadcrumb.2 }}">{{ breadcrumb.0 }}</a>
+            {% else %}
+              <span>{{ breadcrumb.0 }}</span>
+            {% endif %}
+            <svg class="utouch-icon utouch-icon-media-play-symbol">
+              <use xlink:href="#utouch-icon-media-play-symbol"></use>
+            </svg>
+          </li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+</div>

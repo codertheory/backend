@@ -1,0 +1,17 @@
+{% extends "account/base.html" %}
+
+{% load i18n %}
+
+{% block head_title %}{% trans "Social Network Login Failure" %}{% endblock %}
+
+{% block inner %}
+  <h1>{% trans "Social Network Login Failure" %}</h1>
+
+  <p>{% trans "An error occurred while attempting to login via your social network account." %}</p>
+
+  <a href="{% url "admin:login" %}">
+    <button type="button" class="btn btn-primary-rgba btn-lg btn-block font-18"><i
+            class="mdi mdi-undo-variant mr-2"></i>Retry
+    </button>
+  </a>
+{% endblock %}

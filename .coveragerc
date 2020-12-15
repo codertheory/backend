@@ -1,0 +1,3 @@
+[run]
+include = iceteacity/*
+omit = *migrations*, *tests*, *templates*, *static*

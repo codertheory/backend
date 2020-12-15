@@ -1,0 +1,79 @@
+{% load template_helpers comments %}
+{% get_comment_count for article as comment_count %}
+
+
+<article class="hentry post post-standard {% if article.thumbnail %}
+              has-post-thumbnail
+              {% endif %} {% if article.featured %}
+              sticky
+              {% endif %}">
+  {% if article.thumbnail %}
+    <div class="post-thumb">
+      <img src="{{ article.thumbnail.url }}" alt="post">
+      <a href="{{ article.thumbnail.url }}" class="link-image js-zoom-image">
+        <svg class="utouch-icon utouch-icon-zoom-increasing-button-outline">
+          <use xlink:href="#utouch-icon-zoom-increasing-button-outline"></use>
+        </svg>
+      </a>
+      <a href="{% url "pinax_blog:blog_post_pk" article.id %}" class="link-post">
+        <svg class="utouch-icon utouch-icon-link-chain">
+          <use xlink:href="#utouch-icon-link-chain"></use>
+        </svg>
+      </a>
+      <div class="overlay-standard overlay--blue-dark"></div>
+    </div>
+  {% endif %}
+
+  <div class="post__content">
+
+    <a href="#" class="social__item main">
+      <svg class="utouch-icon utouch-icon-1496680146-share">
+        <use xlink:href="#utouch-icon-1496680146-share"></use>
+      </svg>
+    </a>
+
+    {% include "website/components/blogs/blog-social.html" %}
+
+
+    {% include "website/components/blogs/blog.html" %}
+
+    <div class="post__content-info">
+
+      <a href="{% url "pinax_blog:blog_post_pk" article.id %}"
+         class="h5 post__title entry-title">{{ article.title|title }}</a>
+
+      <p class="post__text">{{ article.teaser_html|safe }}
+      </p>
+
+      <div class="post-additional-info">
+									<span class="post__author author vcard">
+										 By
+										<a href="#" class="fn">{{ article.author }}</a>
+
+									</span>
+
+        <span class="category">
+										In
+										<a href="{% url "pinax_blog:blog_post_pk" article.id %}">{{ article.category }}</a>
+									</span>
+
+        <span class="post__comments">
+										<a href="#">{{ comment_count }} <span>Comments</span></a>
+									</span>
+
+
+        <a href="{% url "pinax_blog:blog_post_pk" article.id %}" class="btn-next">
+          <svg class="utouch-icon icon-hover utouch-icon-arrow-right-1">
+            <use xlink:href="#utouch-icon-arrow-right-1"></use>
+          </svg>
+          <svg class="utouch-icon utouch-icon-arrow-right1">
+            <use xlink:href="#utouch-icon-arrow-right1"></use>
+          </svg>
+        </a>
+
+      </div>
+
+    </div>
+  </div>
+
+</article>

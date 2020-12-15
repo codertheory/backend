@@ -1,0 +1,33 @@
+{
+  "addons": [
+    "heroku-postgresql",
+    "heroku-redis",
+    "mailgun"
+  ],
+  "buildpacks": [
+    {
+      "url": "heroku/python"
+    }
+  ],
+  "env": {
+    "DJANGO_SECRET_KEY": {
+      "required": true
+    },
+    "DJANGO_SETTINGS_MODULE": {
+      "required": true
+    },
+    "PYTHONHASHSEED": {
+      "required": true
+    },
+    "WEB_CONCURRENCY": {
+      "required": true
+    }
+  },
+  "formation": {
+  },
+  "name": "iceteacity",
+  "scripts": {
+    "postdeploy": "python manage.py loaddata admin"
+  },
+  "stack": "heroku-18"
+}

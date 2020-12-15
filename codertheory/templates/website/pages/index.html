@@ -1,0 +1,104 @@
+{% extends "website/base.html" %}
+
+{% load static %}
+
+{% block title %}
+  Home
+{% endblock %}
+
+
+{% block body %}
+  <div class="content-wrapper">
+
+
+    <!-- Main Slider -->
+
+    <div class="crumina-module crumina-module-slider container-full-width">
+      <div class="swiper-container main-slider navigation-center-both-sides" data-effect="fade">
+
+        <!-- Additional required wrapper -->
+        <div class="swiper-wrapper">
+          <!-- Slides -->
+          {% for banner in banners %}
+            <div class="swiper-slide bg-1 main-slider-bg-light">
+
+              <div class="container">
+                <div class="row table-cell">
+
+                  <div class="col-lg-8 col-lg-offset-2 col-md-8 col-md-offset-2 col-sm-12 col-sm-offset-0 col-xs-12">
+
+                    <div class="slider-content align-center">
+
+                      <h1 class="slider-content-title with-decoration" data-swiper-parallax="-100">
+                        {{ banner.title|title }}
+
+                        <svg class="first-decoration utouch-icon utouch-icon-arrow-left">
+                          <use xlink:href="#utouch-icon-arrow-left"></use>
+                        </svg>
+
+                        <svg class="second-decoration utouch-icon utouch-icon-arrow-left">
+                          <use xlink:href="#utouch-icon-arrow-left"></use>
+                        </svg>
+
+                      </h1>
+                      <h6 class="slider-content-text" data-swiper-parallax="-200">{{ banner.description }}
+                      </h6>
+
+                      <div class="main-slider-btn-wrap" data-swiper-parallax="-300">
+
+                        <a href="{% url "website:about-us-view" %}" class="btn btn--yellow btn--with-shadow">
+                          {{ banner.primary_button.text }}
+                        </a>
+
+                        <a href="{% url "website:blog-list-view" %}" class="btn btn-border btn--with-shadow c-primary">
+                          {{ banner.secondary_button.text }}
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <div class="slider-thumb" data-swiper-parallax="-400" data-swiper-parallax-duration="600">
+                      <img src="{% static "website/img/slides1.png" %}" alt="slider">
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+          {% endfor %}
+
+
+        </div>
+
+
+        <!--Prev next buttons-->
+
+        {% if banners.count > 1 %}
+          <div class="btn-prev with-bg">
+            <svg class="utouch-icon icon-hover utouch-icon-arrow-left-1">
+              <use xlink:href="#utouch-icon-arrow-left-1"></use>
+            </svg>
+            <svg class="utouch-icon utouch-icon-arrow-left1">
+              <use xlink:href="#utouch-icon-arrow-left1"></use>
+            </svg>
+          </div>
+
+          <div class="btn-next with-bg">
+            <svg class="utouch-icon icon-hover utouch-icon-arrow-right-1">
+              <use xlink:href="#utouch-icon-arrow-right-1"></use>
+            </svg>
+            <svg class="utouch-icon utouch-icon-arrow-right1">
+              <use xlink:href="#utouch-icon-arrow-right1"></use>
+            </svg>
+          </div>
+        {% endif %}
+
+      </div>
+    </div>
+
+    <!-- ... end Main Slider -->
+
+
+  </div>
+{% endblock %}
+

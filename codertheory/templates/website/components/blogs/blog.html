@@ -1,0 +1,11 @@
+{% load template_helpers %}
+
+<div class="post__date">
+
+  <time class="published" datetime="{{ article.published }}">
+    <a href="#" class="number">{{ article.published.day }}</a>
+    <span class="month">{{ article.published.month|month_name }} {{ article.published.year }}</span>
+    <span class="day">{{ article.published|day_name }}</span>
+  </time>
+
+</div>

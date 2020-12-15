@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+
+{% block title %} Page Not Found (404){% endblock %}
+
+{% block body %}
+  <div class="col-8 bg-secondary-color"></div>
+  <div class="col-8 bg-primary-color"></div>
+  <div class="col-8 bg-blue-light">
+    <h2 class="error">Error</h2>
+  </div>
+  <div class="col-8 bg-orange-light">
+    <h2 class="number">4</h2>
+  </div>
+  <div class="col-8 bg-red">
+    <h2 class="number">0</h2>
+  </div>
+  <div class="col-8 bg-green">
+    <h2 class="number">4</h2>
+  </div>
+  <div class="col-8 bg-secondary-color"></div>
+  <div class="col-8 bg-primary-color"></div>
+
+  <div class="page404-content">
+    <h2 class="title">Sorry! The Page Not Found ;(</h2>
+    <h5 class="sub-title">We can't find the page you are looking for. Please go to <a
+            href="{% url "website:home-view" %}">Homepage</a>.
+    </h5>
+  </div>
+
+{% endblock body %}

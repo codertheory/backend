@@ -1,0 +1,37 @@
+{% load project_tags %}
+<ul class="primary-menu-menu">
+  <li class="menu-item-has-children">
+    <a href="{% url "website:home-view" %}">Home</a>
+  </li>
+
+
+  {% projects as projects %}
+  {% if projects %}
+    <li class="">
+      <a href="#">Projects</a>
+      <ul class="sub-menu">
+        {% for project in projects %}
+
+
+        {% endfor %}
+
+      </ul>
+    </li>
+  {% endif %}
+
+  <li class="">
+    <a href="#">Company</a>
+    <ul class="sub-menu">
+      <li>
+        <a href="{% url "website:about-us-view" %}">
+          About Us
+        </a>
+      </li>
+    </ul>
+  </li>
+
+  <li class="">
+    <a href="{% url "website:blog-list-view" %}">News</a>
+  </li>
+
+</ul>
