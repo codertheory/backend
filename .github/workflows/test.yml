@@ -1,0 +1,53 @@
+name: Test
+on: [ push,pull_request ]
+
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:12-alpine
+        ports:
+          - 5432:5432
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: iceteacity
+          POSTGRES_DB: iceteacity
+      redis:
+        image: redis
+        ports:
+          - 6379:6379
+
+    steps:
+      - uses: actions/checkout@v1
+        with:
+          ref: ${{ github.ref }}
+      - name: Set up Python
+        uses: actions/setup-python@v1
+        with:
+          python-version: 3.9
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements/local.txt
+      - name: run tests
+        env:
+          DJANGO_SETTINGS_MODULE: config.settings.test
+          DATABASE_URL: postgres://postgres:iceteacity@localhost:${{ job.services.postgres.ports[5432] }}/iceteacity
+          CELERY_BROKER_URL: redis://localhost:${{ job.services.redis.ports[6379] }}
+        run: |
+          python manage.py makemigrations --no-input
+          python manage.py migrate --no-input
+          pytest -q
+      - name: Generate coverage report
+        if: github.event_name == 'pull_request'
+        run: |
+          pip install pytest-cov
+          pytest --cov=./ --cov-report=xml
+      - name: Upload coverage to Codecov
+        if: github.event_name == 'pull_request'
+        uses: codecov/codecov-action@v1
+        with:
+          token: ${{ secrets.CODE_COV }}

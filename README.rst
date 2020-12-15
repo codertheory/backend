@@ -1,4 +1,4 @@
-Iceteacity
+CoderTheory
 ==========
 
 Programming guides and blog
@@ -11,8 +11,6 @@ Programming guides and blog
      :target: https://github.com/ambv/black
      :alt: Black code style
 
-.. image:: https://codecov.io/gh/LucasCLuk/iceteacity/branch/master/graph/badge.svg
-  :target: https://codecov.io/gh/LucasCLuk/iceteacity
 
 
 :License: MIT
@@ -47,7 +45,7 @@ Running type checks with mypy:
 
 ::
 
-  $ mypy iceteacity
+  $ mypy codertheory
 
 Test coverage
 ^^^^^^^^^^^^^
@@ -83,7 +81,7 @@ To run a celery worker:
 
 .. code-block:: bash
 
-    cd iceteacity
+    cd codertheory
     celery -A config.celery_app worker -l info
 
 Please note: For Celery's import magic to work, it is important *where* the celery commands are run. If you are in the same folder with *manage.py*, you should be right.
