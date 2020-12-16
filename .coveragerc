@@ -1,3 +1,3 @@
 [run]
-include = iceteacity/*
+include = codertheory/*
 omit = *migrations*, *tests*, *templates*, *static*
