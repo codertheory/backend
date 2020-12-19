@@ -70,3 +70,6 @@ class User(AbstractBaseUser, PermissionsMixin):
             self.has_perms("")
         else:
             return False
+
+    def get_absolute_url(self):
+        return f"/users/{self.email}/"

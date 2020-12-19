@@ -1,6 +1,6 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="Test: codertheory" type="DjangoTestsConfigurationType">
-    <module name="iceteacity" />
+    <module name="codertheory" />
     <option name="INTERPRETER_OPTIONS" value="" />
     <option name="PARENT_ENVS" value="true" />
     <envs>
