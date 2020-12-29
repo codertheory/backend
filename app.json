@@ -25,7 +25,7 @@
   },
   "formation": {
   },
-  "name": "iceteacity",
+  "name": "codertheory",
   "scripts": {
     "postdeploy": "python manage.py loaddata admin"
   },

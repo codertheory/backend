@@ -16,7 +16,6 @@ urlpatterns = [
                   path('accounts/', include(('allauth.urls', "allauth"), namespace="allauth")),
                   path('grappelli/', include('grappelli.urls')),  # grappelli URLS
                   path(settings.ADMIN_URL, admin.site.urls),
-                  path("ajax/images/", include("pinax.images.urls", namespace="pinax_images")),
               ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 # API URLS

@@ -4,7 +4,7 @@ from channels.db import database_sync_to_async
 from channels.testing import WebsocketCommunicator
 from django.test import TestCase
 
-from codertheory.shiritori import factories
+from . import factories
 
 
 @skip

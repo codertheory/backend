@@ -4,8 +4,8 @@ from django.db import IntegrityError
 from django.test import TestCase
 
 from codertheory.shiritori import exceptions
-from codertheory.shiritori import factories
 from codertheory.shiritori import models
+from . import factories
 
 
 class ShiritoriModelTests(TestCase):

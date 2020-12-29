@@ -1,7 +1,7 @@
 import factory
 from factory import django
 
-from .models import *
+from codertheory.website.models import *
 
 
 class BannerButtonFactory(django.DjangoModelFactory):

@@ -4,9 +4,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <title>Iceteacity - {% block title %}{% endblock %}</title>
+  <title>CoderTheory - {% block title %}{% endblock %}</title>
   {% block object_graph %}
-    <meta property="og:title" content="Iceteacity"/>
+    <meta property="og:title" content="CoderTheory"/>
     <meta property="og:type" content="website"/>
     <meta property="og:url" content="{{ request.build_absolute_uri }}"/>
     <meta property="og:image" content="https://iceteacity-heroku.s3-us-west-2.amazonaws.com/assets/images/logo.svg"/>
@@ -68,9 +68,9 @@
 
       <div class="site-logo">
         <a href="{% url "website:home-view" %}" class="full-block"></a>
-        <img src="{% static "website/img/logo.png" %}" alt="Iceteacity">
+        <img src="{% static "website/img/logo.png" %}" alt="CoderTheory">
         <div class="logo-text">
-          <div class="logo-title">Iceteacity</div>
+          <div class="logo-title">CoderTheory</div>
           <div class="logo-sub-title">Learn. Create. Impress.</div>
         </div>
       </div>

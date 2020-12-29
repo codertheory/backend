@@ -340,7 +340,7 @@ codertheory/media/
 .pytest_cache/
 
 
-.idea/iceteacity.iml
+.idea/codertheory.iml
 .idea/inspectionProfiles/
 .idea/misc.xml
 .idea/modules.xml

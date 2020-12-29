@@ -15,7 +15,7 @@ pytest-django==4.1.0  # https://github.com/pytest-dev/pytest-django
 # Code quality
 # ------------------------------------------------------------------------------
 flake8==3.8.4  # https://github.com/PyCQA/flake8
-coverage==5.3  # https://github.com/nedbat/coveragepy
+coverage==5.3.1  # https://github.com/nedbat/coveragepy
 black==20.8b1  # https://github.com/ambv/black
 pylint-django==2.3.0  # https://github.com/PyCQA/pylint-django
 pylint-celery==0.3  # https://github.com/PyCQA/pylint-celery
@@ -23,7 +23,7 @@ pytest-cov==2.10.1 # https://github.com/pytest-dev/pytest-cov
 
 # Django
 # ------------------------------------------------------------------------------
-factory-boy==3.1.0  # https://github.com/FactoryBoy/factory_boy
+factory-boy==3.2.0  # https://github.com/FactoryBoy/factory_boy
 django-debug-toolbar==3.2  # https://github.com/jazzband/django-debug-toolbar
 django-extensions==3.1.0  # https://github.com/django-extensions/django-extensions
 django-coverage-plugin==1.8.0  # https://github.com/nedbat/django_coverage_plugin

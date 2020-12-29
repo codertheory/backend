@@ -78,8 +78,6 @@ DJANGO_APPS = [
     "django.contrib.admin",
     "django.contrib.humanize",  # Handy template tags
     "django.forms",
-    "django_comments_xtd",
-    "django_comments",
     "django_celery_beat",
     "django_js_reverse",
 
@@ -90,7 +88,6 @@ THIRD_PARTY_APPS = [
     "rest_framework_datatables",
     "knox",
     "djoser",
-    "star_ratings",
     "corsheaders",
     "widget_tweaks",
     "django_summernote",
@@ -103,8 +100,6 @@ THIRD_PARTY_APPS = [
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
-    "pinax.blog",
-    "pinax.images",
     "graphene_django"
 
 ]
@@ -230,8 +225,6 @@ TEMPLATES = [
     }
 ]
 FORM_RENDERER = 'django.forms.renderers.TemplatesSetting'
-# http://django-crispy-forms.readthedocs.io/en/latest/install.html#template-packs
-CRISPY_TEMPLATE_PACK = "bootstrap4"
 
 # FIXTURES
 # ------------------------------------------------------------------------------
@@ -336,8 +329,7 @@ SOCIALACCOUNT_ADAPTER = "codertheory.users.adapters.SocialAccountAdapter"
 # from a file:// domain.
 # The special value file:// is sent accidentally by some versions of Chrome on Android as per this bug.
 CORS_ORIGIN_WHITELIST = [
-    "https://storage.googleapis.com",
-    "https://iceteacity.com",
+    "https://codertheory.dev",
 ]
 # Summernote
 # ------------------------------------------------------------------------------
@@ -425,14 +417,6 @@ ELASTICSEARCH_DSL = {
 
     },
 }
-# Newsletter
-# ------------------------------------------------------------------------------
-NEWSLETTER_EMAIL = "noreply@codertheory.com"
-
-# Comments
-# ------------------------------------------------------------------------------
-COMMENTS_APP = "django_comments_xtd"
-COMMENTS_XTD_MAX_THREAD_LEVEL = 3
 # Sentry
 # ------------------------------------------------------------------------------
 SENTRY_DSN = env("SENTRY_DSN", default="")
@@ -479,10 +463,6 @@ CHANNEL_LAYERS = {
 # Snowflakes
 # ------------------------------------------------------------------------------
 SNOWFLAKE_SIZE = 10
-
-# Pinax
-# ------------------------------------------------------------------------------
-
 
 # Graphene
 # ------------------------------------------------------------------------------

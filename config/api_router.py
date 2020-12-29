@@ -10,7 +10,7 @@ from codertheory.shiritori.api import views as shiritori_views
 app_name = "api"
 
 api_info = openapi.Info(
-    title="Snippets API",
+    title="CoderTheory API",
     default_version='v1',
     description="Test description",
     terms_of_service="https://www.google.com/policies/terms/",

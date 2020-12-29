@@ -1,7 +1,8 @@
 from rest_framework.reverse import reverse
 from rest_framework.test import APITestCase
 
-from codertheory.shiritori import factories, models
+from codertheory.shiritori import models
+from . import factories
 
 
 class ShiritoriViewTests(APITestCase):

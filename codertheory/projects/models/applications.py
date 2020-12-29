@@ -1,5 +1,4 @@
 # Create your models here.
-import star_ratings.models as ratings
 from django.contrib.auth import get_user_model
 from django.db import models
 from django.utils.translation import gettext_lazy as _
@@ -88,7 +87,6 @@ class ProjectImage(BaseModel):
 
 class ProjectFeedBack(BaseModel):
     comment = models.TextField()
-    rating = ratings.Rating()
     project = models.ForeignKey(Project, on_delete=models.CASCADE)
     posted_at = models.DateTimeField(auto_created=True)
 

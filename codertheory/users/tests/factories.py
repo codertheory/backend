@@ -20,7 +20,7 @@ class UserFactory(django.DjangoModelFactory):
             digits=True,
             upper_case=True,
             lower_case=True,
-        ).generate(params=dict(locale="en_US"))
+        ).evaluate(None, None, dict(locale="en_US"))
         self.set_password(password)
 
     class Meta:
