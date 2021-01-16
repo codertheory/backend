@@ -98,8 +98,9 @@ THIRD_PARTY_APPS = [
     "channels",
     'allauth',
     'allauth.account',
-    'allauth.socialaccount',
-    "graphene_django"
+    'allauth.socialaccount.providers.google',
+    "graphene_django",
+    "djmoney"
 
 ]
 
@@ -109,8 +110,6 @@ LOCAL_APPS = [
     "codertheory.users.apps.UsersConfig",
     "codertheory.website.apps.WebsiteConfig",
     "codertheory.projects.apps.ProjectsConfig",
-    "codertheory.shiritori.apps.ShiritoriConfig",
-    "codertheory.iceteabot.apps.IceteabotConfig",
 
 ]
 # https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
