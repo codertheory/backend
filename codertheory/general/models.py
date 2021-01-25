@@ -1,11 +1,11 @@
-from django.db import models
+from django.db.models import *
 
 from codertheory.utils.custom_fields import NanoIDField
 
 
-class BaseModel(models.Model):
+class BaseModel(Model):
     id = NanoIDField()
-    created_at = models.DateTimeField(auto_now_add=True)
+    created_at = DateTimeField(auto_now_add=True)
 
     class Meta:
         abstract = True

@@ -91,6 +91,7 @@
   {
     "model": "account.EmailConfirmation",
     "fields": {
+      "id": 1,
       "email_address": 1
     }
   }
