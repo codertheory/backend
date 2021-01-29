@@ -5,49 +5,49 @@
   margin-bottom: 20px;
 
   header {
-    display: flex;
-    align-items: center;
+	display: flex;
+	align-items: center;
   }
 
   .post-thumb {
-    width: 70px;
-    height: 70px;
-    border-radius: 100%;
-    margin-right: 20px;
-    float: left;
-    flex: none;
-    background-color: $blue-lighteen;
+	width: 70px;
+	height: 70px;
+	border-radius: 100%;
+	margin-right: 20px;
+	float: left;
+	flex: none;
+	background-color: $blue-lighteen;
 
-    &.post-formats {
-      img {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        max-width: 50%;
-        max-height: 50%;
-      }
-    }
+	&.post-formats {
+	  img {
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%, -50%);
+		max-width: 50%;
+		max-height: 50%;
+	  }
+	}
   }
 
   .post-additional-info * + * {
-    margin-left: 0;
+	margin-left: 0;
   }
 
   .post-additional-info {
-    overflow: hidden;
+	overflow: hidden;
   }
 
   .post__title {
-    margin-bottom: 0;
-    font-size: 16px;
+	margin-bottom: 0;
+	font-size: 16px;
   }
 
   .post__date {
-    float: none;
-    margin-right: 0;
-    font-weight: 400;
-    display: block;
+	float: none;
+	margin-right: 0;
+	font-weight: 400;
+	display: block;
   }
 
 }
@@ -60,40 +60,40 @@
   display: inline-block;
 
   a {
-    font-size: 14px;
-    font-weight: $h-font-weight;
-    color: $body-font-color;
-    text-transform: uppercase;
-    padding-bottom: 10px;
-    position: relative;
-    display: block;
+	font-size: 14px;
+	font-weight: $h-font-weight;
+	color: $body-font-color;
+	text-transform: uppercase;
+	padding-bottom: 10px;
+	position: relative;
+	display: block;
 
-    &:after {
-      content: '';
-      display: block;
-      width: 0;
-      height: 3px;
-      border-radius: 3px;
-      background-color: $primary-color;
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      opacity: 0;
-      transition: all .3s ease;
-    }
+	&:after {
+	  content: '';
+	  display: block;
+	  width: 0;
+	  height: 3px;
+	  border-radius: 3px;
+	  background-color: $primary-color;
+	  position: absolute;
+	  bottom: 0;
+	  left: 0;
+	  opacity: 0;
+	  transition: all .3s ease;
+	}
+
+	&.active {
+	  color: $primary-color;
+
+	  &:after {
+		opacity: 1;
+		width: 100%;
+	  }
+	}
   }
 
   & + .tab-control {
-    margin-left: 30px;
-  }
-
-  &.active a {
-    color: $primary-color;
-
-    &:after {
-      opacity: 1;
-      width: 100%;
-    }
+	margin-left: 30px;
   }
 }
 
@@ -101,20 +101,21 @@
   display: none;
 
   &.active {
-    display: block;
+	display: block;
   }
 }
+
 
 /*================= Responsive Mode ============*/
 
 
 @media (max-width: 480px) {
   .tab-control {
-    display: block;
+	display: block;
   }
 
   .tab-control + .tab-control {
-    margin-left: 0;
-    margin-top: 10px;
+	margin-left: 0;
+	margin-top: 10px;
   }
 }

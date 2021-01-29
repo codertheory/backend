@@ -4,7 +4,7 @@ import factory
 from allauth.account import models as allauth_models
 from django.contrib.auth import get_user_model
 from factory import django
-
+from rest_framework.authtoken import models as rest_framework_authtoken_models
 
 class UserFactory(django.DjangoModelFactory):
     email = factory.Faker("email")
@@ -35,6 +35,11 @@ class UserFactory(django.DjangoModelFactory):
         EmailAddressConfirmationFactory(email_address=email)
 
 
+class SuperUserFactory(UserFactory):
+    is_staff = True
+    is_superuser = True
+
+
 class EmailAddressFactory(django.DjangoModelFactory):
     user = factory.SubFactory(UserFactory)
     email = factory.LazyAttribute(lambda self: self.user.email)
@@ -53,3 +58,11 @@ class EmailAddressConfirmationFactory(django.DjangoModelFactory):
     class Meta:
         model = allauth_models.EmailConfirmation
         django_get_or_create = ('email_address', 'key')
+
+
+class DRFTokenFactory(django.DjangoModelFactory):
+    user = factory.SubFactory(UserFactory)
+
+    class Meta:
+        model = rest_framework_authtoken_models.Token
+        django_get_or_create = ('user',)

@@ -1,6 +1,7 @@
 /*------------- #CLIENTS --------------*/
 
 
+
 .crumina-clients {
   padding: 95px 0;
   background-image: url("../img/clouds12.png");
@@ -13,11 +14,7 @@
 
   &:hover {
     img {
-      opacity: 0;
-    }
-
-    .hover {
-      opacity: 1;
+      filter: grayscale(0);
     }
   }
 
@@ -25,14 +22,7 @@
     position: relative;
     transition: all .3s linear;
     transform-style: preserve-3d;
-
-    &.hover {
-      position: absolute;
-      top: 0;
-      left: 0;
-      opacity: 0;
-      z-index: 5;
-    }
+    filter: grayscale(1);
   }
 
   .clients-images {
@@ -41,6 +31,7 @@
     margin: auto;
   }
 }
+
 
 
 /*================= Responsive Mode ============*/

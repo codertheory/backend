@@ -25,12 +25,12 @@
   &:hover {
     background-color: $primary-color;
     color: $white-color;
-    box-shadow: 10px 0 50px rgba(0, 131, 255, .15);
+    box-shadow: 10px 0 50px rgba(0,131,255,.15);
   }
 
   &.current {
     background-color: transparent;
-    box-shadow: 10px 0 50px rgba(0, 131, 255, .15);
+    box-shadow: 10px 0 50px rgba(0,131,255,.15);
     color: $primary-color;
   }
 

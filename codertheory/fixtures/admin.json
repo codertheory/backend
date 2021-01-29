@@ -24,7 +24,7 @@
     "model": "users.User",
     "pk": 1,
     "fields": {
-      "email": "testing@codertheory.com",
+      "email": "testing@codertheory.dev",
       "password": "argon2$argon2i$v=19$m=512,t=2,p=2$MkpkNjE2SE9KcVdu$nUzDQExfZrPInG/b7oc+6w",
       "is_staff": true,
       "is_superuser": true
@@ -34,7 +34,7 @@
     "model": "users.User",
     "pk": 2,
     "fields": {
-      "email": "publisher@codertheory.com",
+      "email": "publisher@codertheory.dev",
       "password": "argon2$argon2i$v=19$m=512,t=2,p=2$MkpkNjE2SE9KcVdu$nUzDQExfZrPInG/b7oc+6w"
     }
   },
@@ -42,7 +42,7 @@
     "model": "users.User",
     "pk": 3,
     "fields": {
-      "email": "reader@codertheory.com",
+      "email": "reader@codertheory.dev",
       "password": "argon2$argon2i$v=19$m=512,t=2,p=2$MkpkNjE2SE9KcVdu$nUzDQExfZrPInG/b7oc+6w"
     }
   },
@@ -50,7 +50,7 @@
     "model": "users.User",
     "pk": 4,
     "fields": {
-      "email": "admin@codertheory.com",
+      "email": "admin@codertheory.dev",
       "password": "argon2$argon2i$v=19$m=512,t=2,p=2$MkpkNjE2SE9KcVdu$nUzDQExfZrPInG/b7oc+6w"
     }
   },
@@ -83,7 +83,7 @@
     "pk": 1,
     "fields": {
       "user": 1,
-      "email": "testing@codertheory.com",
+      "email": "testing@codertheory.dev",
       "verified": true,
       "primary": true
     }

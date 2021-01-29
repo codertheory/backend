@@ -39,7 +39,8 @@ jobs:
           CELERY_BROKER_URL: redis://localhost:${{ job.services.redis.ports[6379] }}
         run: |
           python manage.py migrate --no-input
-          pytest --cov=./ --cov-report=xml
+          coverage run --source='codertheory' manage.py test
+          coverage xml
       - name: Upload coverage to Codecov
         if: github.event_name == 'pull_request'
         uses: codecov/codecov-action@v1

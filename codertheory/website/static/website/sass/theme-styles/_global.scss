@@ -7,12 +7,12 @@
   box-sizing: border-box;
 }
 
-html, body {
+html, body{
   position: relative;
   height: 100%;
 }
 
-body {
+body{
   background: $body-bg;
   color: $body-font-color;
   font-family: $body-font-family;
@@ -53,7 +53,6 @@ caption {
   color: #777;
   text-align: left;
 }
-
 th {
   text-align: left;
 }
@@ -76,16 +75,13 @@ table > tfoot > tr > td {
   vertical-align: top;
   border-top: 1px solid #ddd;
 }
-
 table, th, td {
   border: 1px solid #ddd;
 }
-
 table > thead > tr > th {
   vertical-align: bottom;
   border-bottom: 2px solid #ddd;
 }
-
 table > caption + thead > tr:first-child > th,
 table > colgroup + thead > tr:first-child > th,
 table > thead:first-child > tr:first-child > th,
@@ -98,24 +94,21 @@ table > thead:first-child > tr:first-child > td {
 table > tbody + tbody {
   border-top: 2px solid #ddd;
 }
-
 table table {
   background-color: #fff;
 }
 
 table col[class*="col-"] {
   position: static;
-  display: table-column;
+  display:table-column;
   float: none;
 }
-
 table td[class*="col-"],
 table th[class*="col-"] {
   position: static;
-  display: table-cell;
+  display:table-cell;
   float: none;
 }
-
 table > thead > tr > td.active,
 table > tbody > tr > td.active,
 table > tfoot > tr > td.active,
@@ -214,17 +207,14 @@ figure {
 select {
   width: 100%;
   border: 1px solid $body-font-color;
-  appearance: none;
-  -moz-appearance: none; /* Firefox */
-  -webkit-appearance: none; /* Safari and Chrome */
+  appearance:none;
+  -moz-appearance:none; /* Firefox */
+  -webkit-appearance:none; /* Safari and Chrome */
 }
 
 
 // Make sure textarea takes on height automatically
-textarea {
-  height: auto;
-  min-height: 50px;
-}
+textarea { height: auto; min-height: 50px; }
 
 textarea::-webkit-input-placeholder,
 input::-webkit-input-placeholder {
@@ -237,7 +227,7 @@ input:-moz-placeholder {
 }
 
 textarea:-ms-input-placeholder,
-input:-ms-input-placeholder {
+input:-ms-input-placeholder{
   color: $body-font-color;
 }
 
@@ -260,7 +250,7 @@ input, textarea {
 
 /*------------- #Styles for list --------------*/
 
-ul {
+ul{
   list-style: none;
   padding: 0;
   margin: 0;
@@ -351,6 +341,7 @@ ul {
 }
 
 
+
 ol {
   counter-reset: list1;
   padding-left: 20px;
@@ -373,12 +364,10 @@ ol {
     margin-left: 0;
   }
 
-}
-
-/* Init counter */
+} /* Init counter */
 
 ol li:before {
-  position: absolute;
+  position:absolute;
   counter-increment: list1; /* Add "1" */
   content: counter(list1, decimal-leading-zero) " "; /* Show count */
   color: $heading-color;
@@ -457,7 +446,7 @@ ol ul ol li:before {
   content: counter(list1, decimal-leading-zero) " "; /* Show count */
   color: $heading-color;
   display: inline-block;
-  position: absolute;
+  position:absolute;
   list-style: none;
   font-size: 18px;
   left: 0;
@@ -542,6 +531,7 @@ blockquote {
     }
   }
 }
+
 
 
 /* Text meant only for screen readers. */

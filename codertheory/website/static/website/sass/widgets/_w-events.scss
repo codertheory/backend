@@ -17,12 +17,12 @@
 
 .w-events {
   .event-item {
-    padding-bottom: 25px;
-    margin-bottom: 25px;
-    border-bottom: 1px solid $border-color;
+	padding-bottom: 25px;
+	margin-bottom: 25px;
+	border-bottom: 1px solid $border-color;
 
-    &:last-child {
-      border-bottom: none;
-    }
+	&:last-child {
+	  border-bottom: none;
+	}
   }
 }

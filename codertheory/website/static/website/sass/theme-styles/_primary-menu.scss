@@ -49,12 +49,11 @@ License: http://codecanyon.net/licenses
 /* 1 - MENU CONTAINER
 ======================================*/
 .primary-menu,
-.primary-menu * {
-  box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  -webkit-box-sizing: border-box;
+.primary-menu *{
+  box-sizing:border-box;
+  -moz-box-sizing:border-box;
+  -webkit-box-sizing:border-box;
 }
-
 .primary-menu > ul {
   display: inline-block;
   vertical-align: middle;
@@ -62,21 +61,20 @@ License: http://codecanyon.net/licenses
   list-style: none;
 }
 
-.primary-menu a {
+.primary-menu a{
   -o-transition: color .3s linear, background .3s linear;
   -moz-transition: color .3s linear, background .3s linear;
   -webkit-transition: color .3s linear, background .3s linear;
   transition: color .3s linear, background .3s linear;
 }
-
 /* scrollable menu */
-.primary-menu-menu.scrollable > .scrollable-fix {
+.primary-menu-menu.scrollable > .scrollable-fix{
   display: none;
 }
 
 /* 2 - BRAND
 ======================================*/
-.primary-menu-brand {
+.primary-menu-brand{
   margin: 18px 30px 0 0;
   float: left;
   color: #666;
@@ -90,18 +88,18 @@ License: http://codecanyon.net/licenses
 /* 3 - MENU
 ======================================*/
 /* Right alignment */
-.primary-menu-menu.primary-menu-right {
+.primary-menu-menu.primary-menu-right{
   //float: right;
 }
-
 /* Menu items */
-.primary-menu-menu > li {
+.primary-menu-menu > li{
   display: inline-block;
   position: relative;
   padding: 55px 9px;
+  float: left;
 }
 
-.primary-menu-menu > li > a {
+.primary-menu-menu > li > a{
   position: relative;
   font-size: 14px;
   text-transform: uppercase;
@@ -149,14 +147,14 @@ License: http://codecanyon.net/licenses
   position: static;
 }
 
-.no-menu-box {
+.no-menu-box{
   font-size: 14px;
 }
 
 /* 4 - DROPDOWN
 ======================================*/
 .primary-menu-menu ul.sub-menu,
-.primary-menu-menu ul.sub-menu li ul.sub-menu {
+.primary-menu-menu ul.sub-menu li ul.sub-menu{
   position: absolute;
   z-index: 9999;
   left: -29px;
@@ -176,8 +174,8 @@ License: http://codecanyon.net/licenses
 @media (max-width: 768px) {
   .primary-menu-menu ul.sub-menu,
   .primary-menu-menu ul.sub-menu li ul.sub-menu {
-    box-shadow: none;
-    padding: 0;
+	box-shadow: none;
+	padding: 0;
   }
 }
 
@@ -213,7 +211,7 @@ License: http://codecanyon.net/licenses
   border-radius: 0 0 3px 3px;
 }
 
-.primary-menu-menu ul.sub-menu a i {
+.primary-menu-menu ul.sub-menu a i{
   margin-left: 10px;
   opacity: 0;
   transition: all .4s ease;
@@ -234,19 +232,17 @@ License: http://codecanyon.net/licenses
   vertical-align: middle;
 }
 
-.primary-menu-menu ul.sub-menu li ul.sub-menu {
+.primary-menu-menu ul.sub-menu li ul.sub-menu{
   left: 100%;
   top: -20px;
 }
-
 /* Dropdown items */
-.primary-menu-menu ul.sub-menu li {
+.primary-menu-menu ul.sub-menu li{
   clear: both;
   width: 100%;
   border: 0 none;
   position: relative;
 }
-
 .primary-menu-menu ul.sub-menu li a {
   padding: 11px 40px 11px 73px;
   position: relative;
@@ -258,7 +254,7 @@ License: http://codecanyon.net/licenses
 
 @media (max-width: 640px) {
   .primary-menu-menu ul.sub-menu li a {
-    padding: 10px;
+	padding: 10px;
   }
 }
 
@@ -318,6 +314,7 @@ License: http://codecanyon.net/licenses
 }
 
 
+
 /* Hover state (sub-menu items) */
 .primary-menu-menu ul.sub-menu li:hover > a,
 .primary-menu-menu > li.menu-item-has-mega-menu .megamenu ul > li:hover a {
@@ -333,22 +330,23 @@ License: http://codecanyon.net/licenses
 /* Dropdown left alignment */
 .primary-menu-menu ul.sub-menu.sub-menu-left {
   left: auto;
+  right: 0;
 }
 
 .primary-menu-menu ul.sub-menu li ul.sub-menu.sub-menu-left {
   left: -100%;
+  right: auto;
 }
 
 /* 5 - DROPDOWN/MEGAMENU INDICATORS
 ======================================*/
-.primary-menu-menu li .indicator {
+.primary-menu-menu li .indicator{
   color: #839dbc;
   font-family: "FontAwesome";
   font-size: 10px;
   margin-left: 6px;
 }
-
-.primary-menu-menu li ul.sub-menu li .indicator {
+.primary-menu-menu li ul.sub-menu li .indicator{
   position: absolute;
   top: 13px;
   right: 20px;
@@ -358,7 +356,7 @@ License: http://codecanyon.net/licenses
 
 /* 6 - MEGAMENU
 ======================================*/
-.primary-menu-menu > li > .megamenu {
+.primary-menu-menu > li > .megamenu{
   width: 100%;
   left: 0;
   position: absolute;
@@ -413,39 +411,34 @@ License: http://codecanyon.net/licenses
 /* 7 - MEGAMENU WIDTHS
 ======================================*/
 /* Half width */
-.primary-menu-menu > li > .megamenu.megamenu-half-width {
+.primary-menu-menu > li > .megamenu.megamenu-half-width{
   width: 50%;
   left: auto;
 }
-
 /* Quarter width */
-.primary-menu-menu > li > .megamenu.megamenu-quarter-width {
+.primary-menu-menu > li > .megamenu.megamenu-quarter-width{
   width: 25%;
   left: auto;
 }
 
 /* 8 - GRID SYSTEM
 ======================================*/
-.primary-menu-menu > li > .megamenu .megamenu-row {
+.primary-menu-menu > li > .megamenu .megamenu-row{
   width: 100%;
   margin-top: 15px;
 }
-
 .primary-menu-menu > li > .megamenu .megamenu-row:first-child {
   margin-top: 0;
 }
-
 .primary-menu-menu > li > .megamenu .megamenu-row:before,
 .primary-menu-menu > li > .megamenu .megamenu-row:after {
   display: table;
   content: "";
   line-height: 0;
 }
-
 .primary-menu-menu > li > .megamenu .megamenu-row:after {
   clear: both;
 }
-
 .primary-menu-menu > li > .megamenu .megamenu-row .col1,
 .primary-menu-menu > li > .megamenu .megamenu-row .col2,
 .primary-menu-menu > li > .megamenu .megamenu-row .col3,
@@ -457,7 +450,7 @@ License: http://codecanyon.net/licenses
 .primary-menu-menu > li > .megamenu .megamenu-row .col9,
 .primary-menu-menu > li > .megamenu .megamenu-row .col10,
 .primary-menu-menu > li > .megamenu .megamenu-row .col11,
-.primary-menu-menu > li > .megamenu .megamenu-row .col12 {
+.primary-menu-menu > li > .megamenu .megamenu-row .col12{
   display: block;
   min-height: 20px;
   float: left;
@@ -505,51 +498,40 @@ License: http://codecanyon.net/licenses
   }
 }
 
-.primary-menu-menu > li > .megamenu .megamenu-row .col1 {
+.primary-menu-menu > li > .megamenu .megamenu-row .col1{
   width: 100%;
 }
-
-.primary-menu-menu > li > .megamenu .megamenu-row .col2 {
+.primary-menu-menu > li > .megamenu .megamenu-row .col2{
   width: 50%;
 }
-
-.primary-menu-menu > li > .megamenu .megamenu-row .col3 {
+.primary-menu-menu > li > .megamenu .megamenu-row .col3{
   width: 33.33%;
 }
-
-.primary-menu-menu > li > .megamenu .megamenu-row .col4 {
+.primary-menu-menu > li > .megamenu .megamenu-row .col4{
   width: 25%;
 }
-
-.primary-menu-menu > li > .megamenu .megamenu-row .col5 {
+.primary-menu-menu > li > .megamenu .megamenu-row .col5{
   width: 20%;
 }
-
-.primary-menu-menu > li > .megamenu .megamenu-row .col6 {
+.primary-menu-menu > li > .megamenu .megamenu-row .col6{
   width: 16.6666%;
 }
-
-.primary-menu-menu > li > .megamenu .megamenu-row .col7 {
+.primary-menu-menu > li > .megamenu .megamenu-row .col7{
   width: 14.28%;
 }
-
-.primary-menu-menu > li > .megamenu .megamenu-row .col8 {
+.primary-menu-menu > li > .megamenu .megamenu-row .col8{
   width: 12.5%;
 }
-
-.primary-menu-menu > li > .megamenu .megamenu-row .col9 {
+.primary-menu-menu > li > .megamenu .megamenu-row .col9{
   width: 11.11111%;
 }
-
-.primary-menu-menu > li > .megamenu .megamenu-row .col10 {
+.primary-menu-menu > li > .megamenu .megamenu-row .col10{
   width: 10%;
 }
-
-.primary-menu-menu > li > .megamenu .megamenu-row .col11 {
+.primary-menu-menu > li > .megamenu .megamenu-row .col11{
   width: 9.09090909%;
 }
-
-.primary-menu-menu > li > .megamenu .megamenu-row .col12 {
+.primary-menu-menu > li > .megamenu .megamenu-row .col12{
   width: 8.333333%;
 }
 
@@ -557,28 +539,29 @@ License: http://codecanyon.net/licenses
 ======================================*/
 
 
-.menu-icon-wrapper {
+.menu-icon-wrapper{
   position: relative;
   display: inline-block;
   width: 34px;
   height: 34px;
   pointer-events: none;
   transition: 0.1s;
+  z-index: 1;
 }
 
 
-.menu-icon-wrapper.scaled {
+.menu-icon-wrapper.scaled{
   transform: scale(0.5);
 }
 
-.menu-icon-wrapper svg {
+.menu-icon-wrapper svg{
   position: absolute;
   top: -33px;
   left: -33px;
 }
 
 
-.menu-icon-wrapper svg path {
+.menu-icon-wrapper svg path{
   stroke: $icon-color;
   stroke-width: 30px;
   stroke-linecap: round;
@@ -586,7 +569,7 @@ License: http://codecanyon.net/licenses
 }
 
 
-.menu-icon-wrapper .menu-icon-trigger {
+.menu-icon-wrapper .menu-icon-trigger{
   position: relative;
   width: 100%;
   height: 100%;
@@ -603,7 +586,17 @@ License: http://codecanyon.net/licenses
   transform-origin: 0 0;
 }
 
-.showhide .mob-menu--title {
+.showhide-fix {
+  display: block !important;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  z-index: 9999;
+}
+
+.showhide .mob-menu--title{
   position: relative;
   top: 2px;
   text-transform: uppercase;
@@ -611,28 +604,27 @@ License: http://codecanyon.net/licenses
   margin-right: 15px;
   font-weight: bold;
 }
-
-.primary-menu .showhide > span {
+.primary-menu .showhide > span{
   display: inline-block;
   vertical-align: middle;
 }
 
-.primary-menu .showhide {
-  height: 46px;
+.primary-menu .showhide{
+  position: relative;
   cursor: pointer;
   text-align: center;
   padding: 0;
   display: none;
   text-decoration: none;
   outline: none;
-  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  -webkit-tap-highlight-color: rgba(0,0,0,0);
   -webkit-tap-highlight-color: transparent;
 }
 
 
 /* 10 - ICONS (parent menu items)
 ======================================*/
-.primary-menu-menu > li > a > i {
+.primary-menu-menu > li > a > i{
   margin: 0 5px 0 0;
   font-size: 18px;
   float: left;
@@ -643,13 +635,12 @@ License: http://codecanyon.net/licenses
 /* 11 - SEARCH FIELD
 ======================================*/
 /* Form */
-.primary-menu-menu > li.search form {
+.primary-menu-menu > li.search form{
   float: left;
   padding: 22px 16px 17px;
 }
-
 /* Input */
-.primary-menu-menu > li.search form input[type="text"] {
+.primary-menu-menu > li.search form input[type="text"]{
   width: 160px;
   padding: 5px 10px;
   font-family: 'Open Sans', sans-serif;
@@ -662,27 +653,24 @@ License: http://codecanyon.net/licenses
   -webkit-transition: width 1s ease-out;
   transition: width 1s ease-out;
 }
-
-.primary-menu-menu > li.search form:hover input[type="text"] {
+.primary-menu-menu > li.search form:hover input[type="text"]{
   width: 160px;
 }
 
 /* 12 - VERTICAL TABS
 ======================================*/
-.primary-menu-tabs {
+.primary-menu-tabs{
   width: 100%;
   float: left;
 }
-
-.primary-menu-tabs-nav {
+.primary-menu-tabs-nav{
   width: 20%;
   margin: 0;
   padding: 0;
   float: left;
   list-style: none;
 }
-
-.primary-menu-tabs-nav > li > a {
+.primary-menu-tabs-nav > li > a{
   width: 100%;
   padding: 7px 16px;
   float: left;
@@ -692,13 +680,11 @@ License: http://codecanyon.net/licenses
   border: solid 1px #f0f0f0;
   outline: 0;
 }
-
 .primary-menu-tabs-nav li.active a,
-.primary-menu-tabs-nav li:hover a {
+.primary-menu-tabs-nav li:hover a{
   background: #f0f0f0;
 }
-
-.primary-menu-tabs-content {
+.primary-menu-tabs-content{
   width: 80%;
   min-height: 30px;
   padding: 20px;
@@ -707,8 +693,7 @@ License: http://codecanyon.net/licenses
   font-size: 13px;
   border: solid 1px #f0f0f0;
 }
-
-.primary-menu-tabs-content.active {
+.primary-menu-tabs-content.active{
   display: block;
 }
 
@@ -717,49 +702,43 @@ License: http://codecanyon.net/licenses
 /* blue */
 .primary-menu.blue .primary-menu-menu > li.active > a,
 .primary-menu.blue .primary-menu-menu > li:hover > a,
-.primary-menu.blue .primary-menu-menu ul.sub-menu li:hover > a {
+.primary-menu.blue .primary-menu-menu ul.sub-menu li:hover > a{
   color: #4A89DC;
 }
-
 /* green */
 .primary-menu.green .primary-menu-menu > li.active > a,
 .primary-menu.green .primary-menu-menu > li:hover > a,
-.primary-menu.green .primary-menu-menu ul.sub-menu li:hover > a {
+.primary-menu.green .primary-menu-menu ul.sub-menu li:hover > a{
   color: #37BC9B;
 }
-
 /* red */
 .primary-menu.red .primary-menu-menu > li.active > a,
 .primary-menu.red .primary-menu-menu > li:hover > a,
-.primary-menu.red .primary-menu-menu ul.sub-menu li:hover > a {
+.primary-menu.red .primary-menu-menu ul.sub-menu li:hover > a{
   color: #E9573F;
 }
-
 /* orange */
 .primary-menu.orange .primary-menu-menu > li.active > a,
 .primary-menu.orange .primary-menu-menu > li:hover > a,
-.primary-menu.orange .primary-menu-menu ul.sub-menu li:hover > a {
+.primary-menu.orange .primary-menu-menu ul.sub-menu li:hover > a{
   color: #ff670f;
 }
-
 /* yellow */
 .primary-menu.yellow .primary-menu-menu > li.active > a,
 .primary-menu.yellow .primary-menu-menu > li:hover > a,
-.primary-menu.yellow .primary-menu-menu ul.sub-menu li:hover > a {
+.primary-menu.yellow .primary-menu-menu ul.sub-menu li:hover > a{
   color: #F6BB42;
 }
-
 /* purple */
 .primary-menu.purple .primary-menu-menu > li.active > a,
 .primary-menu.purple .primary-menu-menu > li:hover > a,
-.primary-menu.purple .primary-menu-menu ul.sub-menu li:hover > a {
+.primary-menu.purple .primary-menu-menu ul.sub-menu li:hover > a{
   color: #967ADC;
 }
-
 /* pink */
 .primary-menu.pink .primary-menu-menu > li.active > a,
 .primary-menu.pink .primary-menu-menu > li:hover > a,
-.primary-menu.pink .primary-menu-menu ul.sub-menu li:hover > a {
+.primary-menu.pink .primary-menu-menu ul.sub-menu li:hover > a{
   color: #D770AD;
 }
 
@@ -767,25 +746,25 @@ License: http://codecanyon.net/licenses
 ======================================*/
 
 
-@media (max-width: 768px) {
+@media (max-width: 768px){
   /* Responsive menu container */
-  .primary-menu-responsive.primary-menu {
-    overflow: visible;
+  .primary-menu-responsive.primary-menu{
+	overflow: visible;
   }
 
   .primary-menu-menu > li.menu-item-has-mega-menu .megamenu ul > li a {
     padding-left: 10px;
   }
 
-  .primary-menu-responsive.primary-menu .google-text {
-    margin-bottom: 120px;
+  .primary-menu-responsive.primary-menu .google-text{
+	margin-bottom: 120px;
   }
 
   /* Brand */
-  .primary-menu-responsive .primary-menu-brand {
-    margin: 8px 30px 10px 20px;
-    font-size: 20px;
-    line-height: 1.55;
+  .primary-menu-responsive .primary-menu-brand{
+	margin: 8px 30px 10px 20px;
+	font-size: 20px;
+	line-height: 1.55;
   }
 
   .primary-menu-responsive .primary-menu-menu > li > .megamenu .megamenu-row .col1,
@@ -808,8 +787,8 @@ License: http://codecanyon.net/licenses
 
 
   /* Menu */
-  .primary-menu-responsive .primary-menu-menu {
-    width: 100%;
+  .primary-menu-responsive .primary-menu-menu{
+	width: 100%;
     padding: 0;
     border-radius: 0 0 10px 10px;
     background-color: $white-color;
@@ -817,13 +796,13 @@ License: http://codecanyon.net/licenses
   }
 
   .primary-menu-responsive .primary-menu-menu ul.sub-menu {
-    top: 0;
+	top: 0;
   }
   /* scrollable menu*/
-  .primary-menu-responsive .primary-menu-menu.scrollable {
-    overflow-y: auto;
-    -webkit-overflow-scrolling: touch;
-    position: absolute;
+  .primary-menu-responsive .primary-menu-menu.scrollable{
+	overflow-y: auto;
+	-webkit-overflow-scrolling: touch;
+	position: absolute;
     top: calc(100% + 30px);
     left: 0;
   }
@@ -832,20 +811,20 @@ License: http://codecanyon.net/licenses
     top: 100%;
   }
 
-  .primary-menu-responsive .primary-menu-menu.scrollable > .scrollable-fix {
-    display: block;
+  .primary-menu-responsive .primary-menu-menu.scrollable > .scrollable-fix{
+	display: block;
   }
 
   /* Menu items */
-  .primary-menu-responsive .primary-menu-menu > li {
-    width: 100%;
-    display: block;
-    position: relative;
+  .primary-menu-responsive .primary-menu-menu > li{
+	width: 100%;
+	display: block;
+	position: relative;
   }
-  .primary-menu-responsive .primary-menu-menu > li > a {
-    width: 100%;
-    padding: 18px 20px;
-    display: block;
+  .primary-menu-responsive .primary-menu-menu > li > a{
+	width: 100%;
+	padding: 18px 20px;
+	display: block;
     border-bottom: solid 1px rgba(0, 131, 255, .3);
     font-weight: 900;
   }
@@ -869,38 +848,34 @@ License: http://codecanyon.net/licenses
 
   /* Dropdown */
   .primary-menu-responsive .primary-menu-menu ul.sub-menu,
-  .primary-menu-responsive .primary-menu-menu ul.sub-menu li ul.sub-menu {
-    width: 100%;
-    left: 0;
-    position: static;
-    border: none;
-    background: #fff;
+  .primary-menu-responsive .primary-menu-menu ul.sub-menu li ul.sub-menu{
+	width: 100%;
+	left: 0;
+	position: static;
+	border: none;
+	background: #fff;
   }
 
   .primary-menu-responsive .primary-menu-menu ul.sub-menu {
-    position: relative;
+	position: relative;
   }
 
   .primary-menu-responsive .primary-menu-menu > li {
-    padding: 0;
+	padding: 0;
   }
 
   /* Dropdown items */
-  .primary-menu-responsive .primary-menu-menu ul.sub-menu li {
-    position: relative;
+  .primary-menu-responsive .primary-menu-menu ul.sub-menu li{
+	position: relative;
   }
 
-  .primary-menu-responsive .primary-menu-menu ul.sub-menu li a {
-    padding: 10px 30px;
-    font-size: 14px;
+  .primary-menu-responsive .primary-menu-menu ul.sub-menu li a{
+	padding: 10px 30px;
+	font-size: 14px;
     border-bottom: solid 1px rgba(0, 131, 255, 0.3);
   }
-  .primary-menu-responsive .primary-menu-menu.primary-menu-indented > li > ul.sub-menu > li > ul.sub-menu > li > ul.sub-menu > li > a {
-    padding-left: 80px !important;
-  }
-  .primary-menu-responsive .primary-menu-menu.primary-menu-indented > li > ul.sub-menu > li > ul.sub-menu > li > ul.sub-menu > li:hover > a {
-    padding-left: 90px !important;
-  }
+  .primary-menu-responsive .primary-menu-menu.primary-menu-indented > li > ul.sub-menu > li > ul.sub-menu > li > ul.sub-menu > li > a{ padding-left: 80px !important; }
+  .primary-menu-responsive .primary-menu-menu.primary-menu-indented > li > ul.sub-menu > li > ul.sub-menu > li > ul.sub-menu > li:hover > a{ padding-left: 90px !important; }
 
   .primary-menu-responsive .primary-menu-menu ul.sub-menu li.menu-item-has-children .sub-menu a {
     padding-left: 40px;
@@ -911,25 +886,25 @@ License: http://codecanyon.net/licenses
   }
 
   /* Dropdown/megamenu indicators */
-  .primary-menu-responsive .primary-menu-menu li .indicator {
-    width: 60px;
-    height: 100%;
-    position: absolute;
-    right: 0;
-    top: 0;
-    font-size: 14px;
-    text-align: center;
-    line-height: 53px;
-    border-left: solid 1px rgba(0, 131, 255, .3);
+  .primary-menu-responsive .primary-menu-menu li .indicator{
+	width: 60px;
+	height: 100%;
+	position: absolute;
+	right: 0;
+	top: 0;
+	font-size: 14px;
+	text-align: center;
+	line-height: 53px;
+    border-left: solid 1px rgba(0,131,255,.3);
   }
-  .primary-menu-responsive .primary-menu-menu li ul.sub-menu li .indicator {
-    height: 100%;
-    right: -5px;
-    top: 0;
-    font-size: 14px;
-    line-height: 36px;
-    transform: rotate(90deg);
-    border-left: none;
+  .primary-menu-responsive .primary-menu-menu li ul.sub-menu li .indicator{
+	height: 100%;
+	right: -5px;
+	top: 0;
+	font-size: 14px;
+	line-height: 36px;
+	transform: rotate(90deg);
+	border-left: none;
   }
 
   .primary-menu-menu > li:hover > a .indicator, .primary-menu-menu > li:hover .indicator {
@@ -937,229 +912,143 @@ License: http://codecanyon.net/licenses
   }
 
   /* Megamenu */
-  .primary-menu-responsive .primary-menu-menu > li > .megamenu {
-    width: 100% !important;
-    left: 0 !important;
-    position: static;
-    border-top: none;
-    box-shadow: none;
+  .primary-menu-responsive .primary-menu-menu > li > .megamenu{
+	width: 100% !important;
+	left: 0 !important;
+	position: static;
+	border-top: none;
+	box-shadow: none;
   }
   .primary-menu-responsive .primary-menu-menu > li > .megamenu .megamenu-row [class*="col"],
   nav.primary-menu-responsive li.menu-item-has-mega-menu ul.mega-menu-row li.mega-menu-col {
-    float: none;
-    display: block;
-    width: 100% !important;
-    margin-left: 0;
-    margin-top: 0;
+	float: none;
+	display: block;
+	width: 100% !important;
+	margin-left: 0;
+	margin-top: 0;
   }
-  .primary-menu-responsive .primary-menu-menu > li > .megamenu .megamenu-row:first-child [class*="col"]:first-child,
+  .primary-menu-responsive .primary-menu-menu > li > .megamenu .megamenu-row:first-child  [class*="col"]:first-child,
   nav.primary-menu-responsive li.menu-item-has-mega-menu ul.mega-menu-row li.mega-menu-col:first-child {
-    margin-top: 0;
+	margin-top: 0;
   }
 
-  .primary-menu-responsive .primary-menu-menu > li > .megamenu .megamenu-row {
-    margin-top: 0;
+  .primary-menu-responsive .primary-menu-menu > li > .megamenu .megamenu-row{
+	margin-top: 0;
   }
 
   .primary-menu-responsive .primary-menu-menu > li.menu-item-has-mega-menu .megamenu ul > li a {
-    font-size: 14px;
+	font-size: 14px;
   }
 
   /* Search field */
-  .primary-menu-responsive .primary-menu-menu > li.search form {
-    width: 100%;
-    margin: 4px 0;
-    padding: 10px 16px !important;
+  .primary-menu-responsive .primary-menu-menu > li.search form{
+	width: 100%;
+	margin: 4px 0;
+	padding: 10px 16px !important;
   }
-  .primary-menu-responsive .primary-menu-menu > li.search form input[type="text"] {
-    width: 100%;
+  .primary-menu-responsive .primary-menu-menu > li.search form input[type="text"]{
+	width: 100%;
   }
 
   /* Tabs */
-  .primary-menu-responsive .primary-menu-tabs-nav {
-    width: 100%;
+  .primary-menu-responsive .primary-menu-tabs-nav{
+	width: 100%;
   }
-  .primary-menu-responsive .primary-menu-tabs-content {
-    width: 100%;
+  .primary-menu-responsive .primary-menu-tabs-content{
+	width: 100%;
   }
 }
 
 /* CSS3 ANIMATIONS */
 
-.zoom-in {
+.zoom-in{
   -webkit-animation: zoomIn 400ms ease both;
   -moz-animation: zoomIn 400ms ease both;
   -o-animation: zoomIn 400ms ease both;
   animation: zoomIn 400ms ease both;
 }
-
 @-webkit-keyframes zoomIn {
-  0% {
-    -webkit-transform: scale(1.5);
-  }
-  100% {
-    -webkit-transform: scale(1);
-  }
+  0% { -webkit-transform: scale(1.5); }
+  100% { -webkit-transform: scale(1); }
 }
-
 @-moz-keyframes zoomIn {
-  0% {
-    -moz-transform: scale(1.5);
-  }
-  100% {
-    -moz-transform: scale(1);
-  }
+  0% { -moz-transform: scale(1.5); }
+  100% { -moz-transform: scale(1); }
 }
-
 @-o-keyframes zoomIn {
-  0% {
-    opacity: 0;
-    -o-transform: scale(1.5);
-  }
-  100% {
-    opacity: 1;
-    -o-transform: scale(1);
-  }
+  0% { opacity: 0; -o-transform: scale(1.5); }
+  100% { opacity: 1; -o-transform: scale(1); }
 }
-
 @keyframes zoomIn {
-  0% {
-    transform: scale(1.5);
-  }
-  100% {
-    transform: scale(1);
-  }
+  0% { transform: scale(1.5); }
+  100% { transform: scale(1); }
 }
-
-.zoom-out {
+.zoom-out{
   -webkit-animation: zoomOut 400ms ease both;
   -moz-animation: zoomOut 400ms ease both;
   -o-animation: zoomOut 400ms ease both;
   animation: zoomOut 400ms ease both;
 }
-
 @-webkit-keyframes zoomOut {
-  0% {
-    -webkit-transform: scale(.6);
-  }
-  100% {
-    -webkit-transform: scale(1);
-  }
+  0% { -webkit-transform: scale(.6); }
+  100% { -webkit-transform: scale(1); }
 }
-
 @-moz-keyframes zoomOut {
-  0% {
-    -moz-transform: scale(.6);
-  }
-  100% {
-    -moz-transform: scale(1);
-  }
+  0% { -moz-transform: scale(.6); }
+  100% { -moz-transform: scale(1); }
 }
-
 @-o-keyframes zoomOut {
-  0% {
-    -o-transform: scale(.6);
-  }
-  100% {
-    -o-transform: scale(1);
-  }
+  0% { -o-transform: scale(.6); }
+  100% { -o-transform: scale(1); }
 }
-
 @keyframes zoomOut {
-  0% {
-    transform: scale(.6);
-  }
-  100% {
-    transform: scale(1);
-  }
+  0% { transform: scale(.6); }
+  100% { transform: scale(1); }
 }
-
-.drop-up {
+.drop-up{
   -webkit-animation: drop-up 400ms ease both;
   -moz-animation: drop-up 400ms ease both;
   -o-animation: drop-up 400ms ease both;
   animation: drop-up 400ms ease both;
 }
-
 @-webkit-keyframes drop-up {
-  0% {
-    -webkit-transform: translateY(100px);
-  }
-  100% {
-    -webkit-transform: translateY(0);
-  }
+  0% { -webkit-transform: translateY(100px); }
+  100% { -webkit-transform: translateY(0); }
 }
-
 @-moz-keyframes drop-up {
-  0% {
-    -moz-transform: translateY(100px);
-  }
-  100% {
-    -moz-transform: translateY(0);
-  }
+  0% { -moz-transform: translateY(100px); }
+  100% { -moz-transform: translateY(0); }
 }
-
 @-o-keyframes drop-up {
-  0% {
-    -o-transform: translateY(100px);
-  }
-  100% {
-    -o-transform: translateY(0);
-  }
+  0% { -o-transform: translateY(100px); }
+  100% { -o-transform: translateY(0); }
 }
-
 @keyframes drop-up {
-  0% {
-    transform: translateY(100px);
-  }
-  100% {
-    transform: translateY(0);
-  }
+  0% { transform: translateY(100px); }
+  100% { transform: translateY(0); }
 }
-
-.drop-left {
+.drop-left{
   -webkit-animation: drop-left 400ms ease both;
   -moz-animation: drop-left 400ms ease both;
   -o-animation: drop-left 400ms ease both;
   animation: drop-left 400ms ease both;
 }
-
 @-webkit-keyframes drop-left {
-  0% {
-    -webkit-transform: translateX(-100px);
-  }
-  100% {
-    -webkit-transform: translateX(0);
-  }
+  0% { -webkit-transform: translateX(-100px); }
+  100% { -webkit-transform: translateX(0); }
 }
-
 @-moz-keyframes drop-left {
-  0% {
-    -moz-transform: translateX(-100px);
-  }
-  100% {
-    -moz-transform: translateX(0);
-  }
+  0% { -moz-transform: translateX(-100px); }
+  100% { -moz-transform: translateX(0); }
 }
-
 @-o-keyframes drop-left {
-  0% {
-    -o-transform: translateX(-100px);
-  }
-  100% {
-    -o-transform: translateX(0);
-  }
+  0% { -o-transform: translateX(-100px); }
+  100% { -o-transform: translateX(0); }
 }
-
 @keyframes drop-left {
-  0% {
-    transform: translateX(-100px);
-  }
-  100% {
-    transform: translateX(0);
-  }
+  0% { transform: translateX(-100px); }
+  100% { transform: translateX(0); }
 }
-
 .swing {
   -webkit-transform-origin: top center;
   -moz-transform-origin: top center;
@@ -1170,179 +1059,128 @@ License: http://codecanyon.net/licenses
   -o-animation: swing 400ms ease-out both;
   animation: swing 400ms ease-out both;
 }
-
 @-webkit-keyframes swing {
-  20%, 40%, 60%, 80%, 100% {
-    -webkit-transform-origin: top center;
-  }
-  20% {
-    -webkit-transform: rotate(15deg);
-  }
-  40% {
-    -webkit-transform: rotate(-10deg);
-  }
-  60% {
-    -webkit-transform: rotate(5deg);
-  }
-  80% {
-    -webkit-transform: rotate(-5deg);
-  }
-  100% {
-    -webkit-transform: rotate(0deg);
-  }
+  20%, 40%, 60%, 80%, 100% { -webkit-transform-origin: top center; }
+  20% { -webkit-transform: rotate(15deg); }
+  40% { -webkit-transform: rotate(-10deg); }
+  60% { -webkit-transform: rotate(5deg); }
+  80% { -webkit-transform: rotate(-5deg); }
+  100% { -webkit-transform: rotate(0deg); }
 }
-
 @-moz-keyframes swing {
-  20% {
-    -moz-transform: rotate(15deg);
-  }
-  40% {
-    -moz-transform: rotate(-10deg);
-  }
-  60% {
-    -moz-transform: rotate(5deg);
-  }
-  80% {
-    -moz-transform: rotate(-5deg);
-  }
-  100% {
-    -moz-transform: rotate(0deg);
-  }
+  20% { -moz-transform: rotate(15deg); }
+  40% { -moz-transform: rotate(-10deg); }
+  60% { -moz-transform: rotate(5deg); }
+  80% { -moz-transform: rotate(-5deg); }
+  100% { -moz-transform: rotate(0deg); }
 }
-
 @-o-keyframes swing {
-  20% {
-    -o-transform: rotate(15deg);
-  }
-  40% {
-    -o-transform: rotate(-10deg);
-  }
-  60% {
-    -o-transform: rotate(5deg);
-  }
-  80% {
-    -o-transform: rotate(-5deg);
-  }
-  100% {
-    -o-transform: rotate(0deg);
-  }
+  20% { -o-transform: rotate(15deg); }
+  40% { -o-transform: rotate(-10deg); }
+  60% { -o-transform: rotate(5deg); }
+  80% { -o-transform: rotate(-5deg); }
+  100% { -o-transform: rotate(0deg); }
 }
-
 @keyframes swing {
-  20% {
-    transform: rotate(15deg);
-  }
-  40% {
-    transform: rotate(-10deg);
-  }
-  60% {
-    transform: rotate(5deg);
-  }
-  80% {
-    transform: rotate(-5deg);
-  }
-  100% {
-    transform: rotate(0deg);
-  }
+  20% { transform: rotate(15deg); }
+  40% { transform: rotate(-10deg); }
+  60% { transform: rotate(5deg); }
+  80% { transform: rotate(-5deg); }
+  100% { transform: rotate(0deg); }
 }
 
-.flip {
+.flip{
   -webkit-animation: flip 700ms ease both;
   -moz-animation: flip 700ms ease both;
   -o-animation: flip 700ms ease both;
   animation: flip 700ms ease both;
 }
-
 @-webkit-keyframes flip {
   0% {
-    -webkit-transform: perspective(400px) rotateX(90deg);
-    transform: perspective(400px) rotateX(90deg);
-    opacity: 0;
+	-webkit-transform: perspective(400px) rotateX(90deg);
+	transform: perspective(400px) rotateX(90deg);
+	opacity: 0;
   }
 
   40% {
-    -webkit-transform: perspective(400px) rotateX(-10deg);
-    transform: perspective(400px) rotateX(-10deg);
+	-webkit-transform: perspective(400px) rotateX(-10deg);
+	transform: perspective(400px) rotateX(-10deg);
   }
 
   70% {
-    -webkit-transform: perspective(400px) rotateX(10deg);
-    transform: perspective(400px) rotateX(10deg);
+	-webkit-transform: perspective(400px) rotateX(10deg);
+	transform: perspective(400px) rotateX(10deg);
   }
 
   100% {
-    -webkit-transform: perspective(400px) rotateX(0deg);
-    transform: perspective(400px) rotateX(0deg);
-    opacity: 1;
+	-webkit-transform: perspective(400px) rotateX(0deg);
+	transform: perspective(400px) rotateX(0deg);
+	opacity: 1;
   }
 }
 
 @keyframes flip {
   0% {
-    -webkit-transform: perspective(400px) rotateX(90deg);
-    -ms-transform: perspective(400px) rotateX(90deg);
-    transform: perspective(400px) rotateX(90deg);
-    opacity: 0;
+	-webkit-transform: perspective(400px) rotateX(90deg);
+	-ms-transform: perspective(400px) rotateX(90deg);
+	transform: perspective(400px) rotateX(90deg);
+	opacity: 0;
   }
 
   40% {
-    -webkit-transform: perspective(400px) rotateX(-10deg);
-    -ms-transform: perspective(400px) rotateX(-10deg);
-    transform: perspective(400px) rotateX(-10deg);
+	-webkit-transform: perspective(400px) rotateX(-10deg);
+	-ms-transform: perspective(400px) rotateX(-10deg);
+	transform: perspective(400px) rotateX(-10deg);
   }
 
   70% {
-    -webkit-transform: perspective(400px) rotateX(10deg);
-    -ms-transform: perspective(400px) rotateX(10deg);
-    transform: perspective(400px) rotateX(10deg);
+	-webkit-transform: perspective(400px) rotateX(10deg);
+	-ms-transform: perspective(400px) rotateX(10deg);
+	transform: perspective(400px) rotateX(10deg);
   }
 
   100% {
-    -webkit-transform: perspective(400px) rotateX(0deg);
-    -ms-transform: perspective(400px) rotateX(0deg);
-    transform: perspective(400px) rotateX(0deg);
-    opacity: 1;
+	-webkit-transform: perspective(400px) rotateX(0deg);
+	-ms-transform: perspective(400px) rotateX(0deg);
+	transform: perspective(400px) rotateX(0deg);
+	opacity: 1;
   }
 }
-
-.roll-in {
+.roll-in{
   -webkit-animation: roll-in 400ms ease both;
   -moz-animation: roll-in 400ms ease both;
   -o-animation: roll-in 400ms ease both;
   animation: roll-in 400ms ease both;
 }
-
 @-webkit-keyframes roll-in {
   0% {
-    opacity: 0;
-    -webkit-transform: translateX(-100%) rotate(-15deg);
-    transform: translateX(-100%) rotate(-15deg);
+	opacity: 0;
+	-webkit-transform: translateX(-100%) rotate(-15deg);
+	transform: translateX(-100%) rotate(-15deg);
   }
 
   100% {
-    opacity: 1;
-    -webkit-transform: translateX(0px) rotate(0deg);
-    transform: translateX(0px) rotate(0deg);
+	opacity: 1;
+	-webkit-transform: translateX(0px) rotate(0deg);
+	transform: translateX(0px) rotate(0deg);
   }
 }
-
 @keyframes roll-in {
   0% {
-    opacity: 0;
-    -webkit-transform: translateX(-100%) rotate(-15deg);
-    -ms-transform: translateX(-100%) rotate(-15deg);
-    transform: translateX(-100%) rotate(-15deg);
+	opacity: 0;
+	-webkit-transform: translateX(-100%) rotate(-15deg);
+	-ms-transform: translateX(-100%) rotate(-15deg);
+	transform: translateX(-100%) rotate(-15deg);
   }
 
   100% {
-    opacity: 1;
-    -webkit-transform: translateX(0px) rotate(0deg);
-    -ms-transform: translateX(0px) rotate(0deg);
-    transform: translateX(0px) rotate(0deg);
+	opacity: 1;
+	-webkit-transform: translateX(0px) rotate(0deg);
+	-ms-transform: translateX(0px) rotate(0deg);
+	transform: translateX(0px) rotate(0deg);
   }
 }
-
-.stretch {
+.stretch{
   -webkit-animation: stretch 500ms ease both;
   -moz-animation: stretch 500ms ease both;
   -o-animation: stretch 500ms ease both;
@@ -1351,77 +1189,32 @@ License: http://codecanyon.net/licenses
   -ms-transform-origin: 0% 0%;
   -webkit-transform-origin: 0% 0%;
 }
-
-@keyframes stretch {
-  0% {
-    transform: scaleX(0.3);
-  }
-  40% {
-    transform: scaleX(1.02);
-  }
-  60% {
-    transform: scaleX(0.98);
-  }
-  80% {
-    transform: scaleX(1.01);
-  }
-  100% {
-    transform: scaleX(0.98);
-  }
-  80% {
-    transform: scaleX(1.01);
-  }
-  100% {
-    transform: scaleX(1);
-  }
+@keyframes stretch{
+  0% { transform: scaleX(0.3); }
+  40% { transform: scaleX(1.02); }
+  60% { transform: scaleX(0.98); }
+  80% { transform: scaleX(1.01); }
+  100% { transform: scaleX(0.98); }
+  80% { transform: scaleX(1.01); }
+  100% { transform: scaleX(1); }
 }
-
-@-webkit-keyframes stretch {
-  0% {
-    -webkit-transform: scaleX(0.3);
-  }
-  40% {
-    -webkit-transform: scaleX(1.02);
-  }
-  60% {
-    -webkit-transform: scaleX(0.98);
-  }
-  80% {
-    -webkit-transform: scaleX(1.01);
-  }
-  100% {
-    -webkit-transform: scaleX(0.98);
-  }
-  80% {
-    -webkit-transform: scaleX(1.01);
-  }
-  100% {
-    -webkit-transform: scaleX(1);
-  }
+@-webkit-keyframes stretch{
+  0% { -webkit-transform: scaleX(0.3); }
+  40% { -webkit-transform: scaleX(1.02); }
+  60% { -webkit-transform: scaleX(0.98); }
+  80% { -webkit-transform: scaleX(1.01); }
+  100% { -webkit-transform: scaleX(0.98); }
+  80% { -webkit-transform: scaleX(1.01); }
+  100% { -webkit-transform: scaleX(1); }
 }
-
-@-o-keyframes stretch {
-  0% {
-    -o-transform: scaleX(0.3);
-  }
-  40% {
-    -o-transform: scaleX(1.02);
-  }
-  60% {
-    -o-transform: scaleX(0.98);
-  }
-  80% {
-    -o-transform: scaleX(1.01);
-  }
-  100% {
-    -o-transform: scaleX(0.98);
-  }
-  80% {
-    -o-transform: scaleX(1.01);
-  }
-  100% {
-    -o-transform: scaleX(1);
-  }
+@-o-keyframes stretch{
+  0% { -o-transform: scaleX(0.3); }
+  40% { -o-transform: scaleX(1.02); }
+  60% { -o-transform: scaleX(0.98); }
+  80% { -o-transform: scaleX(1.01); }
+  100% { -o-transform: scaleX(0.98); }
+  80% { -o-transform: scaleX(1.01); }
+  100% { -o-transform: scaleX(1); }
 }
 
 nav li.menu-item-has-mega-menu:hover {

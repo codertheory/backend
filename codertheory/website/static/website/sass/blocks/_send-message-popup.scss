@@ -19,13 +19,13 @@
   z-index: 50;
 
   &.open {
-    opacity: 1;
-    z-index: 999999;
-    -webkit-transform: scale(1);
-    -ms-transform: scale(1);
-    transform: scale(1);
-    overflow: auto;
-    background-color: #1e242c;
+	opacity: 1;
+	z-index: 999999;
+	-webkit-transform: scale(1);
+	-ms-transform: scale(1);
+	transform: scale(1);
+	overflow: auto;
+	background-color: #1e242c;
   }
 }
 
@@ -44,39 +44,39 @@
   margin: 100px auto;
   background-color: $white-color;
   box-shadow: 0px -15px 0px 0px rgba(69, 74, 79, .5),
-  15px -30px 0px 0px rgba(69, 74, 79, .5),
-  30px -45px 0px 0px rgba(69, 74, 79, .5),
-  45px -60px 0px 0px rgba(69, 74, 79, .5);
+  			  15px -30px 0px 0px rgba(69, 74, 79, .5),
+  			  30px -45px 0px 0px rgba(69, 74, 79, .5),
+  			  45px -60px 0px 0px rgba(69, 74, 79, .5);
 
   .contact-form {
-    margin-top: 40px;
+	margin-top: 40px;
   }
 }
 
 body {
   &:before {
-    content: '';
-    display: block;
-    width: 100%;
-    height: 100%;
-    position: fixed;
-    top: 0;
-    left: 0;
-    background: rgba(30, 36, 44, 1);
-    opacity: 0;
-    transition: opacity .3s ease;
-    z-index: -999;
+	content: '';
+	display: block;
+	width: 100%;
+	height: 100%;
+	position: fixed;
+	top: 0;
+	left: 0;
+	background: rgba(30, 36, 44, 1);
+	opacity: 0;
+	transition: opacity .3s ease;
+	z-index: -999;
   }
 
   &.overlay-enable {
-    position: fixed;
-    width: 100%;
-    height: 100%;
+	position: fixed;
+	width: 100%;
+	height: 100%;
 
-    &:before {
-      opacity: 1;
-      z-index: 500;
-    }
+	&:before {
+	  opacity: 1;
+	  z-index: 500;
+	}
   }
 }
 
@@ -94,28 +94,28 @@ body {
   transition: all .3s ease;
 
   .utouch-icon {
-    width: 24px;
-    height: 24px;
-    fill: $icon-color;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+	width: 24px;
+	height: 24px;
+	fill: $icon-color;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
 
-    &:hover {
-      fill: $primary-color;
-    }
+	&:hover {
+	  fill: $primary-color;
+	}
   }
 
   &.popup-close-round {
-    border-radius: 100%;
-    right: auto;
-    top: 0;
-    display: block;
-    margin: 50px auto;
-    left: 50%;
-    position: absolute;
-    transform: translate(-50%, 0);
+	border-radius: 100%;
+	right: auto;
+	top: 0;
+	display: block;
+	margin: 50px auto;
+	left: 50%;
+	position: absolute;
+	transform: translate(-50%, 0);
   }
 }
 
@@ -137,54 +137,54 @@ body {
   background-color: #66b5ff;
 
   &.open {
-    opacity: 1;
-    z-index: 999999;
-    -webkit-transform: scale(1);
-    -ms-transform: scale(1);
-    transform: scale(1);
+	opacity: 1;
+	z-index: 999999;
+	-webkit-transform: scale(1);
+	-ms-transform: scale(1);
+	transform: scale(1);
   }
 
   .search-standard {
-    .typeahead__list {
-      margin-top: 0;
-    }
+	.typeahead__list {
+	  margin-top: 0;
+	}
   }
 }
 
 .search--white {
 
   .popup-close {
-    background-color: #eaeef3;
+	background-color: #eaeef3;
   }
 
   .search-standard {
-    .typeahead__list {
-      background-color: $white-color;
-    }
+	.typeahead__list {
+	background-color: $white-color;
+	}
 
-    .typeahead__container input:focus {
-      color: $heading-color;
-    }
+	.typeahead__container input:focus {
+	  color: $heading-color;
+	}
 
-    .search-full-screen .search-standard input[type="search"]:focus {
-      color: $heading-color;
-    }
+	.search-full-screen .search-standard input[type="search"]:focus {
+	  color: $heading-color;
+	}
 
-    .typeahead__list > li {
-      padding: 15px 60px;
+	.typeahead__list > li {
+	  padding: 15px 60px;
 
-      &:hover {
-        background-color: $blue-lighteen;
+	  &:hover {
+		background-color: $blue-lighteen;
 
-        & > a {
-          color: $heading-color;
-        }
-      }
-    }
+		& > a {
+		  color: $heading-color;
+		}
+	  }
+	}
   }
 
   &.open {
-    background: rgb(255, 255, 255);
+	background: rgb(255, 255, 255);
   }
 }
 
@@ -199,12 +199,11 @@ body {
   opacity: 0;
 
   &.open {
-    background: rgba(30, 36, 44, 1);
-    z-index: 999;
-    opacity: 1;
+	background: rgba(30, 36, 44, 1);
+	z-index: 999;
+	opacity: 1;
   }
 }
-
 /*
 
 .cd-nav-trigger {
@@ -446,18 +445,18 @@ body {
 @media (max-width: 768px) {
 
   .send-message-popup {
-    padding: 30px;
+	padding: 30px;
   }
 
   .popup-close {
-    width: 50px;
-    height: 50px;
-    line-height: 50px;
-    border-radius: 0 0 0 15px;
+	width: 50px;
+	height: 50px;
+	line-height: 50px;
+	border-radius: 0 0 0 15px;
 
-    .icon {
-      width: 16px;
-      height: 16px;
-    }
+	.icon {
+	  width: 16px;
+	  height: 16px;
+	}
   }
 }

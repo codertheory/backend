@@ -85,6 +85,7 @@ DJANGO_APPS = [
 THIRD_PARTY_APPS = [
     "rest_framework",
     "rest_framework_datatables",
+    "rest_framework.authtoken",
     "knox",
     "djoser",
     "corsheaders",
@@ -110,6 +111,8 @@ LOCAL_APPS = [
     "codertheory.users.apps.UsersConfig",
     "codertheory.website.apps.WebsiteConfig",
     "codertheory.projects.apps.ProjectsConfig",
+    "codertheory.iceteabot.apps.IceteabotConfig",
+    "codertheory.shiritori.apps.ShiritoriConfig",
 
 ]
 # https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
@@ -468,3 +471,7 @@ GRAPHENE = {
     'SCHEMA': 'config.schema.schema',  # Where your Graphene schema lives,
     'DJANGO_CHOICE_FIELD_ENUM_V3_NAMING': True,
 }
+
+# Github
+#
+GITHUB_WEBHOOK_KEY = env.str('GITHUB_WEBHOOK_KEY', default="")

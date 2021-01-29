@@ -1,25 +1,26 @@
 /*------------- #W-SEARCH --------------*/
 
 
+
 .w-search {
 
   input {
-    border-radius: 10px;
-    padding-left: 60px;
+	border-radius: 10px;
+	padding-left: 60px;
   }
 
   .utouch-icon {
-    height: 24px;
-    width: 42px;
-    top: 13px;
-    padding-right: 0;
-    border-right: none;
-    fill: #d0d9e4;
-    left: 15px;
+	height: 24px;
+	width: 42px;
+	top: 13px;
+	padding-right: 0;
+	border-right: none;
+	fill: #d0d9e4;
+	left: 15px;
   }
 
   .with-icon .utouch-icon {
-    right: 15px;
+	right: 15px;
   }
 }
 

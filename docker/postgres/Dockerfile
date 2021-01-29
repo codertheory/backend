@@ -1,7 +1,7 @@
 FROM postgres:12-alpine
 
-ENV POSTGRES_PASSWORD=Iceteacity
-ENV POSTGRES_USER=iceteacity
-ENV POSTGRES_DB=iceteacity
+ENV POSTGRES_PASSWORD=Codertheory
+ENV POSTGRES_USER=codertheory
+ENV POSTGRES_DB=codertheory
 
 EXPOSE 5432/tcp

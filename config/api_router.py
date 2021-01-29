@@ -5,6 +5,7 @@ from drf_yasg.views import get_schema_view
 from rest_framework import permissions
 from rest_framework.routers import DefaultRouter, SimpleRouter
 
+from codertheory.shiritori.api import views as shiritori_views
 
 app_name = "api"
 
@@ -13,7 +14,7 @@ api_info = openapi.Info(
     default_version='v1',
     description="Test description",
     terms_of_service="https://www.google.com/policies/terms/",
-    contact=openapi.Contact(email="admin@codertheory.com"),
+    contact=openapi.Contact(email="admin@codertheory.dev"),
     license=openapi.License(name="MIT License"),
 )
 
@@ -29,6 +30,7 @@ if settings.DEBUG:
 else:
     router = SimpleRouter()
 
+router.register("shiritori", shiritori_views.GameModelViewSet,basename="shiritori_game")
 
 # noinspection PyUnresolvedReferences
 urlpatterns = [
@@ -36,4 +38,4 @@ urlpatterns = [
                   path(r'<str:format>', schema_view.without_ui(cache_timeout=0),
                        name='schema-json'),
                   path('redoc', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc')
-              ] + router.urls + order_item_router.urls
+              ] + router.urls

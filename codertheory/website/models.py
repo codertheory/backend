@@ -15,14 +15,13 @@ class BannerButton(models.Model):
 
 
 class BannerImage(models.Model):
-    name = models.CharField(max_length=25)
     image = models.ImageField()
 
 
 class DisplayBanner(models.Model):
     title = models.CharField(max_length=25)
     description = models.CharField(max_length=250)
-    image = models.ForeignKey(BannerImage, null=True, on_delete=models.SET_NULL)
-    primary_button = models.ForeignKey(BannerButton, null=True, on_delete=models.SET_NULL, related_name="+")
-    secondary_button = models.ForeignKey(BannerButton, null=True, on_delete=models.SET_NULL)
+    image = models.ForeignKey(BannerImage, blank=True, null=True, on_delete=models.SET_NULL)
+    primary_button = models.ForeignKey(BannerButton, blank=True, null=True, on_delete=models.SET_NULL, related_name="+")
+    secondary_button = models.ForeignKey(BannerButton, blank=True, null=True, on_delete=models.SET_NULL)
     active = models.BooleanField(default=False)

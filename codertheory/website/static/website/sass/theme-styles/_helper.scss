@@ -5,7 +5,7 @@
   text-align: center;
 }
 
-.align-left {
+.align-left{
   text-align: left;
 }
 
@@ -14,19 +14,17 @@
 }
 
 .visual-hidden,
-.hide {
+.hide{
   clip: rect(1px, 1px, 1px, 1px);
   position: absolute !important;
   height: 1px;
   width: 1px;
   overflow: hidden;
 }
-
-.half-width {
-  width: 50%;
-  float: left;
+.half-width{
+  width:50%;
+  float:left;
 }
-
 .ovh {
   overflow: hidden;
 }
@@ -90,7 +88,7 @@
   margin: 0;
 }
 
-.item-fully-transparent {
+.item-fully-transparent{
   opacity: 0;
 }
 
@@ -101,7 +99,6 @@
   left: 0;
   right: 0;
 }
-
 .full-height {
   height: 100%;
 }
@@ -139,7 +136,7 @@
 .block-rounded-shadow {
   border-radius: 10px;
   padding: 60px;
-  box-shadow: 10px 0 50px 0 rgba(18, 25, 33, 0.1);
+  box-shadow: 10px 0 50px 0 rgba(18,25,33, 0.1);
 }
 
 .overlay-standard, .overlay {
@@ -371,6 +368,32 @@
   display: block;
 }
 
+.icon-demonstration {
+  text-align: center;
+  margin-bottom: 30px;
+  padding: 20px;
+  background-color: rgba($primary-color, .15);
+  border-radius: 20px;
+
+  .utouch-icon {
+    height: 32px;
+    min-width: 32px;
+    fill: $primary-color;
+  }
+
+  pre {
+    font-size: 12px;
+    color: $orange;
+  }
+
+  code {
+    white-space: initial;
+    line-height: 2;
+  }
+}
+
+
+
 
 /*------------- #Styles for preloader --------------*/
 
@@ -385,6 +408,6 @@
   height: 100%;
   min-width: 100%;
   background: lighten($primary-color, 20%) url(../svg/preload.svg) center center no-repeat;
-  background-size: 41px;
+  background-size:41px;
   opacity: 1;
 }

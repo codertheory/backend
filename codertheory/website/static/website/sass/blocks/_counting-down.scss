@@ -1,17 +1,18 @@
 /*------------- #COUNTING-DOWN --------------*/
 
 
+
 .counting-down {
   border-radius: 10px;
-  box-shadow: 10px 0 50px 0 rgba(18, 25, 33, 0.1);
+  box-shadow: 10px 0 50px 0 rgba(18,25,33, 0.1);
   overflow: hidden;
 
   & > * {
-    padding: 40px;
+	padding: 40px;
   }
 
   .timer {
-    font-size: 38px;
+	font-size: 38px;
   }
 }
 
@@ -20,18 +21,17 @@
   position: relative;
 
   .utouch-icon {
-    fill: #B5CCE0;
-    width: 150px;
-    height: 150px;
-    position: absolute;
-    top: 25px;
-    right: -75px;
+	fill: #B5CCE0;
+	width: 150px;
+	height: 150px;
+	position: absolute;
+	top: 25px;
+	right: -75px;
   }
 
   .clock {
-    margin-top: 20px;
-
-    .text {
+	margin-top: 20px;
+    .text{
       text-transform: uppercase;
     }
 
@@ -44,11 +44,11 @@
   background-color: $blue-lighteen;
 
   .utouch-icon {
-    fill: $blue-light;
+	fill: $blue-light;
   }
 
   .text {
-    color: $icon-color;
+	color: $icon-color;
   }
 }
 
@@ -56,17 +56,18 @@
   background-color: $white-color;
 
   .author-prof {
-    color: $heading-color;
+	color: $heading-color;
   }
 
   .author-name {
-    color: $icon-color;
+	color: $icon-color;
   }
 
   .author-block {
-    margin-bottom: 40px;
+	margin-bottom: 40px;
   }
 }
+
 
 
 /*================= Responsive Mode ============*/
@@ -74,14 +75,14 @@
 
 @media (max-width: 980px) {
   .counting-down .timer {
-    font-size: 16px;
+	font-size: 16px;
   }
 
   .counting-down > * {
-    padding: 15px;
+	padding: 15px;
   }
 
   .counting-header .utouch-icon {
-    max-height: 50%;
+	max-height: 50%;
   }
 }

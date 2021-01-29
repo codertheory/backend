@@ -1,3 +1,4 @@
+
 /*------------- #TYPOGRAPHY --------------*/
 
 
@@ -6,7 +7,7 @@ h1, .h1 {
   font-weight: $h-font-weight;
   color: $heading-color;
   font-family: $heading-font-family;
-  margin: .5em 0;
+  margin:  .5em 0;
   line-height: 1em;
   letter-spacing: $h-letter-spacing;
 
@@ -32,7 +33,7 @@ h1, .h1 {
 }
 
 h2, .h2 {
-  margin: .5em 0;
+  margin:  .5em 0;
   font-size: $h2-fontsize;
   line-height: 1.3em;
   font-weight: $h-font-weight;
@@ -40,7 +41,7 @@ h2, .h2 {
   font-family: $heading-font-family;
   letter-spacing: $h-letter-spacing;
 
-  a {
+   a {
     color: inherit;
   }
 
@@ -62,7 +63,7 @@ h2, .h2 {
 }
 
 h3, .h3 {
-  margin: .5em 0;
+  margin:  .5em 0;
   font-size: $h3-fontsize;
   line-height: 1.3em;
   font-weight: $h-font-weight;
@@ -92,7 +93,7 @@ h3, .h3 {
 }
 
 h4, .h4 {
-  margin: .5em 0;
+  margin:  .5em 0;
   font-size: $h4-fontsize;
   line-height: 1.3em;
   font-weight: $h-font-weight;
@@ -122,7 +123,7 @@ h4, .h4 {
 }
 
 h5, .h5 {
-  margin: .5em 0;
+  margin:  .5em 0;
   font-size: $h5-fontsize;
   line-height: 1.3em;
   font-weight: $h-font-weight;
@@ -152,7 +153,7 @@ h5, .h5 {
 }
 
 h6, .h6 {
-  margin: .5em 0;
+  margin:  .5em 0;
   font-size: $h6-fontsize;
   line-height: 1.3em;
   font-weight: $h-font-weight;
@@ -186,19 +187,19 @@ h6, .h6 {
 /*------------- #Styles for First-Letter --------------*/
 
 .first-letter--dark-round span:first-of-type {
-  display: block;
-  position: relative;
-  width: 70px;
-  height: 70px;
-  background-color: #2f2c2c;
-  border-radius: 50%;
-  float: left;
-  margin-right: 20px;
-  line-height: 70px;
-  font-size: 30px;
-  color: #fff;
-  text-align: center;
-}
+   display: block;
+   position: relative;
+   width: 70px;
+   height: 70px;
+   background-color: #2f2c2c;
+   border-radius: 50%;
+   float: left;
+   margin-right: 20px;
+   line-height: 70px;
+   font-size: 30px;
+   color: #fff;
+   text-align: center;
+ }
 
 .first-letter--squared span:first-of-type {
   display: block;
@@ -236,37 +237,18 @@ h6, .h6 {
 
 /*Selection dark*/
 
-.selection--dark::-moz-selection {
-  background: $heading-color;
-  color: $body-font-color;
-}
-
-.selection--dark::selection {
-  background: $heading-color;
-  color: $body-font-color;
-}
+.selection--dark::-moz-selection{background: $heading-color; color: $body-font-color;}
+.selection--dark::selection{background: $heading-color; color: $body-font-color;}
 
 /*Selection primary*/
 
-.selection--primary::-moz-selection {
-  color: $white-color;
-}
-
-.selection--primary::selection {
-  color: $white-color;
-}
+.selection--primary::-moz-selection{color: $white-color;}
+.selection--primary::selection{color: $white-color;}
 
 /*Selection gray*/
 
-.selection--gray::-moz-selection {
-  background: #e1e1e1;
-  color: $heading-color;
-}
-
-.selection--gray::selection {
-  background: #e1e1e1;
-  color: $heading-color;
-}
+.selection--gray::-moz-selection{background: #e1e1e1; color: $heading-color;}
+.selection--gray::selection{background: #e1e1e1; color: $heading-color;}
 
 
 dl {

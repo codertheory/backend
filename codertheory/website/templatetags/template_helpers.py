@@ -12,13 +12,13 @@ def favicon(context):
     return {}
 
 
-@register.inclusion_tag(filename="website/components/breadcrumbs.html",
+@register.inclusion_tag(filename="../templates/website/components/breadcrumbs.html",
                         takes_context=True)
 def breadcrumbs(context, *args):
     pass
 
 
-@register.inclusion_tag(filename="website/components/blogs/blog-preview.html")
+@register.inclusion_tag(filename="../templates/website/components/blogs/blog-preview.html")
 def article_preview(article):
     return {"article": article}
 

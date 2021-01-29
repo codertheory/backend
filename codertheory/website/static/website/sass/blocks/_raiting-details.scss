@@ -10,17 +10,17 @@
   text-align: center;
 
   .title {
-    font-size: 16px;
+	font-size: 16px;
   }
 
   p {
-    font-size: 14px;
-    font-weight: 300;
+	font-size: 14px;
+	font-weight: 300;
   }
 
   .skills {
-    text-align: left;
-    margin-top: 60px;
+	text-align: left;
+	margin-top: 60px;
   }
 }
 
@@ -30,6 +30,6 @@
 
 @media (max-width: 560px) {
   .overall-rating {
-    font-size: 50px;
+	font-size: 50px;
   }
 }

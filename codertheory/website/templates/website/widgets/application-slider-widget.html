@@ -1,0 +1,71 @@
+{% load static %}
+<!-- Slider with vertical tabs -->
+
+{% if mobile_projects.count > 0 %}
+  <section class="crumina-module crumina-module-slider slider-tabs-vertical-line">
+
+    <div class="swiper-container" data-show-items="1">
+      <div class="swiper-wrapper">
+        {% for mobile_project in mobile_projects %}
+          <div class="swiper-slide bg-primary-color bg-5" data-mh="slide">
+            <div class="container">
+              <div class="row">
+                <div class="col-lg-4 col-lg-offset-1 col-md-5 col-md-offset-0 col-sm-12 col-xs-12">
+                  <div class="slider-tabs-vertical-thumb">
+                    <img src="{{ mobile_project.thumbnail }}" alt="iphone">
+                  </div>
+                </div>
+                <div class="col-lg-6 col-lg-offset-1 col-md-7 col-md-offset-0 col-sm-12 col-xs-12">
+                  <div class="crumina-module crumina-heading custom-color c-white">
+                    <h6 class="heading-sup-title">User Interface</h6>
+                    <h2 class="heading-title">{{ mobile_project.title }}</h2>
+                    <div class="heading-text">{{ mobile_project.description }}
+                    </div>
+                  </div>
+
+                  {% if mobile_project.app_store_url %}
+                    <a href="{{ mobile_project.app_store_url }}" class="btn btn-market btn--with-shadow">
+                      <svg class="utouch-icon utouch-icon-apple-logotype-1">
+                        <use xlink:href="#utouch-icon-apple-logotype-1"></use>
+                      </svg>
+                      <div class="text">
+                        <span class="sup-title">Download on the</span>
+                        <span class="title">App Store</span>
+                      </div>
+                    </a>
+                  {% endif %}
+
+                  {% if mobile_project.play_store_url %}
+
+                    <a href="{{ mobile_project.play_store_url }}" class="btn btn-market btn--with-shadow">
+                      <img class="utouch-icon" src="{% static "website/svg-icons/google-play.svg" %}" alt="google">
+                      <div class="text">
+                        <span class="sup-title">Download on the</span>
+                        <span class="title">Google Play</span>
+                      </div>
+                    </a>
+
+                  {% endif %}
+                </div>
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+
+      </div>
+
+      <div class="slider-slides slider-slides--vertical-line">
+        {% for mobile_project in mobile_projects %}
+          <a href="#" class="slides-item">
+            <span class="round primary"></span>0{{ forloop.counter0 }}.
+          </a>
+        {% endfor %}
+      </div>
+
+    </div>
+
+  </section>
+
+{% endif %}
+
+<!-- ... Slider with vertical tabs -->

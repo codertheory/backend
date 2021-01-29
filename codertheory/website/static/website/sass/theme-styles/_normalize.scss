@@ -359,6 +359,8 @@ textarea {
 [type="radio"] {
   box-sizing: border-box; /* 1 */
   padding: 0; /* 2 */
+  width: auto;
+  margin-right: 7px;
 }
 
 /**

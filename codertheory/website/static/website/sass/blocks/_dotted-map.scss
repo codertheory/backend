@@ -13,14 +13,15 @@
   text-align: center;
 
   .title {
-    font-size: 50px;
-    margin-bottom: 20px;
+	font-size: 50px;
+	margin-bottom: 20px;
 
-    span {
-      font-size: 36px;
-    }
+	span {
+	  font-size: 36px;
+	}
   }
 }
+
 
 
 /*================= Responsive Mode ============*/
@@ -28,23 +29,23 @@
 
 @media (max-width: 768px) {
   .dotted-map-content .title {
-    font-size: 20px;
-    margin-bottom: 10px;
+	font-size: 20px;
+	margin-bottom: 10px;
   }
 
   .dotted-map-content .title span {
-    font-size: 22px;
+	font-size: 22px;
   }
 
   .dotted-map-content {
-    width: 100%;
+	width: 100%;
   }
 }
 
 @media (max-width: 420px) {
   .dotted-map-content {
-    top: auto;
-    position: relative;
-    transform: translate(-50%, -100%);
+	top: auto;
+	position: relative;
+	transform: translate(-50%, -100%);
   }
 }
