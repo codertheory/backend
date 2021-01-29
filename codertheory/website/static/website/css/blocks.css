@@ -5325,9 +5325,15 @@ body.overlay-enable {
     padding: 1.15em 1em;
     -webkit-box-shadow: inset 0 2px 0 rgba(0, 0, 0, 0.2), 0 2px 0 rgba(255, 255, 255, 0.7);
     box-shadow: inset 0 2px 0 rgba(0, 0, 0, 0.2), 0 2px 0 rgba(255, 255, 255, 0.7);
-    -webkit-transition: color 0.3s ease, padding 0.3s ease-in-out, background 0.3s ease-in-out;
-    -o-transition: color 0.3s ease, padding 0.3s ease-in-out, background 0.3s ease-in-out;
-    transition: color 0.3s ease, padding 0.3s ease-in-out, background 0.3s ease-in-out; }
+    -webkit-transition: color 0.3s ease,
+ padding 0.3s ease-in-out,
+ background 0.3s ease-in-out;
+    -o-transition: color 0.3s ease,
+ padding 0.3s ease-in-out,
+ background 0.3s ease-in-out;
+    transition: color 0.3s ease,
+ padding 0.3s ease-in-out,
+ background 0.3s ease-in-out; }
     .tgl span:before {
       position: relative;
       display: block;
@@ -5995,12 +6001,10 @@ body.overlay-enable {
   border-radius: 5px; }
 
 .leaflet-control-layers-toggle {
-  background-image: url(../img/leaflet-img/layers.png);
   width: 36px;
   height: 36px; }
 
 .leaflet-retina .leaflet-control-layers-toggle {
-  background-image: url(../img/leaflet-img/layers-2x.png);
   background-size: 26px 26px; }
 
 .leaflet-touch .leaflet-control-layers-toggle {
@@ -6037,10 +6041,6 @@ body.overlay-enable {
   height: 0;
   border-top: 1px solid #ddd;
   margin: 5px -10px 5px -6px; }
-
-/* Default icon URLs */
-.leaflet-default-icon-path {
-  background-image: url(../img/leaflet-img/marker-icon.png); }
 
 /* attribution and scale controls */
 .leaflet-container .leaflet-control-attribution {
