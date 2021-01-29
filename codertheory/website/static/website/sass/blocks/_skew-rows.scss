@@ -79,46 +79,46 @@
 
 .bg-rounded-style1 {
   &:before {
-    content: url("../svg/01-wave-rotate-180.svg");
+    content: url("../../svg/01-wave-rotate-180.svg");
   }
 
   &:after {
-    content: url("../svg/01-wave.svg");
+    content: url("../../svg/01-wave.svg");
   }
 }
 
 .bg-rounded-style2 {
   &:before {
-    background-image: url("../svg/02-wave.svg");
+    background-image: url("../../svg/02-wave.svg");
     height: 175px;
   }
 
   &:after {
-    background-image: url("../svg/03-wave.svg");
+    background-image: url("../../svg/03-wave.svg");
     height: 130px;
   }
 }
 
 .bg-rounded-style3 {
   &:before {
-    background-image: url("../svg/04-wave.svg");
+    background-image: url("../../svg/04-wave.svg");
     height: 150px;
   }
 
   &:after {
-    background-image: url("../svg/05-wave.svg");
+    background-image: url("../../svg/05-wave.svg");
     height: 150px;
   }
 }
 
 .bg-rounded-style4 {
   &:before {
-    background-image: url("../svg/06-wave.svg");
+    background-image: url("../../svg/06-wave.svg");
     height: 120px;
   }
 
   &:after {
-    background-image: url("../svg/06-wave-inverted.svg");
+    background-image: url("../../svg/06-wave-inverted.svg");
     height: 120px;
   }
 }
