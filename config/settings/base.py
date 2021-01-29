@@ -390,6 +390,7 @@ REST_FRAMEWORK = {
     ),
     'DEFAULT_PAGINATION_CLASS': 'rest_framework_datatables.pagination.DatatablesPageNumberPagination',
     'PAGE_SIZE': 50,
+    'DEFAULT_VERSIONING_CLASS': 'rest_framework.versioning.NamespaceVersioning'
 }
 # SOCIAL ACCOUNT
 # ------------------------------------------------------------------------------
@@ -449,12 +450,12 @@ DJOSER = {
 # ------------------------------------------------------------------------------
 
 SWAGGER_SETTINGS = {
-    'DEFAULT_INFO': 'config.api_router.api_info',
+    'DEFAULT_INFO': 'config.rest.api_info',
 }
 
 # CHANNELS
 # ------------------------------------------------------------------------------
-ASGI_APPLICATION = "config.ws_router.application"
+ASGI_APPLICATION = "config.asgi.application"
 CHANNEL_LAYERS = {
     "default": {
         "BACKEND": "channels.layers.InMemoryChannelLayer"

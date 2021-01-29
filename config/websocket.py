@@ -3,7 +3,7 @@ from channels.routing import URLRouter
 
 from codertheory.shiritori import routing as shiritori_routing
 
-websocket_application = AuthMiddlewareStack(
+application = AuthMiddlewareStack(
     URLRouter(
         shiritori_routing.websocket_urlpatterns
     )
