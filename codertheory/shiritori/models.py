@@ -10,6 +10,13 @@ from django.db.models import QuerySet
 from codertheory.general.models import BaseModel
 from codertheory.shiritori import exceptions
 
+__all__ = (
+    "random_letter_generator",
+    "ShiritoriGame",
+    "ShiritoriPlayer",
+    "ShiritoriGameWord"
+)
+
 
 def random_letter_generator():
     return random.choice(string.ascii_lowercase)
@@ -19,15 +26,16 @@ def random_letter_generator():
 
 class ShiritoriGame(BaseModel):
     name = models.CharField(max_length=512)
-    password = models.CharField(max_length=5, null=True)
+    password = models.CharField(max_length=5, blank=True, null=True)
     started = models.BooleanField(default=False)
     current_player: Optional["ShiritoriPlayer"] = models.ForeignKey("ShiritoriPlayer", on_delete=models.CASCADE,
-                                                                    null=True,
+                                                                    blank=True, null=True,
                                                                     related_name="current_player_game")
     last_word = models.CharField(max_length=512, null=True, default=random_letter_generator)
     finished = models.BooleanField(default=False)
     timer = models.PositiveSmallIntegerField(default=60)
-    winner: Optional["ShiritoriPlayer"] = models.ForeignKey("ShiritoriPlayer", on_delete=models.CASCADE, null=True,
+    winner: Optional["ShiritoriPlayer"] = models.ForeignKey("ShiritoriPlayer", on_delete=models.CASCADE, blank=True,
+                                                            null=True,
                                                             related_name="game_winner")
 
     def start(self):

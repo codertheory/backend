@@ -1,30 +1,39 @@
-from channels.db import database_sync_to_async
-from channels.generic.websocket import AsyncJsonWebsocketConsumer
+from channels.generic.websocket import JsonWebsocketConsumer
 
 from codertheory.shiritori import models
 from codertheory.shiritori.api import serializers
+from codertheory.shiritori.events import ShiritoriEvents
 
 __all__ = (
     "LobbyConsumer",
 )
 
 
-class LobbyConsumer(AsyncJsonWebsocketConsumer):
+class LobbyConsumer(JsonWebsocketConsumer):
     groups = ['lobby']
 
-    async def connect(self):
-        await super(LobbyConsumer, self).connect()
-        games = await self._get_public_games()
-        await self.send_json(games)
+    def websocket_connect(self, message):
+        super(LobbyConsumer, self).websocket_connect(message)
+        self._send_public_games(ShiritoriEvents.LobbyCreated.value)
 
-    @database_sync_to_async
-    def _get_public_games(self):
+    def _send_public_games(self, type: str):
         games = models.ShiritoriGame.objects.filter(started=False)
-        games_json = serializers.GameSerializer(games, many=True)
-        return games_json.data
+        games_data = serializers.GameSerializer(games, many=True)
+        self.send_json({
+            "type": type,
+            "data": games_data.data
+        })
 
-    async def game_created(self, event):
-        await self.send_json(await self._get_public_games())
+    def game_created(self, event):
+        self._send_public_games(event['type'])
 
-    async def game_started(self, event):
-        pass
+    def game_deleted(self, event):
+        self._send_public_games(event['type'])
+
+    def game_started(self, event):
+        self.send_json({
+            "type": event['type'],
+            "data": {
+                "id": event['game']
+            }
+        })

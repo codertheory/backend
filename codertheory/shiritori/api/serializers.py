@@ -2,6 +2,12 @@ from rest_framework import serializers
 
 from codertheory.shiritori import models
 
+__all__ = (
+    "GameSerializer",
+    "PlayerSerializer",
+    "GameWordSerializer",
+)
+
 
 class GameSerializer(serializers.ModelSerializer):
     class Meta:
