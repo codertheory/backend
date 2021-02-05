@@ -82,7 +82,7 @@ class GameConsumerTests(TransactionTestCase):
         await communicator.receive_json_from()
         await self._leave_game(player)
         data = await communicator.receive_json_from()
-        self.assertEqual(data['type'], ShiritoriEvents.PlayerLeft.value)
+        self.assertEqual(data['type'], ShiritoriEvents.PlayerDeleted.value)
         self.assertEqual(data['data']['player'], player_id)
 
         # Close

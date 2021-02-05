@@ -31,6 +31,9 @@ class GameConsumer(JsonWebsocketConsumer):
     def game_started(self, event: dict):
         self.send_json(event)
 
+    def game_deleted(self, event: dict):
+        self.send_json(event)
+
     def game_finished(self, event: dict):
         self.send_json(event)
 

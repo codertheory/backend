@@ -10,7 +10,7 @@ class ShiritoriEvents(Enum):
     GameFinished = "game_finished"
     PlayerCreated = "player_created"
     PlayerUpdated = "player_updated"
-    PlayerLeft = "player_left"
+    PlayerDeleted = "player_deleted"
     TurnTaken = "turn_taken"
 
     def __repr__(self):

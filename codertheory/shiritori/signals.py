@@ -8,7 +8,7 @@ from codertheory.shiritori.api.serializers import *
 from codertheory.shiritori.events import ShiritoriEvents
 
 
-def send_data(name: str, data: dict):
+def send_data_to_channel(name: str, data: dict):
     data['type'] = str(data['type'])
     channel_layer = get_channel_layer()
     coro = async_to_sync(channel_layer.group_send)
@@ -32,8 +32,8 @@ def on_game_save(sender: type, instance: models.ShiritoriGame, created: bool, **
             "type": ShiritoriEvents.GameUpdated,
             "game": GameSerializer(instance).data
         }
-    send_data("lobby", data)
-    send_data(instance.id, data)
+    send_data_to_channel("lobby", data)
+    send_data_to_channel(instance.id, data)
 
 
 @receiver(signals.post_delete, sender=models.ShiritoriGame)
@@ -41,28 +41,29 @@ def on_game_delete(sender: type, instance: models.ShiritoriGame, using: str, **k
     data = {
         "type": ShiritoriEvents.GameDeleted
     }
-    send_data('lobby', data)
+    send_data_to_channel('lobby', data)
+    send_data_to_channel(instance.id, data)
 
 
 @receiver(signals.post_save, sender=models.ShiritoriPlayer)
 def on_player_save(sender: type, instance: models.ShiritoriPlayer, created: bool, **kwargs):
     data = {
-        "player": instance.id
+        "player": instance
     }
     if created:
         data['type'] = ShiritoriEvents.PlayerCreated
     else:
         data['type'] = ShiritoriEvents.PlayerUpdated
-    send_data(instance.game.id, data)
+    send_data_to_channel(instance.game.id, data)
 
 
 @receiver(signals.post_delete, sender=models.ShiritoriPlayer)
 def on_player_delete(sender: type, instance: models.ShiritoriPlayer, using: str, **kwargs):
     data = {
-        "player": instance.id,
-        "type": ShiritoriEvents.PlayerLeft
+        "player": instance,
+        "type": ShiritoriEvents.PlayerDeleted
     }
-    send_data(instance.game.id, data)
+    send_data_to_channel(instance.game.id, data)
 
 
 @receiver(signals.post_save, sender=models.ShiritoriGameWord)
@@ -72,4 +73,4 @@ def on_word_save(sender: type, instance: models.ShiritoriGameWord, created: bool
         "player": instance.player_id,
         "word": instance.word,
     }
-    send_data(instance.game.id, data)
+    send_data_to_channel(instance.game.id, data)
