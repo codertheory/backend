@@ -122,7 +122,9 @@ class ShiritoriGame(BaseModel):
     @property
     def players(self) -> QuerySet["ShiritoriPlayer"]:
         # noinspection PyUnresolvedReferences
-        return self.get_shiritoriplayer_order()
+        order_wrt = ShiritoriPlayer._meta.order_with_respect_to
+        filter_args = order_wrt.get_forward_related_filter(self)
+        return ShiritoriPlayer.objects.filter(**filter_args)
 
 
 class ShiritoriPlayer(BaseModel):

@@ -9,16 +9,18 @@ __all__ = (
 )
 
 
-class GameSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = models.ShiritoriGame
-        exclude = ("password",)
-
-
 class PlayerSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.ShiritoriPlayer
-        fields = "__all__"
+        fields = ("id"",name", "score", "lives")
+
+
+class GameSerializer(serializers.ModelSerializer):
+    players = PlayerSerializer(many=True, read_only=True)
+
+    class Meta:
+        model = models.ShiritoriGame
+        exclude = ("password",)
 
 
 class GameWordSerializer(serializers.ModelSerializer):
