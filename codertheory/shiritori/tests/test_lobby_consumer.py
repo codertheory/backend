@@ -54,7 +54,6 @@ class LobbyConsumerTests(TransactionTestCase):
         await communicator.receive_json_from()
 
         await self.save_game(games[0])
-        await communicator.receive_from()
         new_response = await communicator.receive_json_from()
         self.assertEqual(new_response['type'], ShiritoriEvents.GameStarted.value)
         data = new_response['data']

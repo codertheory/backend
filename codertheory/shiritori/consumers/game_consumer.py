@@ -43,7 +43,7 @@ class GameConsumer(JsonWebsocketConsumer):
     def player_updated(self, event: dict):
         self.send_json(event)
 
-    def player_left(self, event: dict):
+    def player_deleted(self, event: dict):
         self.send_json(event)
 
     def turn_taken(self, event: dict):

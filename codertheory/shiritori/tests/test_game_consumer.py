@@ -41,7 +41,7 @@ class GameConsumerTests(TransactionTestCase):
 
     async def _setup(self) -> typing.Tuple[WebsocketCommunicator, ShiritoriGame]:
         game = await self._create_game()
-        communicator = WebsocketCommunicator(router, f"ws/shiritori/{game.id}")
+        communicator = WebsocketCommunicator(router, f"ws/shiritori/game/{game.id}")
         connected, subprotocol = await communicator.connect()
         self.assertTrue(connected)
         return communicator, game
@@ -59,7 +59,7 @@ class GameConsumerTests(TransactionTestCase):
         player = await self._join_game(game)
         data = await communicator.receive_json_from()
         self.assertEqual(data['type'], ShiritoriEvents.PlayerCreated.value)
-        self.assertEqual(data['data']['player'], player.id)
+        self.assertEqual(data['data']['player']['id'], player.id)
         # Close
         await communicator.disconnect()
 
@@ -70,7 +70,7 @@ class GameConsumerTests(TransactionTestCase):
         await self._update_player(player)
         data = await communicator.receive_json_from()
         self.assertEqual(data['type'], ShiritoriEvents.PlayerUpdated.value)
-        self.assertEqual(data['data']['player'], player.id)
+        self.assertEqual(data['data']['player']['id'], player.id)
 
         # Close
         await communicator.disconnect()
@@ -83,7 +83,7 @@ class GameConsumerTests(TransactionTestCase):
         await self._leave_game(player)
         data = await communicator.receive_json_from()
         self.assertEqual(data['type'], ShiritoriEvents.PlayerDeleted.value)
-        self.assertEqual(data['data']['player'], player_id)
+        self.assertEqual(data['data']['player']['id'], player_id)
 
         # Close
         await communicator.disconnect()
