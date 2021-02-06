@@ -1,6 +1,9 @@
 from asgiref.sync import async_to_sync
 from channels.generic.websocket import JsonWebsocketConsumer
 
+from codertheory.shiritori import models
+from codertheory.shiritori.api import serializers
+
 __all__ = (
     "GameConsumer",
 )
@@ -12,6 +15,8 @@ class GameConsumer(JsonWebsocketConsumer):
         game = self.scope['url_route']['kwargs']['game']
         async_to_sync(self.channel_layer.group_add)(game, self.channel_name)
         super(GameConsumer, self).websocket_connect(message)
+        self.send_json(
+            {"type": "connect", "game": serializers.GameSerializer(models.ShiritoriGame.objects.get(pk=game)).data})
 
     def websocket_disconnect(self, message):
         game = self.scope['url_route']['kwargs']['game']

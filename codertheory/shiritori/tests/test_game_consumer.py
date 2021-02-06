@@ -44,6 +44,7 @@ class GameConsumerTests(TransactionTestCase):
         communicator = WebsocketCommunicator(router, f"ws/shiritori/game/{game.id}")
         connected, subprotocol = await communicator.connect()
         self.assertTrue(connected)
+        await communicator.receive_json_from()
         return communicator, game
 
     async def test_on_game_start(self):
