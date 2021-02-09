@@ -26,7 +26,7 @@ class GameConsumer(JsonWebsocketConsumer):
     def send_json(self, content, close=False):
         data = {
             "type": content.pop('type'),
-            "data": content[list(content.keys())[0]]
+            "data": content
         }
         return super(GameConsumer, self).send_json(data, close)
 
