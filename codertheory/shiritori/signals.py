@@ -68,9 +68,10 @@ def on_player_delete(sender: type, instance: models.ShiritoriPlayer, using: str,
 
 @receiver(signals.post_save, sender=models.ShiritoriGameWord)
 def on_word_save(sender: type, instance: models.ShiritoriGameWord, created: bool, **kwargs):
-    data = {
-        "type": ShiritoriEvents.TurnTaken,
-        "player": instance.player_id,
-        "word": instance.word,
-    }
-    send_data_to_channel(instance.game.id, data)
+    if created:
+        data = {
+            "type": ShiritoriEvents.TurnTaken,
+            "player": instance.player_id,
+            "word": instance.word,
+        }
+        send_data_to_channel(instance.game.id, data)
