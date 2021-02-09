@@ -1,5 +1,6 @@
 from asgiref.sync import async_to_sync
 from channels.generic.websocket import JsonWebsocketConsumer
+from graphene.utils.str_converters import to_camel_case
 
 from codertheory.shiritori import models
 from codertheory.shiritori.api import serializers
@@ -25,7 +26,7 @@ class GameConsumer(JsonWebsocketConsumer):
 
     def send_json(self, content, close=False):
         data = {
-            "type": content.pop('type'),
+            "type": to_camel_case(content.pop('type', "")),
             "data": content
         }
         return super(GameConsumer, self).send_json(data, close)

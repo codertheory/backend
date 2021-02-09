@@ -1,4 +1,5 @@
 from channels.generic.websocket import JsonWebsocketConsumer
+from graphene.utils.str_converters import to_camel_case
 
 from codertheory.shiritori import models
 from codertheory.shiritori.api import serializers
@@ -20,7 +21,7 @@ class LobbyConsumer(JsonWebsocketConsumer):
         games = models.ShiritoriGame.objects.filter(started=False)
         games_data = serializers.GameSerializer(games, many=True)
         self.send_json({
-            "type": type,
+            "type": to_camel_case(type),
             "data": {"games": games_data.data}
         })
 
