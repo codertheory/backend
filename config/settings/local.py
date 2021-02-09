@@ -83,5 +83,6 @@ def default_upload_to(instance, filename):
 CHUNKED_UPLOAD_TO = default_upload_to
 
 CORS_ORIGIN_WHITELIST += [
-    "http://localhost:3000"
+    "http://localhost:3000",
+    "http://127.0.0.1:3000"
 ]
