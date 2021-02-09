@@ -1,5 +1,7 @@
 from enum import Enum
 
+from graphene.utils.str_converters import to_snake_case
+
 
 class ShiritoriEvents(Enum):
     LobbyCreated = "lobby_created"
@@ -18,3 +20,9 @@ class ShiritoriEvents(Enum):
 
     def __str__(self):
         return self.value
+
+    def __eq__(self, other):
+        if isinstance(other, str):
+            return str(self) == to_snake_case(other)
+        else:
+            return super(ShiritoriEvents, self).__eq__(other)
