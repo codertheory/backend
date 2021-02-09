@@ -48,20 +48,17 @@ def on_game_delete(sender: type, instance: models.ShiritoriGame, using: str, **k
 @receiver(signals.post_save, sender=models.ShiritoriPlayer)
 def on_player_save(sender: type, instance: models.ShiritoriPlayer, created: bool, **kwargs):
     data = {
-        "player": PlayerSerializer(instance).data
+        "type": ShiritoriEvents.GameUpdated,
+        "game": GameSerializer(instance.game).data
     }
-    if created:
-        data['type'] = ShiritoriEvents.PlayerCreated
-    else:
-        data['type'] = ShiritoriEvents.PlayerUpdated
     send_data_to_channel(instance.game.id, data)
 
 
 @receiver(signals.post_delete, sender=models.ShiritoriPlayer)
 def on_player_delete(sender: type, instance: models.ShiritoriPlayer, using: str, **kwargs):
     data = {
-        "player": PlayerSerializer(instance).data,
-        "type": ShiritoriEvents.PlayerDeleted
+        "type": ShiritoriEvents.GameUpdated,
+        "game": GameSerializer(instance.game).data
     }
     send_data_to_channel(instance.game.id, data)
 
