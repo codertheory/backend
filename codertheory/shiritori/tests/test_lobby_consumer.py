@@ -30,7 +30,7 @@ class LobbyConsumerTests(TransactionTestCase):
         communicator = await self._setUpData()
         # Test Receiving
         response = await communicator.receive_json_from()
-        data = response['data']
+        data = response['data']['games']
         self.assertEqual(len(data), len(games))
         # Close
         await communicator.disconnect()
@@ -38,11 +38,11 @@ class LobbyConsumerTests(TransactionTestCase):
     async def test_on_game_created(self):
         communicator = await self._setUpData()
         response = await communicator.receive_json_from()
-        data = response['data']
+        data = response['data']['games']
         self.assertEqual(len(data), 0)
         new_game = await self._create_games(1)
         new_response = await communicator.receive_json_from()
-        data = new_response['data']
+        data = new_response['data']['games']
         self.assertEqual(len(data), 1)
         self.assertEqual(data[0]['id'], new_game[0].id)
         await communicator.disconnect()

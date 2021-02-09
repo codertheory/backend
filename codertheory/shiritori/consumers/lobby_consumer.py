@@ -21,7 +21,7 @@ class LobbyConsumer(JsonWebsocketConsumer):
         games_data = serializers.GameSerializer(games, many=True)
         self.send_json({
             "type": type,
-            "data": games_data.data
+            "data": {"games": games_data.data}
         })
 
     def game_created(self, event):
