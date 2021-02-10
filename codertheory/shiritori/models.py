@@ -126,6 +126,10 @@ class ShiritoriGame(BaseModel):
         filter_args = order_wrt.get_forward_related_filter(self)
         return ShiritoriPlayer.objects.filter(**filter_args)
 
+    @property
+    def host(self) -> QuerySet["ShiritoriPlayer"]:
+        return self.players.first()
+
 
 class ShiritoriPlayer(BaseModel):
     name = models.CharField(max_length=512)

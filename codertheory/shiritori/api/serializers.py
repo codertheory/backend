@@ -12,11 +12,12 @@ __all__ = (
 class PlayerSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.ShiritoriPlayer
-        fields = ("id","name", "score", "lives")
+        fields = ("id", "name", "score", "lives")
 
 
 class GameSerializer(serializers.ModelSerializer):
     players = PlayerSerializer(many=True, read_only=True)
+    host = PlayerSerializer(read_only=True)
 
     class Meta:
         model = models.ShiritoriGame

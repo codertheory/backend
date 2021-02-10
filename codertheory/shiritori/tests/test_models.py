@@ -138,3 +138,11 @@ class ShiritoriModelTests(TestCase):
         current_player_id = str(self.game.current_player.id)
         self.game.take_turn("unknown")
         self.assertNotEqual(current_player_id, self.game.current_player.id)
+
+    def test_user_is_host(self):
+        self.assertEqual(self.game.host,self.player_one)
+
+    def test_host_is_changed_when_user_leaves(self):
+        new_player = factories.PlayerFactory(game=self.game)
+        self.player_one.delete()
+        self.assertEqual(self.game.host,new_player)
