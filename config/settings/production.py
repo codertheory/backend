@@ -157,3 +157,7 @@ CHANNEL_LAYERS = {
         },
     },
 }
+CORS_ORIGIN_WHITELIST += [
+    "http://shiritori.codertheory.dev",
+    "https://siritori.codertheory.dev"
+]
