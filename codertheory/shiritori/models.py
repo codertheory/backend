@@ -25,7 +25,6 @@ def random_letter_generator():
 # Create your models here.
 
 class ShiritoriGame(BaseModel):
-    name = models.CharField(max_length=512)
     password = models.CharField(max_length=5, blank=True, null=True)
     started = models.BooleanField(default=False)
     current_player: Optional["ShiritoriPlayer"] = models.ForeignKey("ShiritoriPlayer", on_delete=models.CASCADE,

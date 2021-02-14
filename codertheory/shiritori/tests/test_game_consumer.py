@@ -5,7 +5,7 @@ from channels.testing import WebsocketCommunicator
 from django.test import TransactionTestCase
 
 from codertheory.shiritori.events import ShiritoriEvents
-from codertheory.shiritori.factories import *
+from codertheory.shiritori.tests.factories import *
 from codertheory.shiritori.models import *
 from config.websocket import router
 

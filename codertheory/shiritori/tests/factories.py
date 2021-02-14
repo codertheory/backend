@@ -1,14 +1,15 @@
 import factory
 
 from codertheory.shiritori import models
+from codertheory.utils.generator import generate_id
 
 
 class GameFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = models.ShiritoriGame
-        django_get_or_create = ("name",)
+        django_get_or_create = ("id",)
 
-    name = factory.Faker("name")
+    id = factory.LazyFunction(lambda: generate_id())
     last_word = "bar"
 
 
