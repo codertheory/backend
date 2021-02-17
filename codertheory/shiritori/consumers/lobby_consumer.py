@@ -34,7 +34,5 @@ class LobbyConsumer(JsonWebsocketConsumer):
     def game_started(self, event):
         self.send_json({
             "type": event['type'],
-            "data": {
-                "id": event['game']
-            }
+            "data": event['game']
         })
