@@ -16,28 +16,24 @@ def send_data_to_channel(name: str, data: dict):
 
 
 @receiver(signals.post_save, sender=models.ShiritoriGame)
-def on_game_save(sender: type, instance: models.ShiritoriGame, created: bool, **kwargs):
+def on_game_save(instance: models.ShiritoriGame, created: bool, **kwargs):
+    data = {
+        "game": GameSerializer(instance).data
+    }
     if created:
         # noinspection PyTypeChecker
-        data = {
-            "type": ShiritoriEvents.GameCreated,
-        }
+        data['type'] = ShiritoriEvents.GameCreated
     elif instance.started:
-        data = {
-            "type": ShiritoriEvents.GameStarted,
-            "game": instance.id
-        }
+        data['type'] = ShiritoriEvents.GameStarted
     else:
-        data = {
-            "type": ShiritoriEvents.GameUpdated,
-            "game": GameSerializer(instance).data
-        }
+        data['type'] = ShiritoriEvents.GameUpdated
+
     send_data_to_channel("lobby", data)
     send_data_to_channel(instance.id, data)
 
 
 @receiver(signals.post_delete, sender=models.ShiritoriGame)
-def on_game_delete(sender: type, instance: models.ShiritoriGame, using: str, **kwargs):
+def on_game_delete(instance: models.ShiritoriGame, using: str, **kwargs):
     data = {
         "type": ShiritoriEvents.GameDeleted
     }
@@ -46,7 +42,7 @@ def on_game_delete(sender: type, instance: models.ShiritoriGame, using: str, **k
 
 
 @receiver(signals.post_save, sender=models.ShiritoriPlayer)
-def on_player_save(sender: type, instance: models.ShiritoriPlayer, created: bool, **kwargs):
+def on_player_save(instance: models.ShiritoriPlayer, created: bool, **kwargs):
     data = {
         "type": ShiritoriEvents.GameUpdated,
         "game": GameSerializer(instance.game).data
@@ -55,7 +51,7 @@ def on_player_save(sender: type, instance: models.ShiritoriPlayer, created: bool
 
 
 @receiver(signals.post_delete, sender=models.ShiritoriPlayer)
-def on_player_delete(sender: type, instance: models.ShiritoriPlayer, using: str, **kwargs):
+def on_player_delete(instance: models.ShiritoriPlayer, using: str, **kwargs):
     data = {
         "type": ShiritoriEvents.GameUpdated,
         "game": GameSerializer(instance.game).data
@@ -64,7 +60,7 @@ def on_player_delete(sender: type, instance: models.ShiritoriPlayer, using: str,
 
 
 @receiver(signals.post_save, sender=models.ShiritoriGameWord)
-def on_word_save(sender: type, instance: models.ShiritoriGameWord, created: bool, **kwargs):
+def on_word_save(instance: models.ShiritoriGameWord, created: bool, **kwargs):
     if created:
         data = {
             "type": ShiritoriEvents.TurnTaken,
