@@ -37,7 +37,7 @@ class GameModelViewSet(viewsets.ModelViewSet):
         return self.create(request, **kwargs)
 
     @action(name="join", url_name="join", url_path="join", methods=['post'], detail=True,
-            permission_classes=[GamePasswordPermission],
+            permission_classes=[CanJoinGamePermission],
             authentication_classes=[])
     def join_game(self, request, pk=None):
         player_name = request.data.get("name")

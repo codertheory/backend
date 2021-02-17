@@ -4,7 +4,7 @@ from rest_framework.generics import get_object_or_404
 from . import models
 
 __all__ = (
-    "GamePasswordPermission",
+    "CanJoinGamePermission",
     "GameCanStartPermission",
     "GameCurrentPlayerPermission",
     "GameHasStartedPermission",
@@ -12,15 +12,15 @@ __all__ = (
 )
 
 
-class GamePasswordPermission(permissions.BasePermission):
+class CanJoinGamePermission(permissions.BasePermission):
 
     def has_permission(self, request, view):
         password = request.data.get('password', "")
         pk = view.kwargs.get(view.lookup_url_kwarg)
         view.game = get_object_or_404(models.ShiritoriGame, pk=pk)
         if view.game.password:
-            return password == view.game.password
-        return True
+            return password == view.game.password and not view.game.started
+        return view.game.started
 
 
 class GameCanStartPermission(permissions.BasePermission):

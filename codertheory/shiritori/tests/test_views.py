@@ -28,6 +28,15 @@ class ShiritoriViewTests(APITestCase):
         response = self.client.post(url, data)
         self.assertEqual(response.status_code, 202)
 
+    def test_join_game_already_started(self):
+        self.game.save(update_fields={"started": True})
+        url = reverse("api:api_version_1:shiritori_game-join", kwargs={"pk": self.game.id})
+        data = {
+            "name": "foobar"
+        }
+        response = self.client.post(url, data)
+        self.assertEqual(response.status_code, 403)
+
     def test_leave_game(self):
         player = self.game.join("foobar")
         url = reverse("api:api_version_1:shiritori_game-leave", kwargs={"pk": player.game.id})
@@ -45,6 +54,12 @@ class ShiritoriViewTests(APITestCase):
         self.assertEqual(response.status_code, 200)
         self.game.refresh_from_db()
         self.assertTrue(self.game.started)
+
+    def test_start_game_already_started(self):
+        self.game.save(update_fields={"started": True})
+        url = reverse("api:api_version_1:shiritori_game-start", kwargs={"pk": self.game.id})
+        response = self.client.post(url)
+        self.assertEqual(response.status_code, 403)
 
     def test_finish_game(self):
         self.game.start()
