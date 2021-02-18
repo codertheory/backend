@@ -20,7 +20,7 @@ class CanJoinGamePermission(permissions.BasePermission):
         view.game = get_object_or_404(models.ShiritoriGame, pk=pk)
         if view.game.password:
             return password == view.game.password and not view.game.started
-        return view.game.started
+        return not view.game.started
 
 
 class GameCanStartPermission(permissions.BasePermission):

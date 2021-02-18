@@ -39,6 +39,7 @@ class ShiritoriGame(BaseModel):
 
     def start(self):
         self.started = True
+        self.current_player = random.choice(self.players.all())
         self.save()
 
     def is_current_player(self, player_id) -> bool:
@@ -64,7 +65,7 @@ class ShiritoriGame(BaseModel):
         queryset = ShiritoriGameWord.objects.filter(game=self, word=word)
         return not queryset.exists()
 
-    def is_valid_word(self, word) -> bool:
+    def validate_word(self, word) -> bool:
         if not self.is_real_word(word):
             raise exceptions.NotRealWordException(word)
         if not self.word_uses_last_letter(word):
@@ -79,7 +80,7 @@ class ShiritoriGame(BaseModel):
 
     def take_turn(self, word: str) -> "ShiritoriPlayer":
         try:
-            if self.is_valid_word(word):
+            if self.validate_word(word):
                 word_score = self.calculate_word_score(word)
                 ShiritoriGameWord.objects.create(
                     word=word.lower(), game=self, player=self.current_player
@@ -96,6 +97,9 @@ class ShiritoriGame(BaseModel):
             if self.current_player.is_dead:
                 self.select_next_player()
             return self.current_player
+        finally:
+            if not self.finished:
+                self.save()
 
     def select_next_player(self):
         self.current_player = self.get_next_player()
@@ -147,6 +151,14 @@ class ShiritoriPlayer(BaseModel):
     def is_dead(self):
         return self.lives == 0
 
+    @property
+    def is_current(self):
+        return self == self.game.current_player
+
+    @property
+    def words(self):
+        return ShiritoriGameWord.objects.filter(game=self.game, player=self)
+
     def update_points(self, points: int):
         self.score -= points
         self.save()
@@ -160,6 +172,10 @@ class ShiritoriGameWord(BaseModel):
     word = models.CharField(max_length=512)
     game: "ShiritoriGame" = models.ForeignKey(ShiritoriGame, on_delete=models.CASCADE)
     player: "ShiritoriPlayer" = models.ForeignKey(ShiritoriPlayer, on_delete=models.DO_NOTHING)
+
+    @property
+    def score(self):
+        return ShiritoriGame.calculate_word_score(self.word)
 
     class Meta:
         constraints = [

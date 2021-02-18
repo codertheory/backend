@@ -8,6 +8,7 @@ from codertheory.shiritori import models
 
 @admin.register(models.ShiritoriGame)
 class ShiritoriGameAdmin(admin.ModelAdmin):
+    # TODO limit current_player and winner to only valid Player instances
     pass
 
 
@@ -17,5 +18,5 @@ class ShiritoriPlayerAdmin(admin.ModelAdmin):
 
 
 @admin.register(models.ShiritoriGameWord)
-class ShiritoriGameWord(admin.ModelAdmin):
+class ShiritoriGameWordAdmin(admin.ModelAdmin):
     pass

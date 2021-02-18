@@ -75,10 +75,10 @@ class ShiritoriModelTests(TestCase):
         self.assertFalse(self.game.word_not_already_used("foo"))
 
     def test_is_valid_word_not_real_word_exception(self):
-        self.assertRaises(exceptions.NotRealWordException, lambda: self.game.is_valid_word("helo"))
+        self.assertRaises(exceptions.NotRealWordException, lambda: self.game.validate_word("helo"))
 
     def test_is_valid_word_word_doesnt_start_with_last_letter_exception(self):
-        self.assertRaises(exceptions.WordDoesntStartWithLastLetterException, lambda: self.game.is_valid_word("Hello"))
+        self.assertRaises(exceptions.WordDoesntStartWithLastLetterException, lambda: self.game.validate_word("Hello"))
 
     def test_is_valid_word_word_already_used_exception(self):
         factories.GameWordFactory(
@@ -86,7 +86,7 @@ class ShiritoriModelTests(TestCase):
             game=self.game,
             player=self.player_one
         )
-        self.assertRaises(exceptions.WordAlreadyUsedException, lambda: self.game.is_valid_word("radio"))
+        self.assertRaises(exceptions.WordAlreadyUsedException, lambda: self.game.validate_word("radio"))
 
     def test_calculate_word_score(self):
         word_score = self.game.calculate_word_score("foo")
