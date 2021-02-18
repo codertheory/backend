@@ -104,20 +104,23 @@ class ShiritoriModelTests(TestCase):
     def test_take_turn_check_lives(self):
         self.assertEqual(self.player_one.lives, 3)
         word = "air"
-        new_player_one = self.game.take_turn(word)
-        self.assertEqual(new_player_one.lives, 2)
+        self.game.take_turn(word)
+        self.player_one.refresh_from_db()
+        self.assertEqual(self.player_one.lives, 2)
 
     def test_take_turn_win_game(self):
         self.game.last_word = "beautiful"
         self.game.current_player.score = 5
-        winner_updated = self.game.take_turn("landscaping")
+        self.game.take_turn("landscaping")
+        self.game.current_player.refresh_from_db()
         self.assertTrue(self.game.finished)
-        self.assertLessEqual(winner_updated.score, 0)
+        self.assertLessEqual(self.game.current_player.score, 0)
 
     def test_take_turn_lose_live(self):
         self.assertEqual(self.player_one.lives, 3)
-        updated_player = self.game.take_turn("blah")
-        self.assertEqual(updated_player.lives, 2)
+        self.game.take_turn("blah")
+        self.player_one.refresh_from_db()
+        self.assertEqual(self.player_one.lives, 2)
 
     def test_finish(self):
         self.assertFalse(self.game.finished)

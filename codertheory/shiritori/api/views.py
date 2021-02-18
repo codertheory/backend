@@ -73,13 +73,10 @@ class GameModelViewSet(viewsets.ModelViewSet):
     def take_game_turn(self, request, pk=None):
         word: str = request.data.get('word', "")
         try:
-            player = self.game.take_turn(word)
-            if player:
-                return Response(status=status.HTTP_200_OK, data=serializers.PlayerSerializer(player).data)
-            else:
-                raise Exception()
+            self.game.take_turn(word)
+            return Response(status=status.HTTP_200_OK)
         except exceptions.GameException as error:
-            return Response(status=status.HTTP_400_BAD_REQUEST, data={"response": str(error)})
+            return Response(status=status.HTTP_400_BAD_REQUEST, data={"error": str(error)})
         except Exception as error:
             print(error)
             return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR, data={"error": str(error)})

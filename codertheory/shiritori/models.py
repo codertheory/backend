@@ -1,6 +1,6 @@
+import itertools
 import random
 import string
-import typing
 from typing import Optional
 
 import enchant
@@ -36,11 +36,12 @@ class ShiritoriGame(BaseModel):
     winner: Optional["ShiritoriPlayer"] = models.ForeignKey("ShiritoriPlayer", on_delete=models.CASCADE, blank=True,
                                                             null=True,
                                                             related_name="game_winner")
+    player_index = models.PositiveSmallIntegerField(default=0)
 
     def start(self):
         if self.players.count() >= 2:
             self.started = True
-            self.current_player = random.choice(self.players.all())
+            self.current_player = self.players[0]
             self.save()
         else:
             raise exceptions.GameCannotStartException(self)
@@ -71,18 +72,18 @@ class ShiritoriGame(BaseModel):
     def validate_word(self, word) -> bool:
         if not self.is_real_word(word):
             raise exceptions.NotRealWordException(word)
-        if not self.word_uses_last_letter(word):
-            raise exceptions.WordDoesntStartWithLastLetterException(word)
         if not self.word_not_already_used(word):
             raise exceptions.WordAlreadyUsedException(word)
+        if not self.word_uses_last_letter(word):
+            raise exceptions.WordDoesntStartWithLastLetterException(word)
+
         return True
 
     @staticmethod
     def calculate_word_score(word: str):
         return round(len(word) * 1.25)
 
-    def take_turn(self, word: str) -> "ShiritoriPlayer":
-        # TODO Remake function to handle new way of dispatching websockets
+    def take_turn(self, word: str):
         try:
             if self.validate_word(word):
                 word_score = self.calculate_word_score(word)
@@ -95,19 +96,16 @@ class ShiritoriGame(BaseModel):
                     self.finish()
                 else:
                     self.select_next_player()
-                return self.current_player
         except exceptions.PenaltyException:
             self.current_player.lose_life()
             if self.current_player.is_dead:
                 self.select_next_player()
-            return self.current_player
-        finally:
+        else:
             if not self.finished:
                 self.save()
 
     def select_next_player(self):
         self.current_player = self.get_next_player()
-        self.save()
 
     def finish(self):
         self.finished = True
@@ -115,15 +113,12 @@ class ShiritoriGame(BaseModel):
         self.save()
 
     def get_next_player(self):
-        player: typing.Optional["ShiritoriPlayer"] = self.current_player.get_next_in_order()
-        while player.is_dead and player != self.current_player:
-            player = player.get_next_in_order()
-        return player
-
-    def get_previous_player(self):
-        player: typing.Optional["ShiritoriPlayer"] = self.current_player.get_previous_in_order()
-        while player.is_dead and player != self.current_player:
-            player = self.get_previous_in_order()
+        player_count = self.players.count()
+        if self.player_index > player_count and (self.player_index + 1) > player_count:
+            self.player_index = 0
+        else:
+            self.player_index += 1
+        player = next(itertools.islice(itertools.cycle(self.players), self.player_index, None))
         return player
 
     @property
