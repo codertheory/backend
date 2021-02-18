@@ -38,9 +38,12 @@ class ShiritoriGame(BaseModel):
                                                             related_name="game_winner")
 
     def start(self):
-        self.started = True
-        self.current_player = random.choice(self.players.all())
-        self.save()
+        if self.players.count() >= 2:
+            self.started = True
+            self.current_player = random.choice(self.players.all())
+            self.save()
+        else:
+            raise exceptions.GameCannotStartException(self)
 
     def is_current_player(self, player_id) -> bool:
         return player_id == self.current_player_id
@@ -79,6 +82,7 @@ class ShiritoriGame(BaseModel):
         return round(len(word) * 1.25)
 
     def take_turn(self, word: str) -> "ShiritoriPlayer":
+        # TODO Remake function to handle new way of dispatching websockets
         try:
             if self.validate_word(word):
                 word_score = self.calculate_word_score(word)

@@ -17,6 +17,7 @@ class ShiritoriModelTests(TestCase):
         self.game.current_player: models.ShiritoriPlayer = self.player_one
 
     def test_start_game(self):
+        factories.PlayerFactory(game=self.player_one.game)
         self.assertFalse(self.game.started)
         self.game.start()
         self.assertTrue(self.game.started)
@@ -140,9 +141,9 @@ class ShiritoriModelTests(TestCase):
         self.assertNotEqual(current_player_id, self.game.current_player.id)
 
     def test_user_is_host(self):
-        self.assertEqual(self.game.host,self.player_one)
+        self.assertEqual(self.game.host, self.player_one)
 
     def test_host_is_changed_when_user_leaves(self):
         new_player = factories.PlayerFactory(game=self.game)
         self.player_one.delete()
-        self.assertEqual(self.game.host,new_player)
+        self.assertEqual(self.game.host, new_player)

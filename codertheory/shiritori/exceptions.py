@@ -36,3 +36,9 @@ class WordAlreadyUsedException(PenaltyException):
     def __init__(self, word):
         self.word = word
         super(WordAlreadyUsedException, self).__init__(word, f"{word} Already used this game")
+
+
+class GameCannotStartException(GameException):
+    def __init__(self, game):
+        self.game = game
+        super(GameCannotStartException, self).__init__(f"{game} - Cannot start")

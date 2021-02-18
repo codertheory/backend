@@ -62,6 +62,7 @@ class ShiritoriViewTests(APITestCase):
         self.assertEqual(response.status_code, 403)
 
     def test_finish_game(self):
+        factories.PlayerFactory.create_batch(2, game=self.game)
         self.game.start()
         url = reverse("api:api_version_1:shiritori_game-finish", kwargs={"pk": self.game.id})
         response = self.client.post(url)
