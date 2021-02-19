@@ -98,27 +98,20 @@ class ShiritoriModelTests(TestCase):
         factories.PlayerFactory(game=self.game)
         self.assertEqual(self.player_one.score, 100)
         word = "radio"
-        self.game.take_turn(word)
+        self.game.take_turn(word,raise_exception=False)
         self.assertLess(self.player_one.score, 100)
-
-    def test_take_turn_check_lives(self):
-        self.assertEqual(self.player_one.lives, 3)
-        word = "air"
-        self.game.take_turn(word)
-        self.player_one.refresh_from_db()
-        self.assertEqual(self.player_one.lives, 2)
 
     def test_take_turn_win_game(self):
         self.game.last_word = "beautiful"
         self.game.current_player.score = 5
-        self.game.take_turn("landscaping")
+        self.game.take_turn("landscaping",raise_exception=False)
         self.game.current_player.refresh_from_db()
         self.assertTrue(self.game.finished)
         self.assertLessEqual(self.game.current_player.score, 0)
 
     def test_take_turn_lose_live(self):
         self.assertEqual(self.player_one.lives, 3)
-        self.game.take_turn("blah")
+        self.game.take_turn("blah",raise_exception=False)
         self.player_one.refresh_from_db()
         self.assertEqual(self.player_one.lives, 2)
 
@@ -140,7 +133,7 @@ class ShiritoriModelTests(TestCase):
         factories.PlayerFactory(game=self.game)
         self.game.current_player.lives = 1
         current_player_id = str(self.game.current_player.id)
-        self.game.take_turn("unknown")
+        self.game.take_turn("unknown",raise_exception=False)
         self.assertNotEqual(current_player_id, self.game.current_player.id)
 
     def test_user_is_host(self):

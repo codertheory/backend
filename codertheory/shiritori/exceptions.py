@@ -12,7 +12,7 @@ class GameException(Exception):
 
 
 class PenaltyException(GameException):
-    def __init__(self, word, msg):
+    def __init__(self, word=None, msg=None):
         self.word = word
         super(PenaltyException, self).__init__(msg)
 
@@ -36,6 +36,11 @@ class WordAlreadyUsedException(PenaltyException):
     def __init__(self, word):
         self.word = word
         super(WordAlreadyUsedException, self).__init__(word, f"{word} Already used this game")
+
+
+class BlankInputGivenException(PenaltyException):
+    def __init__(self):
+        super(BlankInputGivenException, self).__init__(msg="No Input Given")
 
 
 class GameCannotStartException(GameException):

@@ -45,12 +45,12 @@ class GameModelViewSet(viewsets.ModelViewSet):
         player = self.game.join(player_name)
         return Response(status=status.HTTP_202_ACCEPTED, data=serializers.PlayerSerializer(player).data)
 
-    @action(name="leave", url_name="leave", url_path="leave", methods=['post'], detail=True,
-            permission_classes=[PlayerInGamePermission],
+    @action(name="leave", url_name="leave", url_path="leave", methods=['delete'], detail=True,
+            permission_classes=[],
             authentication_classes=[])
     def leave_game(self, request, pk=None):
         player = request.data.get('id')
-        self.game.leave(player)
+        models.ShiritoriGame.leave(player)
         return Response(status=status.HTTP_204_NO_CONTENT)
 
     @action(name="start", url_name="start", url_path="start", methods=['post'], detail=True,
@@ -68,8 +68,8 @@ class GameModelViewSet(viewsets.ModelViewSet):
         return Response(status=status.HTTP_200_OK)
 
     @action(name="take-turn", url_name="take-turn", url_path="take-turn", methods=['post'], detail=True,
-            permission_classes=[GameCurrentPlayerPermission],
-            authentication_classes=[])
+            permission_classes=[GameHasStartedPermission],
+            authentication_classes=[],throttle_classes=[])
     def take_game_turn(self, request, pk=None):
         word: str = request.data.get('word', "")
         try:
@@ -78,5 +78,4 @@ class GameModelViewSet(viewsets.ModelViewSet):
         except exceptions.GameException as error:
             return Response(status=status.HTTP_400_BAD_REQUEST, data={"error": str(error)})
         except Exception as error:
-            print(error)
             return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR, data={"error": str(error)})

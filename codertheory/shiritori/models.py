@@ -54,8 +54,9 @@ class ShiritoriGame(BaseModel):
             name=name, game=self
         )
 
-    def leave(self, player_id):
-        return ShiritoriPlayer.objects.get(game=self, id=player_id).delete()
+    @staticmethod
+    def leave(player_id):
+        return ShiritoriPlayer.objects.get(id=player_id).delete()
 
     @staticmethod
     def is_real_word(word: str) -> bool:
@@ -69,7 +70,9 @@ class ShiritoriGame(BaseModel):
         queryset = ShiritoriGameWord.objects.filter(game=self, word=word)
         return not queryset.exists()
 
-    def validate_word(self, word) -> bool:
+    def validate_word(self, word):
+        if not word:
+            raise exceptions.BlankInputGivenException()
         if not self.is_real_word(word):
             raise exceptions.NotRealWordException(word)
         if not self.word_not_already_used(word):
@@ -77,30 +80,31 @@ class ShiritoriGame(BaseModel):
         if not self.word_uses_last_letter(word):
             raise exceptions.WordDoesntStartWithLastLetterException(word)
 
-        return True
-
     @staticmethod
     def calculate_word_score(word: str):
         return round(len(word) * 1.25)
 
-    def take_turn(self, word: str):
+    def take_turn(self, word: str, *, raise_exception: bool = True):
         try:
-            if self.validate_word(word):
-                word_score = self.calculate_word_score(word)
-                ShiritoriGameWord.objects.create(
-                    word=word.lower(), game=self, player=self.current_player
-                )
-                self.current_player.update_points(word_score)
-                self.last_word = word
-                if self.current_player.score <= 0:
-                    self.finish()
-                else:
-                    self.select_next_player()
-        except exceptions.PenaltyException:
+            self.validate_word(word)
+            word_score = self.calculate_word_score(word)
+            ShiritoriGameWord.objects.create(
+                word=word.lower(), game=self, player=self.current_player
+            )
+            self.current_player.update_points(word_score)
+            self.last_word = word
+            if self.current_player.score <= 0:
+                self.finish()
+            else:
+                self.select_next_player()
+        except exceptions.PenaltyException as error:
             self.current_player.lose_life()
             if self.current_player.is_dead:
                 self.select_next_player()
-        else:
+            if not isinstance(error, exceptions.BlankInputGivenException):
+                if raise_exception:
+                    raise error
+        finally:
             if not self.finished:
                 self.save()
 

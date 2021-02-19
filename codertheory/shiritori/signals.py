@@ -66,5 +66,6 @@ def on_word_save(instance: models.ShiritoriGameWord, created: bool, **kwargs):
             "type": ShiritoriEvents.TurnTaken,
             "player": instance.player_id,
             "word": instance.word,
+            "game": GameSerializer(instance.game).data
         }
         send_data_to_channel(instance.game.id, data)

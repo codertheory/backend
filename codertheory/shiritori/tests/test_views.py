@@ -43,7 +43,7 @@ class ShiritoriViewTests(APITestCase):
         data = {
             "id": player.id
         }
-        response = self.client.post(url, data)
+        response = self.client.delete(url, data)
         self.assertEqual(response.status_code, 204)
 
     def test_start_game(self):
@@ -73,6 +73,8 @@ class ShiritoriViewTests(APITestCase):
     def test_take_game_turn(self):
         player = factories.PlayerFactory(game=self.game)
         self.game.current_player = player
+        self.game.last_word = "b"
+        self.game.started = True
         self.game.save()
         url = reverse("api:api_version_1:shiritori_game-take-turn", kwargs={"pk": self.game.id})
         data = {
