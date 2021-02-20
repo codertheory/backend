@@ -6,6 +6,7 @@ from typing import Optional
 import enchant
 from django.db import models
 from django.db.models import QuerySet
+from django.utils import timezone
 
 from codertheory.general.models import BaseModel
 from codertheory.shiritori import exceptions
@@ -37,11 +38,14 @@ class ShiritoriGame(BaseModel):
                                                             null=True,
                                                             related_name="game_winner")
     player_index = models.PositiveSmallIntegerField(default=0)
+    last_edited = models.DateTimeField(auto_now=True)
+    timer_expiry = models.DateTimeField(null=True)
 
     def start(self):
         if self.players.count() >= 2:
             self.started = True
             self.current_player = self.players[0]
+            self.timer_expiry = self.next_expiration
             self.save()
         else:
             raise exceptions.GameCannotStartException(self)
@@ -99,13 +103,13 @@ class ShiritoriGame(BaseModel):
                 self.select_next_player()
         except exceptions.PenaltyException as error:
             self.current_player.lose_life()
-            if self.current_player.is_dead:
-                self.select_next_player()
+            self.select_next_player()
             if not isinstance(error, exceptions.BlankInputGivenException):
                 if raise_exception:
                     raise error
         finally:
             if not self.finished:
+                self.timer_expiry = self.next_expiration
                 self.save()
 
     def select_next_player(self):
@@ -135,6 +139,18 @@ class ShiritoriGame(BaseModel):
     @property
     def host(self) -> QuerySet["ShiritoriPlayer"]:
         return self.players.first()
+
+    @property
+    def next_expiration(self):
+        return timezone.now() + timezone.timedelta(seconds=self.timer + 2)
+
+    @property
+    def seconds_until_expiration(self):
+        return int((self.next_expiration - timezone.now()).total_seconds())
+
+    @property
+    def is_timer_expired(self):
+        return self.next_expiration < timezone.now()
 
 
 class ShiritoriPlayer(BaseModel):

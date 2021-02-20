@@ -14,6 +14,8 @@ class ShiritoriEvents(Enum):
     PlayerUpdated = "player_updated"
     PlayerDeleted = "player_deleted"
     TurnTaken = "turn_taken"
+    TimerCountDown = "timer_countdown"
+    TimerFinished = "timer_finished"
 
     def __repr__(self):
         return self.value
