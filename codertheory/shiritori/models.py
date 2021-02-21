@@ -45,7 +45,7 @@ class ShiritoriGame(BaseModel):
         if self.players.count() >= 2:
             self.started = True
             self.current_player = self.players[0]
-            self.timer_expiry = self.next_expiration
+            self.timer_expiry = self.get_next_expiration()
             self.save()
         else:
             raise exceptions.GameCannotStartException(self)
@@ -109,7 +109,7 @@ class ShiritoriGame(BaseModel):
                     raise error
         finally:
             if not self.finished:
-                self.timer_expiry = self.next_expiration
+                self.timer_expiry = self.get_next_expiration()
                 self.save()
 
     def select_next_player(self):
@@ -129,6 +129,9 @@ class ShiritoriGame(BaseModel):
         player = next(itertools.islice(itertools.cycle(self.players), self.player_index, None))
         return player
 
+    def get_next_expiration(self):
+        return timezone.now() + timezone.timedelta(seconds=self.timer + 2)
+
     @property
     def players(self) -> QuerySet["ShiritoriPlayer"]:
         # noinspection PyUnresolvedReferences
@@ -141,16 +144,15 @@ class ShiritoriGame(BaseModel):
         return self.players.first()
 
     @property
-    def next_expiration(self):
-        return timezone.now() + timezone.timedelta(seconds=self.timer + 2)
-
-    @property
     def seconds_until_expiration(self):
-        return int((self.next_expiration - timezone.now()).total_seconds())
+        if self.timer_expiry:
+            return int((self.timer_expiry - timezone.now()).total_seconds())
+        else:
+            return 0
 
     @property
     def is_timer_expired(self):
-        return self.next_expiration < timezone.now()
+        return self.get_next_expiration() < timezone.now()
 
 
 class ShiritoriPlayer(BaseModel):

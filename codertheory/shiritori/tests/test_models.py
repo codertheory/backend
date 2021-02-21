@@ -1,7 +1,9 @@
+import time
 import uuid
 
 from django.db import IntegrityError
 from django.test import TestCase
+from django.utils import timezone
 
 from codertheory.shiritori import exceptions
 from codertheory.shiritori import models
@@ -143,3 +145,13 @@ class ShiritoriModelTests(TestCase):
         new_player = factories.PlayerFactory(game=self.game)
         self.player_one.delete()
         self.assertEqual(self.game.host, new_player)
+
+    def test_timeout_till_turn_end(self):
+        factories.PlayerFactory(game=self.game)
+        self.game.start()
+        current_time = timezone.now()
+        turn_timeout = self.game.get_next_expiration()
+        self.assertGreater(turn_timeout,current_time)
+        self.assertEqual(self.game.seconds_until_expiration,61)
+        self.game.take_turn("",raise_exception=False)
+        self.assertEqual(self.game.seconds_until_expiration,61)
