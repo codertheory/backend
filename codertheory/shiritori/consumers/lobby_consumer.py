@@ -36,3 +36,6 @@ class LobbyConsumer(JsonWebsocketConsumer):
             "type": event['type'],
             "data": event['game']
         })
+
+    def game_updated(self, event):
+        self._send_public_games(event['type'])
