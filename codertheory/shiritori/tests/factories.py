@@ -1,3 +1,5 @@
+from typing import Any, Sequence
+
 import factory
 
 from codertheory.shiritori import models
@@ -11,6 +13,14 @@ class GameFactory(factory.django.DjangoModelFactory):
 
     id = factory.LazyFunction(lambda: generate_id())
     last_word = "bar"
+
+    # noinspection PyAttributeOutsideInit
+    @factory.post_generation
+    def handle_start(self: models.ShiritoriGame, create: bool, extracted: Sequence[Any], **kwargs):
+        if self.started:
+            if self.players:
+                self.current_player = self.players[0]
+            self.timer_expiry = self.get_next_expiration()
 
 
 class PlayerFactory(factory.django.DjangoModelFactory):
