@@ -1,3 +1,5 @@
+import sys
+import traceback
 import typing
 
 from rest_framework import permissions
@@ -69,13 +71,17 @@ class GameModelViewSet(viewsets.ModelViewSet):
 
     @action(name="take-turn", url_name="take-turn", url_path="take-turn", methods=['post'], detail=True,
             permission_classes=[GameHasStartedPermission],
-            authentication_classes=[],throttle_classes=[])
+            authentication_classes=[], throttle_classes=[])
     def take_game_turn(self, request, pk=None):
         word: str = request.data.get('word', "")
         try:
             self.game.take_turn(word)
             return Response(status=status.HTTP_200_OK)
+        except exceptions.GameAlreadyFinishedException:
+            return Response(status=status.HTTP_406_NOT_ACCEPTABLE)
         except exceptions.GameException as error:
             return Response(status=status.HTTP_400_BAD_REQUEST, data={"error": str(error)})
         except Exception as error:
+            print('Ignoring exception in View {}:'.format(self), file=sys.stderr)
+            traceback.print_exception(type(error), error, error.__traceback__, file=sys.stderr)
             return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR, data={"error": str(error)})

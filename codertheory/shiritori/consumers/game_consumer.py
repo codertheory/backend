@@ -16,8 +16,14 @@ class GameConsumer(JsonWebsocketConsumer):
         game = self.scope['url_route']['kwargs']['game']
         async_to_sync(self.channel_layer.group_add)(game, self.channel_name)
         super(GameConsumer, self).websocket_connect(message)
+        try:
+            game = models.ShiritoriGame.objects.get(pk=game)
+            game_data = serializers.GameSerializer(game).data
+        except models.ShiritoriGame.DoesNotExist:
+            game_data = None
+        event_type = "connect" if game_data else "notFound"
         self.send_json(
-            {"type": "connect", "game": serializers.GameSerializer(models.ShiritoriGame.objects.get(pk=game)).data})
+            {"type": event_type, "game": game_data})
 
     def websocket_disconnect(self, message):
         game = self.scope['url_route']['kwargs']['game']

@@ -47,3 +47,7 @@ class GameCannotStartException(GameException):
     def __init__(self, game):
         self.game = game
         super(GameCannotStartException, self).__init__(f"{game} - Cannot start")
+
+
+class GameAlreadyFinishedException(GameException):
+    pass

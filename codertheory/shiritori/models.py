@@ -6,7 +6,6 @@ from typing import Optional
 import enchant
 from django.db import models
 from django.db.models import QuerySet
-from django.utils import timezone
 
 from codertheory.general.models import BaseModel
 from codertheory.shiritori import exceptions
@@ -45,7 +44,6 @@ class ShiritoriGame(BaseModel):
         if self.players.count() >= 2:
             self.started = True
             self.current_player = self.players[0]
-            self.timer_expiry = self.get_next_expiration()
             self.save()
         else:
             raise exceptions.GameCannotStartException(self)
@@ -89,6 +87,11 @@ class ShiritoriGame(BaseModel):
         return round(len(word) * 1.25)
 
     def take_turn(self, word: str, *, raise_exception: bool = True):
+        if self.finished:
+            if raise_exception:
+                raise exceptions.GameAlreadyFinishedException
+            else:
+                return
         try:
             self.validate_word(word)
             word_score = self.calculate_word_score(word)
@@ -102,20 +105,21 @@ class ShiritoriGame(BaseModel):
             else:
                 self.select_next_player()
         except exceptions.PenaltyException as error:
-            self.current_player.lose_life()
+            if self.current_player.lives > 0:
+                self.current_player.lose_life()
+                if not isinstance(error, exceptions.BlankInputGivenException):
+                    if raise_exception:
+                        raise error
             self.select_next_player()
-            if not isinstance(error, exceptions.BlankInputGivenException):
-                if raise_exception:
-                    raise error
         finally:
             if not self.finished:
-                self.timer_expiry = self.get_next_expiration()
                 self.save()
 
     def select_next_player(self):
         self.current_player = self.get_next_player()
 
     def finish(self):
+        self.started = True
         self.finished = True
         self.winner = self.current_player
         self.save()
@@ -129,9 +133,6 @@ class ShiritoriGame(BaseModel):
         player = next(itertools.islice(itertools.cycle(self.players), self.player_index, None))
         return player
 
-    def get_next_expiration(self):
-        return timezone.now() + timezone.timedelta(seconds=self.timer + 2)
-
     @property
     def players(self) -> QuerySet["ShiritoriPlayer"]:
         # noinspection PyUnresolvedReferences
@@ -144,15 +145,8 @@ class ShiritoriGame(BaseModel):
         return self.players.first()
 
     @property
-    def seconds_until_expiration(self):
-        if self.timer_expiry:
-            return int((self.timer_expiry - timezone.now()).total_seconds())
-        else:
-            return 0
-
-    @property
-    def is_timer_expired(self):
-        return self.get_next_expiration() < timezone.now()
+    def is_finished(self):
+        return all([self.finished,self.started])
 
 
 class ShiritoriPlayer(BaseModel):

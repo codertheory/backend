@@ -20,7 +20,6 @@ class GameFactory(factory.django.DjangoModelFactory):
         if self.started:
             if self.players:
                 self.current_player = self.players[0]
-            self.timer_expiry = self.get_next_expiration()
 
 
 class PlayerFactory(factory.django.DjangoModelFactory):

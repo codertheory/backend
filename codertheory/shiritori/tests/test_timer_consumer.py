@@ -37,21 +37,6 @@ class TimerConsumerTests(TransactionTestCase):
                 self.assertEqual(data['type'], ShiritoriEvents.TimerCountDown)
             elif data['type'] == ShiritoriEvents.TimerFinished:
                 break
-        self.assertEqual(len(counts), 5)
+        self.assertEqual(len(counts), game.timer + 1)
         # Close
-        await communicator.disconnect()
-
-    async def test_reconnect_shows_accurate_time(self):
-        communicator, game = await self._setup()
-        await asyncio.sleep(1)
-        await communicator.receive_json_from()
-
-        # Close
-        await communicator.disconnect()
-
-        await asyncio.sleep(1)
-        communicator = WebsocketCommunicator(router, f"ws/shiritori/game/{game.id}/timer")
-        await communicator.connect()
-        payload = await communicator.receive_json_from()
-        self.assertLessEqual(payload['data']['timer'], 1)
         await communicator.disconnect()
