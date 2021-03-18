@@ -113,6 +113,7 @@ LOCAL_APPS = [
     "codertheory.projects.apps.ProjectsConfig",
     "codertheory.iceteabot.apps.IceteabotConfig",
     "codertheory.shiritori.apps.ShiritoriConfig",
+    "codertheory.polls.apps.PollsConfig"
 
 ]
 # https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps

@@ -25,10 +25,11 @@ django_application = get_asgi_application()
 # application = HelloWorldApplication(application)
 
 # Import websocket application here, so apps from django_application are loaded first
-from config.websocket import application as websocket_application  # noqa isort:skip
+from config.websocket import application as websocket_application,channels  # noqa isort:skip
 from channels.routing import ProtocolTypeRouter
 
 application = ProtocolTypeRouter({
     "http": django_application,
     "websocket": websocket_application,
+    "channel": channels
 })

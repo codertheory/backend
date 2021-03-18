@@ -1,18 +1,10 @@
-from asgiref.sync import async_to_sync
-from channels.layers import get_channel_layer
 from django.db.models import signals
 from django.dispatch import receiver
 
 from codertheory.shiritori import models
 from codertheory.shiritori.api.serializers import *
 from codertheory.shiritori.events import ShiritoriEvents
-
-
-def send_data_to_channel(name: str, data: dict):
-    data['type'] = str(data['type'])
-    channel_layer = get_channel_layer()
-    coro = async_to_sync(channel_layer.group_send)
-    coro(name, data)
+from codertheory.utils.ws_utils import send_data_to_channel
 
 
 @receiver(signals.post_save, sender=models.ShiritoriGame)
@@ -23,8 +15,6 @@ def on_game_save(instance: models.ShiritoriGame, created: bool, **kwargs):
     if created:
         # noinspection PyTypeChecker
         data['type'] = ShiritoriEvents.GameCreated
-    elif instance.started:
-        data['type'] = ShiritoriEvents.GameStarted
     else:
         data['type'] = ShiritoriEvents.GameUpdated
 

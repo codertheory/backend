@@ -1,9 +1,7 @@
-from enum import Enum
-
-from graphene.utils.str_converters import to_snake_case
+from codertheory.utils.ws_utils import EventsEnum
 
 
-class ShiritoriEvents(Enum):
+class ShiritoriEvents(EventsEnum):
     LobbyCreated = "lobby_created"
     GameCreated = "game_created"
     GameUpdated = "game_updated"
@@ -16,15 +14,3 @@ class ShiritoriEvents(Enum):
     TurnTaken = "turn_taken"
     TimerCountDown = "timer_count_down"
     TimerFinished = "timer_finished"
-
-    def __repr__(self):
-        return self.value
-
-    def __str__(self):
-        return self.value
-
-    def __eq__(self, other):
-        if isinstance(other, str):
-            return str(self) == to_snake_case(other)
-        else:
-            return super(ShiritoriEvents, self).__eq__(other)

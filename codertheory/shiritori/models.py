@@ -9,6 +9,7 @@ from django.db.models import QuerySet
 
 from codertheory.general.models import BaseModel
 from codertheory.shiritori import exceptions
+from codertheory.shiritori.utils import send_start_game_event, send_finish_game_event
 
 __all__ = (
     "random_letter_generator",
@@ -20,6 +21,9 @@ __all__ = (
 
 def random_letter_generator():
     return random.choice(string.ascii_lowercase)
+
+
+TIMEOUT_POINTS_GAIN = 10
 
 
 # Create your models here.
@@ -38,15 +42,26 @@ class ShiritoriGame(BaseModel):
                                                             related_name="game_winner")
     player_index = models.PositiveSmallIntegerField(default=0)
     last_edited = models.DateTimeField(auto_now=True)
-    timer_expiry = models.DateTimeField(null=True)
 
-    def start(self):
-        if self.players.count() >= 2:
+    def start(self, *, ignore_count: bool = False):
+        if self.players.count() >= 2 or ignore_count:
             self.started = True
-            self.current_player = self.players[0]
-            self.save()
+            try:
+                self.current_player = self.players[0]
+            except IndexError:
+                pass
+            ShiritoriGame.objects.filter(id=self.id).update(started=self.started, current_player=self.current_player)
+            send_start_game_event(self)
         else:
             raise exceptions.GameCannotStartException(self)
+
+    def finish(self):
+        self.started = True
+        self.finished = True
+        self.winner = self.current_player
+        ShiritoriGame.objects.filter(id=self.id).update(started=self.started, finished=self.finished,
+                                                        winner=self.winner)
+        send_finish_game_event(self)
 
     def is_current_player(self, player_id) -> bool:
         return player_id == self.current_player_id
@@ -105,24 +120,18 @@ class ShiritoriGame(BaseModel):
             else:
                 self.select_next_player()
         except exceptions.PenaltyException as error:
-            if self.current_player.lives > 0:
-                self.current_player.lose_life()
-                if not isinstance(error, exceptions.BlankInputGivenException):
-                    if raise_exception:
-                        raise error
+            self.current_player.gain_points()
+            if not isinstance(error, exceptions.BlankInputGivenException):
+                if raise_exception:
+                    raise error
             self.select_next_player()
         finally:
             if not self.finished:
                 self.save()
 
     def select_next_player(self):
-        self.current_player = self.get_next_player()
-
-    def finish(self):
-        self.started = True
-        self.finished = True
-        self.winner = self.current_player
-        self.save()
+        next_player = self.get_next_player()
+        self.current_player = next_player
 
     def get_next_player(self):
         player_count = self.players.count()
@@ -146,14 +155,13 @@ class ShiritoriGame(BaseModel):
 
     @property
     def is_finished(self):
-        return all([self.finished,self.started])
+        return all([self.finished, self.started])
 
 
 class ShiritoriPlayer(BaseModel):
     name = models.CharField(max_length=512)
     score = models.IntegerField(default=100)
     game: Optional["ShiritoriGame"] = models.ForeignKey(ShiritoriGame, on_delete=models.CASCADE)
-    lives = models.PositiveSmallIntegerField(default=3)
 
     class Meta:
         constraints = [
@@ -161,10 +169,6 @@ class ShiritoriPlayer(BaseModel):
             models.UniqueConstraint(fields=["game", "id"], name="unique_player_per_game"),
         ]
         order_with_respect_to = "game"
-
-    @property
-    def is_dead(self):
-        return self.lives == 0
 
     @property
     def is_current(self):
@@ -178,8 +182,8 @@ class ShiritoriPlayer(BaseModel):
         self.score -= points
         self.save()
 
-    def lose_life(self):
-        self.lives -= 1
+    def gain_points(self):
+        self.score += TIMEOUT_POINTS_GAIN
         self.save()
 
 

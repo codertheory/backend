@@ -11,7 +11,7 @@ class GameFactory(factory.django.DjangoModelFactory):
         model = models.ShiritoriGame
         django_get_or_create = ("id",)
 
-    id = factory.LazyFunction(lambda: generate_id())
+    id = factory.LazyFunction(generate_id)
     last_word = "bar"
 
     # noinspection PyAttributeOutsideInit
@@ -30,7 +30,6 @@ class PlayerFactory(factory.django.DjangoModelFactory):
     name = factory.Faker("name")
     score = 100
     game = factory.SubFactory(GameFactory)
-    lives = 3
 
 
 class GameWordFactory(factory.django.DjangoModelFactory):

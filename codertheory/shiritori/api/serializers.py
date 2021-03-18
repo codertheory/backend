@@ -19,12 +19,11 @@ class GameWordSerializer(serializers.ModelSerializer):
 
 class PlayerSerializer(serializers.ModelSerializer):
     words = GameWordSerializer(many=True, read_only=True)
-    is_dead = serializers.BooleanField(read_only=True)
     is_current = serializers.BooleanField(read_only=True)
 
     class Meta:
         model = models.ShiritoriPlayer
-        fields = ("id", "name", "score", "lives", "words", "is_dead", "is_current")
+        fields = ("id", "name", "score", "words","is_current")
 
 
 class GameSerializer(serializers.ModelSerializer):

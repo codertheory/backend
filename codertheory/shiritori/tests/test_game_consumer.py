@@ -19,8 +19,7 @@ class GameConsumerTests(TransactionTestCase):
 
     @database_sync_to_async
     def _start_game(self, g):
-        g.started = True
-        g.save()
+        g.start(ignore_count=True)
 
     @database_sync_to_async
     def _join_game(self, g) -> typing.Awaitable[ShiritoriPlayer]:
