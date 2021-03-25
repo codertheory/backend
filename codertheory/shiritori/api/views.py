@@ -6,6 +6,7 @@ from rest_framework import permissions
 from rest_framework import status
 from rest_framework import viewsets
 from rest_framework.decorators import action
+from rest_framework.permissions import IsAdminUser
 from rest_framework.response import Response
 
 from codertheory.shiritori import models, exceptions
@@ -52,7 +53,11 @@ class GameModelViewSet(viewsets.ModelViewSet):
             authentication_classes=[])
     def leave_game(self, request, pk=None):
         player = request.data.get('id')
-        models.ShiritoriGame.leave(player)
+        try:
+            game = models.ShiritoriGame.objects.get(pk=pk)
+            game.leave(player)
+        except models.ShiritoriGame.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
         return Response(status=status.HTTP_204_NO_CONTENT)
 
     @action(name="start", url_name="start", url_path="start", methods=['post'], detail=True,
@@ -85,3 +90,12 @@ class GameModelViewSet(viewsets.ModelViewSet):
             print('Ignoring exception in View {}:'.format(self), file=sys.stderr)
             traceback.print_exception(type(error), error, error.__traceback__, file=sys.stderr)
             return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR, data={"error": str(error)})
+
+    @action(name='generate', url_name="generate", url_path="generate", methods=['post'],
+            permission_classes=[IsAdminUser], detail=False)
+    def generate_game(self, request):
+        game = models.ShiritoriGame.objects.create()
+        game.join("x")
+        game.join("y")
+        game.start()
+        return Response(status=status.HTTP_201_CREATED)

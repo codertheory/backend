@@ -8,7 +8,7 @@ class NanoIDField(models.CharField):
 
     def __init__(self, *args, **kwargs):
         kwargs['default'] = generate_id
-        kwargs['primary_key'] = True
+        kwargs['primary_key'] = kwargs.get('primary_key', True)
         kwargs['auto_created'] = True
         kwargs['editable'] = False
         kwargs['max_length'] = settings.SNOWFLAKE_SIZE

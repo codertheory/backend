@@ -3,7 +3,9 @@ from codertheory.utils.ws_utils import send_data_to_channel
 
 __all__ = (
     "send_start_game_event",
-    "send_finish_game_event"
+    "send_finish_game_event",
+    "send_turn_taken_event",
+    "send_player_joined_or_left_event"
 )
 
 
@@ -19,15 +21,15 @@ def send_game_event(game, event):
 
 def send_start_game_event(game):
     send_game_event(game, ShiritoriEvents.GameStarted)
-    send_data_to_channel("timer", {
-        "type": "start",
-        "game_id": game.id
-    })
 
 
 def send_finish_game_event(game):
     send_game_event(game, ShiritoriEvents.GameFinished)
-    send_data_to_channel("timer", {
-        "type": "finish",
-        "game_id": game.id
-    })
+
+
+def send_turn_taken_event(game):
+    send_game_event(game, ShiritoriEvents.TurnTaken)
+
+
+def send_player_joined_or_left_event(game):
+    send_game_event(game, ShiritoriEvents.GameUpdated)

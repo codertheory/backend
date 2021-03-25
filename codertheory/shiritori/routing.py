@@ -9,5 +9,4 @@ __all__ = (
 websocket_urlpatterns = [
     path("ws/shiritori/lobby", consumers.LobbyConsumer.as_asgi()),
     path("ws/shiritori/game/<slug:game>", consumers.GameConsumer.as_asgi()),
-    path("ws/shiritori/game/<slug:game>/timer", consumers.TimerConsumer.as_asgi())
 ]

@@ -14,3 +14,4 @@ class ShiritoriEvents(EventsEnum):
     TurnTaken = "turn_taken"
     TimerCountDown = "timer_count_down"
     TimerFinished = "timer_finished"
+    Unknown = "unknown"

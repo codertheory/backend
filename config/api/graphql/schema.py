@@ -4,6 +4,12 @@ from codertheory.projects.graphql.mutations import ProjectMutation
 from codertheory.projects.graphql.queries import ProjectQuery
 from codertheory.users.graphql.query import UserQuery
 
+__all__ = (
+    "Query",
+    "Mutations",
+    "schema"
+)
+
 
 # noinspection PyMethodMayBeStatic
 class Query(

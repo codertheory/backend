@@ -467,7 +467,10 @@ SWAGGER_SETTINGS = {
 ASGI_APPLICATION = "config.asgi.application"
 CHANNEL_LAYERS = {
     "default": {
-        "BACKEND": "channels.layers.InMemoryChannelLayer"
+        "BACKEND": "channels_redis.core.RedisChannelLayer",
+        "CONFIG": {
+            "hosts": [("localhost", 6379)],
+        },
     }
 }
 
@@ -478,7 +481,7 @@ SNOWFLAKE_SIZE = 10
 # Graphene
 # ------------------------------------------------------------------------------
 GRAPHENE = {
-    'SCHEMA': 'config.schema.schema',  # Where your Graphene schema lives,
+    'SCHEMA': 'config.api.graphql.schema',  # Where your Graphene schema lives,
     'DJANGO_CHOICE_FIELD_ENUM_V3_NAMING': True,
 }
 

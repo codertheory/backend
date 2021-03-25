@@ -18,7 +18,7 @@ class LobbyConsumerTests(TransactionTestCase):
 
     @database_sync_to_async
     def save_game(self, g):
-        g.start(ignore_count=True)
+        g.game_started()
 
     async def _setUpData(self):
         communicator = WebsocketCommunicator(router, "ws/shiritori/lobby")

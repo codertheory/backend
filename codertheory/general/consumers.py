@@ -12,7 +12,8 @@ class AbstractConsumer:
     def target_id(self):
         return self.scope['url_route']['kwargs'][self.url_kwarg]
 
-    def _clean_json(self, content):
+    @staticmethod
+    def _clean_json(content):
         data = {
             "type": to_camel_case(str(content.pop('type', ""))),
             "data": content
@@ -20,7 +21,7 @@ class AbstractConsumer:
         return data
 
 
-class EntityJsonConsumer(AbstractConsumer, JsonWebsocketConsumer, ):
+class EntityJsonConsumer(AbstractConsumer, JsonWebsocketConsumer):
 
     def get_model(self):
         return self.queryset.get(pk=self.target_id)
@@ -37,7 +38,7 @@ class EntityJsonConsumer(AbstractConsumer, JsonWebsocketConsumer, ):
         super(EntityJsonConsumer, self).websocket_disconnect(message)
 
 
-class AsyncEntityJsonConsumer(AsyncJsonWebsocketConsumer, AbstractConsumer):
+class AsyncEntityJsonConsumer(AbstractConsumer,AsyncJsonWebsocketConsumer):
 
     @async_to_sync
     def get_model(self):

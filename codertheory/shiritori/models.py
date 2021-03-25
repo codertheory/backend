@@ -9,7 +9,7 @@ from django.db.models import QuerySet
 
 from codertheory.general.models import BaseModel
 from codertheory.shiritori import exceptions
-from codertheory.shiritori.utils import send_start_game_event, send_finish_game_event
+from codertheory.shiritori.utils import *
 
 __all__ = (
     "random_letter_generator",
@@ -36,7 +36,7 @@ class ShiritoriGame(BaseModel):
                                                                     related_name="current_player_game")
     last_word = models.CharField(max_length=512, null=True, default=random_letter_generator)
     finished = models.BooleanField(default=False)
-    timer = models.PositiveSmallIntegerField(default=60)
+    timer = models.PositiveSmallIntegerField(default=10)
     winner: Optional["ShiritoriPlayer"] = models.ForeignKey("ShiritoriPlayer", on_delete=models.CASCADE, blank=True,
                                                             null=True,
                                                             related_name="game_winner")
@@ -67,13 +67,16 @@ class ShiritoriGame(BaseModel):
         return player_id == self.current_player_id
 
     def join(self, name) -> "ShiritoriPlayer":
-        return ShiritoriPlayer.objects.create(
+        new_player = ShiritoriPlayer.objects.create(
             name=name, game=self
         )
+        send_player_joined_or_left_event(self)
+        return new_player
 
-    @staticmethod
-    def leave(player_id):
-        return ShiritoriPlayer.objects.get(id=player_id).delete()
+    def leave(self,player_id):
+        old_player = ShiritoriPlayer.objects.filter(id=player_id).delete()
+        send_player_joined_or_left_event(self)
+        return old_player
 
     @staticmethod
     def is_real_word(word: str) -> bool:
@@ -101,7 +104,7 @@ class ShiritoriGame(BaseModel):
     def calculate_word_score(word: str):
         return round(len(word) * 1.25)
 
-    def take_turn(self, word: str, *, raise_exception: bool = True):
+    def take_turn(self, word: str = None, *, raise_exception: bool = True):
         if self.finished:
             if raise_exception:
                 raise exceptions.GameAlreadyFinishedException
@@ -128,6 +131,7 @@ class ShiritoriGame(BaseModel):
         finally:
             if not self.finished:
                 self.save()
+                send_turn_taken_event(self)
 
     def select_next_player(self):
         next_player = self.get_next_player()

@@ -25,9 +25,9 @@ class EventsEnum(Enum):
             return super(EventsEnum, self).__eq__(other)
 
 
-def send_data_to_channel(name: str, data: dict):
+def send_data_to_channel(name: str, data: dict, *, group_send: bool = True):
     if "type" in data:
         data['type'] = str(data['type'])
     channel_layer = get_channel_layer()
-    coro = async_to_sync(channel_layer.group_send)
+    coro = async_to_sync(channel_layer.group_send if group_send else channel_layer.send)
     coro(name, data)
