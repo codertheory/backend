@@ -19,11 +19,11 @@ class GameConsumerTests(TransactionTestCase):
 
     @database_sync_to_async
     def _start_game(self, g):
-        g.game_started()
+        g.start(ignore_count=True)
 
     @database_sync_to_async
     def _join_game(self, g) -> typing.Awaitable[ShiritoriPlayer]:
-        return PlayerFactory(game=g)
+        return g.join("foobar")
 
     @database_sync_to_async
     def _update_player(self, p: ShiritoriPlayer):
@@ -32,11 +32,11 @@ class GameConsumerTests(TransactionTestCase):
 
     @database_sync_to_async
     def _leave_game(self, p: ShiritoriPlayer):
-        p.delete()
+        p.leave()
 
     @database_sync_to_async
     def _take_turn(self, p: ShiritoriPlayer) -> typing.Awaitable[ShiritoriGameWord]:
-        return GameWordFactory(player=p, game=p.game)
+        return p.game.take_turn(raise_exception=False)
 
     async def _setup(self) -> typing.Tuple[WebsocketCommunicator, ShiritoriGame]:
         game = await self._create_game()
@@ -65,28 +65,15 @@ class GameConsumerTests(TransactionTestCase):
         # Close
         await communicator.disconnect()
 
-    async def test_on_player_updated(self):
-        communicator, game = await self._setup()
-        player = await self._join_game(game)
-        await communicator.receive_json_from()
-        await self._update_player(player)
-        data = await communicator.receive_json_from()
-        self.assertEqual(data['type'], ShiritoriEvents.GameUpdated)
-
-        # Close
-        await communicator.disconnect()
-
     async def test_on_player_left(self):
         communicator, game = await self._setup()
         player = await self._join_game(game)
-        player_id = str(player.id)
-        await communicator.receive_json_from()
+        r = await communicator.receive_json_from()
         await self._leave_game(player)
         data = await communicator.receive_json_from()
         self.assertEqual(data['type'], ShiritoriEvents.GameUpdated)
         new_game = data['data']['game']
-        players_list = list(player['id'] for player in new_game['players'] if player['id'] == player.id)
-        self.assertEqual(len(players_list), 0)
+        self.assertEqual(len(new_game['players']), 0)
 
         # Close
         await communicator.disconnect()
@@ -98,7 +85,5 @@ class GameConsumerTests(TransactionTestCase):
         word = await self._take_turn(player)
         data = await communicator.receive_json_from()
         self.assertEqual(data['type'], ShiritoriEvents.TurnTaken)
-        self.assertEqual(data['data']['player'], player.id)
-        self.assertEqual(data['data']['word'], word.word)
         # Close
         await communicator.disconnect()

@@ -74,7 +74,7 @@ class ShiritoriGame(BaseModel):
         return new_player
 
     def leave(self,player_id):
-        old_player = ShiritoriPlayer.objects.filter(id=player_id).delete()
+        old_player = ShiritoriPlayer.objects.get(id=player_id).delete()
         send_player_joined_or_left_event(self)
         return old_player
 
@@ -123,7 +123,8 @@ class ShiritoriGame(BaseModel):
             else:
                 self.select_next_player()
         except exceptions.PenaltyException as error:
-            self.current_player.gain_points()
+            if self.current_player is not None:
+                self.current_player.gain_points()
             if not isinstance(error, exceptions.BlankInputGivenException):
                 if raise_exception:
                     raise error
@@ -131,7 +132,7 @@ class ShiritoriGame(BaseModel):
         finally:
             if not self.finished:
                 self.save()
-                send_turn_taken_event(self)
+            send_turn_taken_event(self)
 
     def select_next_player(self):
         next_player = self.get_next_player()
@@ -189,6 +190,9 @@ class ShiritoriPlayer(BaseModel):
     def gain_points(self):
         self.score += TIMEOUT_POINTS_GAIN
         self.save()
+
+    def leave(self):
+        return self.game.leave(self.id)
 
 
 class ShiritoriGameWord(BaseModel):

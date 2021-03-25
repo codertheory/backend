@@ -17,8 +17,8 @@ class LobbyConsumerTests(TransactionTestCase):
         return factories.GameFactory.create_batch(amount)
 
     @database_sync_to_async
-    def save_game(self, g):
-        g.game_started()
+    def save_game(self, g: factories.models.ShiritoriGame):
+        g.start(ignore_count=True)
 
     async def _setUpData(self):
         communicator = WebsocketCommunicator(router, "ws/shiritori/lobby")
@@ -56,7 +56,6 @@ class LobbyConsumerTests(TransactionTestCase):
         games = await self._create_games(1)
         await asyncio.sleep(1)
         await communicator.receive_json_from()
-        await communicator.receive_json_from()  # This is a game_updated call due to GameFactory's post_generation
 
         await self.save_game(games[0])
         new_response = await communicator.receive_json_from()
