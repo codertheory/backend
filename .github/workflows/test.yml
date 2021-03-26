@@ -37,6 +37,7 @@ jobs:
           DJANGO_SETTINGS_MODULE: config.settings.test
           DATABASE_URL: postgres://postgres:iceteacity@localhost:${{ job.services.postgres.ports[5432] }}/iceteacity
           CELERY_BROKER_URL: redis://localhost:${{ job.services.redis.ports[6379] }}
+          REDIS_URL: redis://localhost:${{ job.services.redis.ports[6379] }}
         run: |
           python manage.py migrate --no-input
           coverage run --source='codertheory' manage.py test
