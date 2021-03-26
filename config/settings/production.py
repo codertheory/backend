@@ -147,16 +147,6 @@ LOGGING = {
 # Your stuff...
 # ------------------------------------------------------------------------------
 ELASTICSEARCH_DSL['default']['use_ssl'] = True
-
-# CHANNELS
-CHANNEL_LAYERS = {
-    'default': {
-        'BACKEND': 'channels_redis.core.RedisChannelLayer',
-        'CONFIG': {
-            "hosts": [env.cache("REDIS_URL")],
-        },
-    },
-}
 CORS_ORIGIN_WHITELIST += [
     "http://shiritori.codertheory.dev",
     "https://siritori.codertheory.dev"

@@ -75,11 +75,3 @@ CORS_ORIGIN_WHITELIST += [
     "http://staging.shiritori.codertheory.dev"
 ]
 
-CHANNEL_LAYERS = {
-    'default': {
-        'BACKEND': 'channels_redis.core.RedisChannelLayer',
-        'CONFIG': {
-            "hosts": [env.cache("REDIS_URL")],
-        },
-    },
-}
