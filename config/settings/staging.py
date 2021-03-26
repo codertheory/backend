@@ -1,5 +1,4 @@
 from .base import *  # noqa
-from .base import env
 
 # GENERAL
 # ------------------------------------------------------------------------------
@@ -75,3 +74,12 @@ CORS_ORIGIN_WHITELIST += [
     "https://codertheory-shiritori.herokuapp.com",
     "http://staging.shiritori.codertheory.dev"
 ]
+
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels_redis.core.RedisChannelLayer',
+        'CONFIG': {
+            "hosts": [env.cache("REDIS_URL")],
+        },
+    },
+}
