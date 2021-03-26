@@ -1,4 +1,5 @@
 import asyncio
+import unittest
 
 from channels.db import database_sync_to_async
 from channels.testing import WebsocketCommunicator
@@ -9,6 +10,7 @@ from codertheory.shiritori.tests import factories
 from config.websocket import router
 
 
+@unittest.skip("No Longer used")
 class LobbyConsumerTests(TransactionTestCase):
     serialized_rollback = False
 
