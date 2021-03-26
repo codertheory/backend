@@ -10,4 +10,4 @@ whitenoise==5.2.0 # http://whitenoise.evans.io/
 # Django
 # ------------------------------------------------------------------------------
 django-storages[boto3]==1.11.1  # https://github.com/jschneier/django-storages
-django-anymail[mailgun]==8.1  # https://github.com/anymail/django-anymail
+django-anymail[mailgun]==8.2  # https://github.com/anymail/django-anymail
