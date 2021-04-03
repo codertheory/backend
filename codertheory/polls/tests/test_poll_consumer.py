@@ -1,3 +1,5 @@
+import typing
+
 from channels.db import database_sync_to_async
 from channels.testing import WebsocketCommunicator
 from django.test import TransactionTestCase
@@ -10,7 +12,7 @@ class PollConsumerTests(TransactionTestCase):
     serialized_rollback = False
 
     @database_sync_to_async
-    def _create_poll(self):
+    def _create_poll(self) -> typing.Awaitable[factories.models.Poll]:
         poll = factories.PollFactory()
         factories.PollOptionFactory.create_batch(2, poll=poll)
         return poll
