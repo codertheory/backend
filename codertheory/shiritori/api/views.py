@@ -20,6 +20,7 @@ __all__ = (
 
 # TODO document actions properly
 
+
 class GameModelViewSet(viewsets.ModelViewSet):
     queryset = models.ShiritoriGame.objects.all()
     serializer_class = serializers.GameSerializer
@@ -33,6 +34,12 @@ class GameModelViewSet(viewsets.ModelViewSet):
         if self.action in ['list', 'create']:
             self.permission_classes = [permissions.AllowAny]
         return super(GameModelViewSet, self).get_permissions()
+
+    def get_serializer_class(self):
+        if self.action == "detail":
+            return serializers.GameDetailSerializer
+        else:
+            return super(GameModelViewSet, self).get_serializer_class()
 
     @action(name="create", url_name="create", url_path="create", methods=['post'], detail=False,
             permission_classes=[permissions.AllowAny],

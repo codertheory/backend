@@ -3,6 +3,7 @@ from rest_framework import serializers
 from codertheory.shiritori import models
 
 __all__ = (
+    "GameDetailSerializer",
     "GameSerializer",
     "PlayerSerializer",
     "GameWordSerializer",
@@ -23,13 +24,19 @@ class PlayerSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = models.ShiritoriPlayer
-        fields = ("id", "name", "score", "words","is_current")
+        fields = ("id", "name", "score", "words", "is_current")
 
 
-class GameSerializer(serializers.ModelSerializer):
+class GameDetailSerializer(serializers.ModelSerializer):
     players = PlayerSerializer(many=True, read_only=True)
     host = serializers.PrimaryKeyRelatedField(read_only=True)
 
+    class Meta:
+        model = models.ShiritoriGame
+        exclude = ("password",)
+
+
+class GameSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.ShiritoriGame
         exclude = ("password",)

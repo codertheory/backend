@@ -6,6 +6,7 @@ from codertheory.shiritori import routing as shiritori_routing
 
 __all__ = (
     "router",
+    "channels",
     "application"
 )
 

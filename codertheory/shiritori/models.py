@@ -73,7 +73,7 @@ class ShiritoriGame(BaseModel):
         send_player_joined_or_left_event(self)
         return new_player
 
-    def leave(self,player_id):
+    def leave(self, player_id):
         old_player = ShiritoriPlayer.objects.get(id=player_id).delete()
         send_player_joined_or_left_event(self)
         return old_player
