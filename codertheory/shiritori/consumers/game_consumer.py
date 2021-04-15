@@ -21,13 +21,12 @@ class GameConsumer(AsyncJsonWebsocketConsumer):
             if "game" in message:
                 message['type'] = str(ShiritoriEvents.GameUpdated.value)
                 message['data'] = message.pop('game')
-                print("reformated message:", message)
         return await super(GameConsumer, self).dispatch(message)
 
     @database_sync_to_async
     def get_game(self, game_id) -> typing.Awaitable[ReturnDict]:
         game = models.ShiritoriGame.objects.get(pk=game_id)
-        return serializers.GameSerializer(game).data
+        return serializers.GameDetailSerializer(game).data
 
     async def websocket_connect(self, message):
         game_id = self.scope['url_route']['kwargs']['game']

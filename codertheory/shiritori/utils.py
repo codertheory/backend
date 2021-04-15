@@ -12,7 +12,7 @@ __all__ = (
 def send_game_event(game, event):
     from codertheory.shiritori.api import serializers
     data = {
-        "game": serializers.GameSerializer(game).data,
+        "game": serializers.GameDetailSerializer(game).data,
         "type": event
     }
     send_data_to_channel("lobby", data)

@@ -31,12 +31,12 @@ class GameModelViewSet(viewsets.ModelViewSet):
         self.game: typing.Optional[models.ShiritoriGame] = None
 
     def get_permissions(self):
-        if self.action in ['list', 'create']:
+        if self.action in ['list', 'create', 'retrieve']:
             self.permission_classes = [permissions.AllowAny]
         return super(GameModelViewSet, self).get_permissions()
 
     def get_serializer_class(self):
-        if self.action == "detail":
+        if self.action == "retrieve":
             return serializers.GameDetailSerializer
         else:
             return super(GameModelViewSet, self).get_serializer_class()
