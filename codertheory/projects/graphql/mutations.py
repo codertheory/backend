@@ -1,6 +1,6 @@
 from graphene_django.rest_framework.mutation import SerializerMutation
 
-from ..api import serializers
+from . import serializers
 
 
 class ProjectMutation(SerializerMutation):

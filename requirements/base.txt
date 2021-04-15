@@ -15,6 +15,7 @@ django==3.1.7  # pyup: < 3.0  # https://www.djangoproject.com/
 channels==3.0.3 # https://github.com/django/channels/
 channels_redis==3.2.0 # http://github.com/django/channels_redis/
 graphene-django==2.15.0 # https://github.com/graphql-python/graphene-django
+django-channels-graphql-ws==0.8.0 # https://github.com/datadvance/DjangoChannelsGraphqlWs
 django-allauth==0.44.0 # https://github.com/pennersr/django-allauth
 django-environ==0.4.5  # https://github.com/joke2k/django-environ
 django-model-utils==4.1.1  # https://github.com/jazzband/django-model-utils

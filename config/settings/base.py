@@ -457,7 +457,6 @@ DJOSER = {
 
 # SWAGGER
 # ------------------------------------------------------------------------------
-
 SWAGGER_SETTINGS = {
     'DEFAULT_INFO': 'config.rest.api_info',
 }
