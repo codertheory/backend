@@ -4,6 +4,7 @@ Base settings to build other settings files upon.
 
 import io
 import logging
+from datetime import timedelta
 
 import environ
 import sentry_sdk
@@ -119,6 +120,10 @@ LOCAL_APPS = [
 # https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
 
+# Django Auto Field
+# ------------------------------------------------------------------------------
+DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
+
 # MIGRATIONS
 # ------------------------------------------------------------------------------
 # https://docs.djangoproject.com/en/dev/ref/settings/#migration-modules
@@ -130,6 +135,7 @@ MIGRATION_MODULES = {"sites": "codertheory.contrib.sites.migrations"}
 AUTHENTICATION_BACKENDS = [
     "django.contrib.auth.backends.ModelBackend",
     "allauth.account.auth_backends.AuthenticationBackend",
+    'graphql_jwt.backends.JSONWebTokenBackend',
 ]
 # https://docs.djangoproject.com/en/dev/ref/settings/#auth-user-model
 AUTH_USER_MODEL = "users.User"
@@ -482,6 +488,14 @@ SNOWFLAKE_SIZE = 10
 GRAPHENE = {
     'SCHEMA': 'config.api.graphql.schema',  # Where your Graphene schema lives,
     'DJANGO_CHOICE_FIELD_ENUM_V3_NAMING': True,
+    'MIDDLEWARE': [
+        'graphql_jwt.middleware.JSONWebTokenMiddleware',
+    ],
+}
+GRAPHQL_JWT = {
+    'JWT_VERIFY_EXPIRATION': True,
+    'JWT_EXPIRATION_DELTA': timedelta(minutes=5),
+    'JWT_REFRESH_EXPIRATION_DELTA': timedelta(days=7),
 }
 
 # Github

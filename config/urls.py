@@ -10,16 +10,13 @@ from graphene_django.views import GraphQLView
 from config.sitemaps import sitemaps
 
 urlpatterns = [
-                  path("", include('codertheory.website.urls', namespace="website")),
-                  path("projects/", include("codertheory.projects.urls", namespace="projects")),
-                  path('sitemap.xml', sitemap, {'sitemaps': sitemaps}, name='django.contrib.sitemaps.views.sitemap'),
-                  path('accounts/', include(('allauth.urls', "allauth"), namespace="allauth")),
+                  path('graphql', GraphQLView.as_view(graphiql=settings.DEBUG)),
+                  path("", include("config.api.rest.urls", namespace="api")),
                   path('grappelli/', include('grappelli.urls')),  # grappelli URLS
                   path(settings.ADMIN_URL, admin.site.urls),
+                  path('accounts/', include(('allauth.urls', "allauth"), namespace="allauth")),
                   path("auth/", include('djoser.urls')),
                   path("auth/", include('djoser.urls.authtoken')),
-                  path('graphql', GraphQLView.as_view(graphiql=settings.DEBUG)),
-                  path("api/", include("config.api.rest.urls", namespace="api")),
               ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 if settings.DEBUG:

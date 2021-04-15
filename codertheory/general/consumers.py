@@ -1,4 +1,5 @@
 from asgiref.sync import async_to_sync
+from channels.db import database_sync_to_async
 from channels.generic.websocket import JsonWebsocketConsumer, AsyncJsonWebsocketConsumer
 from django.db import models
 from graphene.utils.str_converters import to_camel_case
@@ -38,9 +39,9 @@ class EntityJsonConsumer(AbstractConsumer, JsonWebsocketConsumer):
         super(EntityJsonConsumer, self).websocket_disconnect(message)
 
 
-class AsyncEntityJsonConsumer(AbstractConsumer,AsyncJsonWebsocketConsumer):
+class AsyncEntityJsonConsumer(AbstractConsumer, AsyncJsonWebsocketConsumer):
 
-    @async_to_sync
+    @database_sync_to_async
     def get_model(self):
         return self.queryset.get(pk=self.target_id)
 
