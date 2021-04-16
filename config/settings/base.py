@@ -85,9 +85,6 @@ DJANGO_APPS = [
 ]
 THIRD_PARTY_APPS = [
     "rest_framework",
-    "rest_framework_datatables",
-    "rest_framework.authtoken",
-    "knox",
     "djoser",
     "corsheaders",
     "widget_tweaks",
@@ -96,7 +93,6 @@ THIRD_PARTY_APPS = [
     "colorfield",
     "view_breadcrumbs",
     "taggit",
-    "drf_yasg",
     "channels",
     'allauth',
     'allauth.account',
@@ -108,13 +104,12 @@ THIRD_PARTY_APPS = [
 
 LOCAL_APPS = [
     # Your stuff: custom apps go here
-    "codertheory.general.apps.GeneralConfig",
-    "codertheory.users.apps.UsersConfig",
-    "codertheory.website.apps.WebsiteConfig",
-    "codertheory.projects.apps.ProjectsConfig",
-    "codertheory.iceteabot.apps.IceteabotConfig",
-    "codertheory.shiritori.apps.ShiritoriConfig",
-    "codertheory.polls.apps.PollsConfig"
+    "codertheory.general",
+    "codertheory.users",
+    "codertheory.projects",
+    "codertheory.iceteabot",
+    "codertheory.shiritori",
+    "codertheory.polls"
 
 ]
 # https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
@@ -262,7 +257,7 @@ EMAIL_TIMEOUT = 5
 # ADMIN
 # ------------------------------------------------------------------------------
 # Django Admin URL.
-ADMIN_URL = "admin/"
+ADMIN_URL = "dashboard"
 # LOGGING
 # ------------------------------------------------------------------------------
 # https://docs.djangoproject.com/en/dev/ref/settings/#logging
@@ -382,7 +377,6 @@ if SSH_KEY:
 REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": [
         'rest_framework.authentication.SessionAuthentication',
-        'knox.auth.TokenAuthentication',
     ],
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.IsAuthenticated'
@@ -451,21 +445,6 @@ if SENTRY_DSN:
         integrations=[sentry_logging, DjangoIntegration(), CeleryIntegration(), RedisIntegration()],
     )
 
-# DJOZER
-# ------------------------------------------------------------------------------
-DJOSER = {
-    "TOKEN_MODEL": "knox.models.AuthToken",
-    "SERIALIZERS": {
-        "token": "users.api.serializers.KnoxTokenSerializer",
-        "current_user": "users.api.serializers.UserSerializer"
-    }
-}
-
-# SWAGGER
-# ------------------------------------------------------------------------------
-SWAGGER_SETTINGS = {
-    'DEFAULT_INFO': 'config.rest.api_info',
-}
 
 # CHANNELS
 # ------------------------------------------------------------------------------
@@ -491,6 +470,9 @@ GRAPHENE = {
     'MIDDLEWARE': [
         'graphql_jwt.middleware.JSONWebTokenMiddleware',
     ],
+    'SCHEMA_OUTPUT': 'data/schema.json',  # defaults to schema.json,
+    'SCHEMA_INDENT': 2,  # Defaults to None (displays all data on a single line)
+    "ATOMIC_MUTATIONS": True,
 }
 GRAPHQL_JWT = {
     'JWT_VERIFY_EXPIRATION': True,

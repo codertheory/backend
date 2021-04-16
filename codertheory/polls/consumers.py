@@ -1,6 +1,6 @@
 from codertheory.general.consumers import EntityJsonConsumer
 from codertheory.polls import models, events
-from codertheory.polls.api import serializers
+from codertheory.polls.graphql import serializers
 
 
 class PollConsumer(EntityJsonConsumer):

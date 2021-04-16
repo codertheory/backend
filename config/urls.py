@@ -1,22 +1,17 @@
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
-from django.contrib.sitemaps.views import sitemap
 from django.urls import include
 from django.urls import path
 from django.views import defaults as default_views
 from graphene_django.views import GraphQLView
 
-from config.sitemaps import sitemaps
 
 urlpatterns = [
                   path('graphql', GraphQLView.as_view(graphiql=settings.DEBUG)),
-                  path("", include("config.api.rest.urls", namespace="api")),
                   path('grappelli/', include('grappelli.urls')),  # grappelli URLS
                   path(settings.ADMIN_URL, admin.site.urls),
                   path('accounts/', include(('allauth.urls', "allauth"), namespace="allauth")),
-                  path("auth/", include('djoser.urls')),
-                  path("auth/", include('djoser.urls.authtoken')),
               ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 if settings.DEBUG:

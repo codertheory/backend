@@ -2,7 +2,7 @@ from django.db.models import signals
 from django.dispatch import receiver
 
 from codertheory.polls import models
-from codertheory.polls.api import serializers
+from codertheory.polls.graphql import serializers
 from codertheory.polls.events import PollEvents
 from codertheory.utils.ws_utils import send_data_to_channel
 

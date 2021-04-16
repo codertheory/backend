@@ -4,7 +4,7 @@ from rest_framework.decorators import action
 from rest_framework.response import Response
 
 from codertheory.polls import models
-from codertheory.polls.api import serializers
+from codertheory.polls.graphql import serializers
 
 __all__ = (
     "PollViewSet",

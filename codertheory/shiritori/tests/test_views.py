@@ -1,3 +1,5 @@
+from unittest import skip
+
 from rest_framework.reverse import reverse
 from rest_framework.test import APITestCase
 
@@ -5,6 +7,7 @@ from codertheory.shiritori import models
 from . import factories
 
 
+@skip("Refactor to use graphql")
 class ShiritoriViewTests(APITestCase):
 
     @classmethod
@@ -12,7 +15,7 @@ class ShiritoriViewTests(APITestCase):
         cls.game: models.ShiritoriGame = factories.GameFactory()
 
     def test_create_game(self):
-        url = reverse("api:api_version_1:shiritori_game-list")
+        url = reverse("api:v1:shiritori_game-list")
         data = {
             "name": "foobar",
             "password": "1234"
@@ -21,7 +24,7 @@ class ShiritoriViewTests(APITestCase):
         self.assertEqual(response.status_code, 201)
 
     def test_join_game(self):
-        url = reverse("api:api_version_1:shiritori_game-join", kwargs={"pk": self.game.id})
+        url = reverse("api:v1:shiritori_game-join", kwargs={"pk": self.game.id})
         data = {
             "name": "foobar"
         }
@@ -30,7 +33,7 @@ class ShiritoriViewTests(APITestCase):
 
     def test_join_game_already_started(self):
         self.game.save(update_fields={"started": True})
-        url = reverse("api:api_version_1:shiritori_game-join", kwargs={"pk": self.game.id})
+        url = reverse("api:v1:shiritori_game-join", kwargs={"pk": self.game.id})
         data = {
             "name": "foobar"
         }
@@ -39,7 +42,7 @@ class ShiritoriViewTests(APITestCase):
 
     def test_leave_game(self):
         player = self.game.join("foobar")
-        url = reverse("api:api_version_1:shiritori_game-leave", kwargs={"pk": player.game.id})
+        url = reverse("api:v1:shiritori_game-leave", kwargs={"pk": player.game.id})
         data = {
             "id": player.id
         }
@@ -49,7 +52,7 @@ class ShiritoriViewTests(APITestCase):
     def test_start_game(self):
         self.game.join("p1")
         self.game.join("p2")
-        url = reverse("api:api_version_1:shiritori_game-start", kwargs={"pk": self.game.id})
+        url = reverse("api:v1:shiritori_game-start", kwargs={"pk": self.game.id})
         response = self.client.post(url)
         self.assertEqual(response.status_code, 200)
         self.game.refresh_from_db()
@@ -57,14 +60,14 @@ class ShiritoriViewTests(APITestCase):
 
     def test_start_game_already_started(self):
         self.game.save(update_fields={"started": True})
-        url = reverse("api:api_version_1:shiritori_game-start", kwargs={"pk": self.game.id})
+        url = reverse("api:v1:shiritori_game-start", kwargs={"pk": self.game.id})
         response = self.client.post(url)
         self.assertEqual(response.status_code, 403)
 
     def test_finish_game(self):
         factories.PlayerFactory.create_batch(2, game=self.game)
         self.game.start()
-        url = reverse("api:api_version_1:shiritori_game-finish", kwargs={"pk": self.game.id})
+        url = reverse("api:v1:shiritori_game-finish", kwargs={"pk": self.game.id})
         response = self.client.post(url)
         self.assertEqual(response.status_code, 200)
         self.game.refresh_from_db()
@@ -76,7 +79,7 @@ class ShiritoriViewTests(APITestCase):
         self.game.last_word = "b"
         self.game.started = True
         self.game.save()
-        url = reverse("api:api_version_1:shiritori_game-take-turn", kwargs={"pk": self.game.id})
+        url = reverse("api:v1:shiritori_game-take-turn", kwargs={"pk": self.game.id})
         data = {
             "word": "bar",
             "player": player.id
@@ -89,7 +92,7 @@ class ShiritoriViewTests(APITestCase):
         self.game.finished = True
         self.game.save()
         player = factories.PlayerFactory(game=self.game)
-        url = reverse("api:api_version_1:shiritori_game-take-turn", kwargs={"pk": self.game.id})
+        url = reverse("api:v1:shiritori_game-take-turn", kwargs={"pk": self.game.id})
         data = {
             "word": "bar",
             "player": player.id
