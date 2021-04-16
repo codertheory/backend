@@ -9,7 +9,7 @@ from codertheory.general.models import BaseModel
 
 class Poll(BaseModel):
     name = models.CharField(max_length=1000)
-    description = models.TextField(default=None, null=True)
+    description = models.TextField(default=None, null=True, blank=True)
 
     class Meta:
         db_table = "poll"
