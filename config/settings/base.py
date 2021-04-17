@@ -2,7 +2,6 @@
 Base settings to build other settings files upon.
 """
 
-import io
 import logging
 from datetime import timedelta
 
@@ -84,7 +83,6 @@ THIRD_PARTY_APPS = [
     "corsheaders",
     "chunked_upload",
     "colorfield",
-    "view_breadcrumbs",
     "taggit",
     "channels",
     'allauth',
