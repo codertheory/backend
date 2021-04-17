@@ -302,23 +302,6 @@ SOCIALACCOUNT_ADAPTER = "codertheory.users.adapters.SocialAccountAdapter"
 CORS_ORIGIN_WHITELIST = [
     "https://codertheory.dev",
 ]
-# Summernote
-# ------------------------------------------------------------------------------
-SUMMERNOTE_THEME = "bs4"
-SUMMERNOTE_CONFIG = {
-    "iframe": False,
-    "disable_attachment": True,
-    "summernote": {
-        "width": "100%",
-    },
-    "css": (
-        "admin/plugins/summernote/summernote-bs4.css",
-    ),
-    "js": (
-        "admin/plugins/summernote/summernote-bs4.min.js",
-    )
-}
-
 # Messages
 # ------------------------------------------------------------------------------
 # https://docs.djangoproject.com/en/dev/ref/contrib/messages/#message-tags
@@ -343,10 +326,6 @@ REST_FRAMEWORK = {
     'DEFAULT_RENDERER_CLASSES': (
         'rest_framework.renderers.JSONRenderer',
         'rest_framework.renderers.BrowsableAPIRenderer',
-        'rest_framework_datatables.renderers.DatatablesRenderer',
-    ),
-    'DEFAULT_FILTER_BACKENDS': (
-        'rest_framework_datatables.filters.DatatablesFilterBackend',
     ),
     'DEFAULT_THROTTLE_CLASSES': [
         'rest_framework.throttling.AnonRateThrottle',
@@ -356,7 +335,6 @@ REST_FRAMEWORK = {
         'anon': '500/day',
         'user': '1000/day'
     },
-    'DEFAULT_PAGINATION_CLASS': 'rest_framework_datatables.pagination.DatatablesPageNumberPagination',
     'PAGE_SIZE': 50,
     'DEFAULT_VERSIONING_CLASS': 'rest_framework.versioning.NamespaceVersioning'
 }
