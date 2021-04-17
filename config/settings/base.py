@@ -9,7 +9,6 @@ from datetime import timedelta
 import environ
 import sentry_sdk
 from django.contrib.messages import constants as messages
-from paramiko import RSAKey
 from sentry_sdk.integrations.celery import CeleryIntegration
 from sentry_sdk.integrations.django import DjangoIntegration
 from sentry_sdk.integrations.logging import LoggingIntegration
@@ -362,15 +361,6 @@ MESSAGE_TAGS = {
     messages.WARNING: 'alert-warning',
     messages.ERROR: 'alert-danger',
 }
-
-# STFP
-# ------------------------------------------------------------------------------
-SSH_KEY = env.str('REMOTE_SSH_KEY', multiline=True, default='')
-if SSH_KEY:
-    SFTP_STORAGE_PARAMS = {
-        "username": "root",
-        "pkey": RSAKey.from_private_key(io.StringIO(SSH_KEY))
-    }
 
 # DRF
 # ------------------------------------------------------------------------------
