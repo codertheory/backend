@@ -335,6 +335,7 @@ REST_FRAMEWORK = {
         'anon': '500/day',
         'user': '1000/day'
     },
+    'DEFAULT_PAGINATION_CLASS': "rest_framework.pagination.PageNumberPagination",
     'PAGE_SIZE': 50,
     'DEFAULT_VERSIONING_CLASS': 'rest_framework.versioning.NamespaceVersioning'
 }
@@ -381,7 +382,6 @@ if SENTRY_DSN:
         dsn=SENTRY_DSN,
         integrations=[sentry_logging, DjangoIntegration(), RedisIntegration()],
     )
-
 
 # CHANNELS
 # ------------------------------------------------------------------------------
