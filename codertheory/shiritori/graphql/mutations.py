@@ -1,7 +1,7 @@
 import graphene
 from graphene_django.rest_framework.mutation import SerializerMutation
 
-from . import serializers
+from . import serializers, types
 from .. import models
 
 __all__ = (
@@ -36,6 +36,8 @@ class LeaveGameMutation(graphene.Mutation):
         player_id = graphene.ID()
         game_id = graphene.ID()
 
+    game = graphene.Field(types.ShiritoriGameType)
+
     @classmethod
     def mutate(cls, root, info, player_id=None, game_id=None):
         try:
@@ -49,6 +51,8 @@ class TakeTurnMutation(graphene.Mutation):
     class Arguments:
         game_id = graphene.ID()
         word = graphene.String()
+
+    score = graphene.Int()
 
     @classmethod
     def mutate(cls, root, info, word=None, game_id=None):

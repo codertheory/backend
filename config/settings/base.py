@@ -81,7 +81,6 @@ DJANGO_APPS = [
 THIRD_PARTY_APPS = [
     "rest_framework",
     "corsheaders",
-    "chunked_upload",
     "colorfield",
     "taggit",
     "channels",
@@ -407,7 +406,7 @@ GRAPHENE = {
     'MIDDLEWARE': [
         'graphql_jwt.middleware.JSONWebTokenMiddleware',
     ],
-    'SCHEMA_OUTPUT': 'data/schema.json',  # defaults to schema.json,
+    'SCHEMA_OUTPUT': 'data/schema.graphql',
     'SCHEMA_INDENT': 2,  # Defaults to None (displays all data on a single line)
     "ATOMIC_MUTATIONS": True,
 }
