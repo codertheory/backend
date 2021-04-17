@@ -1,0 +1,95 @@
+{% load static template_helpers %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+	<title>CoderTheory - {% block title %}{% endblock %}</title>
+  {% block object_graph %}
+	  <meta property="og:title" content="CoderTheory"/>
+	  <meta property="og:type" content="website"/>
+	  <meta property="og:url" content="{{ request.build_absolute_uri }}"/>
+	  <meta property="og:image" content=""/>
+  {% endblock %}
+
+  {% favicon %}
+
+	<link rel="stylesheet" type="text/css" href="{% static "general/css/theme-styles.css" %}">
+	<link rel="stylesheet" type="text/css" href="{% static "general/css/blocks.css" %}">
+	<link rel="stylesheet" type="text/css" href="{% static "general/css/widgets.css" %}">
+
+
+	<!--External fonts-->
+
+	<link href="https://fonts.googleapis.com/css?family=Nunito:300,400,700,900" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css?family=Baloo+Paaji" rel="stylesheet">
+
+	<!-- Styles for Plugins -->
+	<link rel="stylesheet" type="text/css" href="{% static "general/css/swiper.min.css" %}">
+
+	<!--Styles for RTL-->
+
+	<!--<link rel="stylesheet" type="text/css" href="general/css/rtl.css">-->
+
+
+</head>
+<body class="crumina-grid">
+
+
+{% block body %}
+
+{% endblock %}
+
+
+<!-- jQuery first, then Other JS. -->
+
+<script src="{% static "general/js/jquery-3.3.1.js" %}"></script>
+
+<!-- jQuery-scripts for Template -->
+
+<script src="{% static "general/js/js-plugins/ajax-pagination.js" %}"></script>
+<script src="{% static "general/js/js-plugins/jquery.countdown.min.js" %}"></script>
+
+<script src="{% static "general/js/js-plugins/crum-mega-menu.js" %}"></script>
+<script src="{% static "general/js/js-plugins/swiper.jquery.min.js" %}"></script>
+
+<script src="{% static "general/js/js-plugins/velocity.min.js" %}"></script>
+
+<script src="{% static "general/js/js-plugins/waypoints.js" %}"></script>
+<script src="{% static "general/js/js-plugins/jquery-countTo.js" %}"></script>
+<script src="{% static "general/js/js-plugins/jquery.nice-select.js" %}"></script>
+<script src="{% static "general/js/js-plugins/imagesLoaded.js" %}"></script>
+<script src="{% static "general/js/js-plugins/jquery.magnific-popup.js" %}"></script>
+<script src="{% static "general/js/js-plugins/jquery.matchHeight.js" %}"></script>
+<script src="{% static "general/js/js-plugins/Headroom.js" %}"></script>
+<script src="{% static "general/js/js-plugins/smooth-scroll.js" %}"></script>
+<script src="{% static "general/js/js-plugins/segment.js" %}"></script>
+<script src="{% static "general/js/js-plugins/bootstrap.bundle.min.js" %}"></script>
+<!--<script src="js/js-plugins/moment.js"></script>-->
+<!--<script src="js/js-plugins/moment-timezone.js"></script>-->
+<script src="{% static "general/js/js-plugins/isotope.pkgd.min.js" %}"></script>
+<script src="{% static "general/js/js-plugins/ion.rangeSlider.js" %}"></script>
+<script src="{% static "general/js/js-plugins/parsley.min.js" %}"></script>
+
+<script src="{% static "general/js/main.js" %}"></script>
+
+<!-- jQuery-scripts for Modules (Send Message) -->
+<script src="{% static "general/modules/forms/src/js/jquery.validate.min.js" %}"></script>
+<script src="{% static "general/modules/forms/src/js/sweetalert2.all.js" %}"></script>
+<script src="{% static "general/modules/forms/src/js/scripts.js" %}"></script>
+<!-- /jQuery-scripts for Modules (Send Message) -->
+
+<script type="application/javascript">
+    $preloader = $('#hellopreloader');
+    setTimeout(function () {
+        $preloader.fadeOut(800);
+    }, 1000);
+</script>
+
+{% block js %}
+
+{% endblock %}
+
+
+</body>
+</html>

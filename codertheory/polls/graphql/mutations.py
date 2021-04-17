@@ -4,6 +4,13 @@ from graphene_django.rest_framework.mutation import SerializerMutation
 from . import serializers, types
 from .. import models
 
+__all__ = (
+    "PollOptionMutation",
+    "PollMutation",
+    "CreatePollMutation",
+    "PollVoteMutation"
+)
+
 
 class PollOptionMutation(SerializerMutation):
     class Meta:
@@ -12,11 +19,34 @@ class PollOptionMutation(SerializerMutation):
 
 
 class PollMutation(SerializerMutation):
-    options = PollOptionMutation.Field()
+    options = graphene.List(types.PollOptionType)
 
     class Meta:
         serializer_class = serializers.PollSerializer
         convert_choices_to_enum = False
+
+
+class PollOptionInput(graphene.InputObjectType):
+    option = graphene.String()
+
+
+class CreatePollMutation(graphene.Mutation):
+    class Arguments:
+        name = graphene.String(required=True)
+        options = graphene.List(PollOptionInput, required=True)
+        description = graphene.String()
+
+    poll = graphene.Field(types.PollType)
+
+    @classmethod
+    def mutate(cls, root, info, **kwargs):
+        print(kwargs)
+        instance = serializers.PollSerializer(data=kwargs)
+        if instance.is_valid(raise_exception=True):
+            # noinspection PyArgumentList
+            poll = instance.save()
+            return CreatePollMutation(poll=poll)
+
 
 
 class PollVoteMutation(graphene.Mutation):
