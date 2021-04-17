@@ -72,6 +72,5 @@ if env("MAILGUN_API_KEY", default=None):
 # ------------------------------------------------------------------------------
 CORS_ORIGIN_WHITELIST += [
     "https://codertheory-shiritori.herokuapp.com",
-    "http://staging.shiritori.codertheory.dev"
 ]
 

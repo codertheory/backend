@@ -53,34 +53,6 @@ INTERNAL_IPS = ["127.0.0.1", "10.0.2.2"]
 # ------------------------------------------------------------------------------
 # https://django-extensions.readthedocs.io/en/latest/installation_instructions.html#configuration
 INSTALLED_APPS += ["django_extensions"]  # noqa F405
-# Celery
-# ------------------------------------------------------------------------------
-# http://docs.celeryproject.org/en/latest/userguide/configuration.html#task-always-eager
-CELERY_TASK_ALWAYS_EAGER = True
-# http://docs.celeryproject.org/en/latest/userguide/configuration.html#task-eager-propagates
-CELERY_TASK_EAGER_PROPAGATES = True
-# Your stuff...
-# ------------------------------------------------------------------------------
-# SFTP Storage
-# ------------------------------------------------------------------------------
-SFTP_STORAGE_HOST = "cloud.codertheory.com"
-SFTP_STORAGE_ROOT = "/home/storage/media/"
-
-# Chunked Upload
-# ------------------------------------------------------------------------------
-from codertheory.utils import sftpstorage
-
-CHUNKED_UPLOAD_STORAGE_CLASS = sftpstorage.CustomSFTPStorage
-CHUNKED_UPLOAD_ABSTRACT_MODEL = True
-CHUNKED_UPLOAD_PATH = "tmp"
-
-
-def default_upload_to(instance, filename):
-    filename = f'{instance.upload_id}.part'
-    return time.strftime(filename)
-
-
-CHUNKED_UPLOAD_TO = default_upload_to
 
 CORS_ORIGIN_WHITELIST += [
     "http://localhost:3000",

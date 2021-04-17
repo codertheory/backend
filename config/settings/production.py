@@ -148,6 +148,5 @@ LOGGING = {
 # ------------------------------------------------------------------------------
 ELASTICSEARCH_DSL['default']['use_ssl'] = True
 CORS_ORIGIN_WHITELIST += [
-    "http://shiritori.codertheory.dev",
     "https://siritori.codertheory.dev"
 ]
