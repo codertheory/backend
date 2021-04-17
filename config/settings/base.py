@@ -9,7 +9,6 @@ from datetime import timedelta
 import environ
 import sentry_sdk
 from django.contrib.messages import constants as messages
-from sentry_sdk.integrations.celery import CeleryIntegration
 from sentry_sdk.integrations.django import DjangoIntegration
 from sentry_sdk.integrations.logging import LoggingIntegration
 from sentry_sdk.integrations.redis import RedisIntegration
@@ -432,7 +431,7 @@ if SENTRY_DSN:
         release=env.str('HEROKU_RELEASE_VERSION', default='1.0'),
         environment=env.str("DJANGO_SETTINGS_MODULE").split(".")[-1],
         dsn=SENTRY_DSN,
-        integrations=[sentry_logging, DjangoIntegration(), CeleryIntegration(), RedisIntegration()],
+        integrations=[sentry_logging, DjangoIntegration(), RedisIntegration()],
     )
 
 
