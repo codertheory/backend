@@ -26,7 +26,7 @@ class PollVoteMutation(graphene.Mutation):
     option = graphene.Field(types.PollOptionType)
 
     @classmethod
-    def mutate(cls, root, info, text=None, id=None):
+    def mutate(cls, root, info, id=None):
         poll_option = models.PollOption.objects.get(pk=id)
         poll_option.vote()
         # noinspection PyArgumentList

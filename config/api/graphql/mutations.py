@@ -14,6 +14,8 @@ __all__ = (
 class Mutations(graphene.ObjectType):
     create_project = ProjectMutation.Field()
     create_game = GameWordMutation.Field()
+    leave_game = LeaveGameMutation.Field()
+    take_turn = TakeTurnMutation.Field()
     create_poll = PollMutation.Field()
     vote_poll = PollVoteMutation.Field()
     token_auth = graphql_jwt.ObtainJSONWebToken.Field()
