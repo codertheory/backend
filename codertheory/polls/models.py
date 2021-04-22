@@ -22,14 +22,18 @@ class Poll(BaseModel):
 
     @property
     def total_vote_count(self) -> int:
-        return PollVote.objects.filter(option__poll=self).count()
+        return PollVote.objects.filter(option__poll_id=self.id).count()
 
     @property
     def votes(self) -> QuerySet['PollVote']:
-        return PollVote.objects.filter(option__poll=self)
+        return PollVote.objects.filter(option__poll_id=self.id)
 
     def get_option(self, option_id) -> "PollOption":
-        return PollOption.objects.get(poll=self, id=option_id)
+        return PollOption.objects.get(poll_id=self.id, id=option_id)
+
+    def to_dict(self):
+        from .graphql.serializers import PollSerializer
+        return PollSerializer(instance=self).data
 
 
 class PollOption(BaseModel):

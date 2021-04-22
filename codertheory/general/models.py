@@ -1,4 +1,5 @@
 from django.db.models import *
+from django.forms import model_to_dict
 
 from codertheory.utils.custom_fields import NanoIDField
 
@@ -18,3 +19,6 @@ class BaseModel(Model):
             return other.id == self.id
         else:
             return other == self.id
+
+    def to_dict(self):
+        return model_to_dict(self)

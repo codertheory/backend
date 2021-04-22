@@ -19,7 +19,7 @@ class PollOptionSerializer(serializers.ModelSerializer):
 
 class PollSerializer(serializers.ModelSerializer):
     options = PollOptionSerializer(read_only=True, many=True)
-    votes = serializers.IntegerField(read_only=True, source="total_vote_count")
+    vote_count = serializers.IntegerField(read_only=True, source="total_vote_count")
 
     class Meta:
         model = models.Poll
