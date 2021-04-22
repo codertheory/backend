@@ -1,1 +1,2 @@
-from .graphql import *
+from .graphql import schema
+from .consumer import GraphQLConsumer

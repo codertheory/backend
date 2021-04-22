@@ -1,4 +1,5 @@
 import graphene
+from django.core.exceptions import BadRequest
 from graphene_django.rest_framework.mutation import SerializerMutation
 
 from . import serializers, types
@@ -40,13 +41,15 @@ class CreatePollMutation(graphene.Mutation):
 
     @classmethod
     def mutate(cls, root, info, **kwargs):
-        print(kwargs)
+        options = kwargs.get('options')
+        if options:
+            if len(set([option['option'] for option in options])) < len(options):
+                raise BadRequest("Options Must be Unique")
         instance = serializers.PollSerializer(data=kwargs)
         if instance.is_valid(raise_exception=True):
-            # noinspection PyArgumentList
             poll = instance.save()
+            # noinspection PyArgumentList
             return CreatePollMutation(poll=poll)
-
 
 
 class PollVoteMutation(graphene.Mutation):

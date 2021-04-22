@@ -2,35 +2,35 @@ from django.db.models import signals
 from django.dispatch import receiver
 
 from codertheory.polls import models
-from codertheory.polls.graphql import serializers
 from codertheory.polls.events import PollEvents
-from codertheory.utils.ws_utils import send_data_to_channel
+from codertheory.polls.graphql import serializers
+from codertheory.polls.graphql.subscriptions import PollSubscription
 
 
 @receiver(signals.post_save, sender=models.Poll)
 def on_poll_save(instance: models.Poll, created: bool, **kwargs):
     if created:
         data = {
-            "type": PollEvents.PollCreated,
+            "type": PollEvents.PollCreated.value,
             "poll": serializers.PollSerializer(instance).data
         }
-        send_data_to_channel(instance.id, data)
+        PollSubscription.broadcast(group=instance.id, payload=data)
 
 
 @receiver(signals.post_delete, sender=models.Poll)
 def on_poll_delete(instance: models.Poll, **kwargs):
     data = {
-        "type": PollEvents.PollDeleted,
+        "type": PollEvents.PollDeleted.value,
         "poll": instance.id
     }
-    send_data_to_channel(instance.id, data)
+    PollSubscription.broadcast(group=instance.id, payload=data)
 
 
 @receiver(signals.post_save, sender=models.PollVote)
 def on_poll_vote(instance: models.PollVote, created: bool, **kwargs):
     if created:
         data = {
-            "type": PollEvents.PollVote,
+            "type": PollEvents.PollVote.value,
             "poll": serializers.PollSerializer(instance.option.poll).data
         }
-        send_data_to_channel(instance.option.poll.id, data)
+        PollSubscription.broadcast(group=instance.option.poll.id, payload=data)

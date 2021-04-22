@@ -10,3 +10,8 @@ class PollQuery(graphene.ObjectType):
 
     def resolve_polls(self, info):
         return models.Poll.objects.all()
+
+    poll_by_id = graphene.Field(types.PollType, id=graphene.ID())
+
+    def resolve_poll_by_id(self, info, id):
+        return models.Poll.objects.get(pk=id)

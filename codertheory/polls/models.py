@@ -12,7 +12,6 @@ class Poll(BaseModel):
     description = models.TextField(default=None, null=True, blank=True)
 
     class Meta:
-        db_table = "poll"
         ordering = [
             "-created_at"
         ]
@@ -38,7 +37,6 @@ class PollOption(BaseModel):
     poll = models.ForeignKey("Poll", on_delete=models.CASCADE)
 
     class Meta:
-        db_table = "poll_option"
         constraints = [
             models.UniqueConstraint(fields=["option", "poll"], name="unique_option")
         ]
@@ -58,5 +56,4 @@ class PollVote(BaseModel):
     option = models.ForeignKey("PollOption", on_delete=models.CASCADE)
 
     class Meta:
-        db_table = "poll_vote"
         order_with_respect_to = "option"
