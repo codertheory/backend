@@ -5,10 +5,8 @@ from codertheory.polls import models
 from codertheory.polls.graphql.types import PollType
 
 
-class PollSubscription(PollType, channels_graphql_ws.Subscription):
-    class Meta:
-        model = models.Poll
-        fields = "__all__"
+class PollSubscription(channels_graphql_ws.Subscription):
+    pollById = graphene.Field(PollType)
 
     class Arguments:
         id = graphene.ID(description="ID of the Poll")
@@ -18,12 +16,7 @@ class PollSubscription(PollType, channels_graphql_ws.Subscription):
         """Called when user subscribes."""
 
         # Return the list of subscription group names.
-        try:
-            return [id]
-        finally:
-            PollSubscription.broadcast(group=id, payload={
-                "poll": models.Poll.objects.get(pk=id)
-            })
+        return [id]
 
     @staticmethod
     def publish(payload, info, id):
@@ -34,4 +27,4 @@ class PollSubscription(PollType, channels_graphql_ws.Subscription):
         # if you wish to suppress the notification to a particular
         # client. For example, this allows to avoid notifications for
         # the actions made by this particular client.
-        return PollSubscription(**models.Poll.objects.get(pk=id).to_dict())
+        return PollSubscription(pollById=models.Poll.objects.get(pk=id))
