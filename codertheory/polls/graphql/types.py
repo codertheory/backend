@@ -1,5 +1,7 @@
 import graphene
+from channels_graphql_ws.scope_as_context import ScopeAsContext
 from graphene_django import DjangoObjectType, DjangoListField
+from django.core.handlers.asgi import ASGIRequest
 
 from .. import models
 
@@ -29,4 +31,10 @@ class PollType(DjangoObjectType):
 
     # noinspection PyUnresolvedReferences
     def resolve_can_vote(self, info):
-        return models.Poll.can_vote(self.id, info.context.META['REMOTE_ADDR'])
+        ip = None
+        if isinstance(info.context, ScopeAsContext):
+            # noinspection PyProtectedMember
+            ip = info.context._scope['client'][0]
+        elif isinstance(info.context, ASGIRequest):
+            ip = info.context.META['REMOTE_ADDR']
+        return models.Poll.can_vote(self.id, ip)

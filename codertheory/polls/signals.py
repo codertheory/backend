@@ -29,8 +29,9 @@ def on_poll_delete(instance: models.Poll, **kwargs):
 @receiver(signals.post_save, sender=models.PollVote)
 def on_poll_vote(instance: models.PollVote, created: bool, **kwargs):
     if created:
-        data = {
-            "type": PollEvents.PollVote.value,
-            "poll": serializers.PollSerializer(instance.option.poll).data
-        }
-        PollSubscription.broadcast(group=instance.option.poll.id, payload=data)
+        PollSubscription.broadcast(group=instance.poll.id, payload={"poll": {"id": instance.poll.id}})
+
+
+@receiver(signals.post_delete, sender=models.PollVote)
+def on_poll_delete(instance, **kwargs):
+    PollSubscription.broadcast(group=instance.poll.id, payload={"poll": {"id": instance.poll.id}})

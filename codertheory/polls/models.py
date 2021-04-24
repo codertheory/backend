@@ -22,11 +22,11 @@ class Poll(BaseModel):
 
     @property
     def total_vote_count(self) -> int:
-        return PollVote.objects.filter(option__poll_id=self.id).count()
+        return PollVote.objects.filter(poll_id=self.id).count()
 
     @property
     def votes(self) -> QuerySet['PollVote']:
-        return PollVote.objects.filter(option__poll_id=self.id)
+        return PollVote.objects.filter(poll_id=self.id)
 
     def get_option(self, option_id) -> "PollOption":
         return PollOption.objects.get(poll_id=self.id, id=option_id)
@@ -72,6 +72,4 @@ class PollVote(BaseModel):
 
     @classmethod
     def vote(cls, poll_id: str, option_id: str, ip: str, **kwargs) -> "PollVote":
-        vote = cls(poll_id=poll_id, option_id=option_id, ip=ip, metadata=kwargs)
-        vote.save()
-        return vote
+        return PollVote.objects.create(poll_id=poll_id, option_id=option_id, ip=ip, metadata=kwargs)

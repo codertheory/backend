@@ -1,3 +1,5 @@
+import time
+
 import channels_graphql_ws
 import graphene
 
@@ -27,4 +29,5 @@ class PollSubscription(channels_graphql_ws.Subscription):
         # if you wish to suppress the notification to a particular
         # client. For example, this allows to avoid notifications for
         # the actions made by this particular client.
+        time.sleep(0.5)
         return PollSubscription(pollById=models.Poll.objects.get(pk=id))
