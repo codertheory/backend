@@ -1,6 +1,8 @@
 import graphene
 from django.core.exceptions import BadRequest
+from django.db import IntegrityError
 from graphene_django.rest_framework.mutation import SerializerMutation
+from graphql.error import GraphQLLocatedError
 
 from . import serializers, types
 from .. import models
@@ -8,6 +10,7 @@ from .. import models
 __all__ = (
     "PollOptionMutation",
     "PollMutation",
+    "PollOptionInput",
     "CreatePollMutation",
     "PollVoteMutation"
 )
@@ -54,13 +57,23 @@ class CreatePollMutation(graphene.Mutation):
 
 class PollVoteMutation(graphene.Mutation):
     class Arguments:
-        id = graphene.ID(description="Poll Option ID")
+        poll_id = graphene.ID(description="Poll ID")
+        option_id = graphene.ID(description="Poll Option ID")
 
-    option = graphene.Field(types.PollOptionType)
+    vote = graphene.Field(types.PollVoteType)
 
     @classmethod
-    def mutate(cls, root, info, id=None):
-        poll_option = models.PollOption.objects.get(pk=id)
-        poll_option.vote()
+    def mutate(cls, root, info, poll_id=None, option_id=None):
+        try:
+            vote = models.PollVote.vote(poll_id, option_id, info.context.META['REMOTE_ADDR'])
+        except (IntegrityError, GraphQLLocatedError) as error:
+            if isinstance(error, IntegrityError):
+                for arg in error.args:
+                    if 'unique constraint' in arg.lower():
+                        raise Exception("IP Already Voted")
+                else:
+                    raise
+            else:
+                raise
         # noinspection PyArgumentList
-        return PollVoteMutation(option=poll_option)
+        return PollVoteMutation(vote=vote)

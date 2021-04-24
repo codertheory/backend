@@ -35,6 +35,10 @@ class Poll(BaseModel):
         from .graphql.serializers import PollSerializer
         return PollSerializer(instance=self).data
 
+    @staticmethod
+    def can_vote(poll_id, ip):
+        return not PollVote.objects.filter(poll_id=poll_id, ip=ip).exists()
+
 
 class PollOption(BaseModel):
     option = models.CharField(max_length=1000)
@@ -46,18 +50,28 @@ class PollOption(BaseModel):
         ]
         order_with_respect_to = "poll"
 
-    def vote(self, request=None):
-        poll_vote = PollVote(option=self)
-        poll_vote.save()
-        return poll_vote
-
     @property
     def vote_count(self):
         return PollVote.objects.filter(option=self).count()
 
 
 class PollVote(BaseModel):
+    poll = models.ForeignKey("Poll", on_delete=models.CASCADE)
     option = models.ForeignKey("PollOption", on_delete=models.CASCADE)
+    ip = models.GenericIPAddressField(null=True, blank=True)
+    metadata = models.JSONField(null=True, blank=True)
 
     class Meta:
         order_with_respect_to = "option"
+        constraints = [
+            models.UniqueConstraint(
+                fields=["poll", "ip"],
+                name="Unique IP Per Poll"
+            )
+        ]
+
+    @classmethod
+    def vote(cls, poll_id: str, option_id: str, ip: str, **kwargs) -> "PollVote":
+        vote = cls(poll_id=poll_id, option_id=option_id, ip=ip, metadata=kwargs)
+        vote.save()
+        return vote

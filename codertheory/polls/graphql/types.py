@@ -7,7 +7,7 @@ from .. import models
 class PollVoteType(DjangoObjectType):
     class Meta:
         model = models.PollVote
-        fields = "__all__"
+        fields = ("poll", "option")
 
 
 class PollOptionType(DjangoObjectType):
@@ -21,7 +21,12 @@ class PollOptionType(DjangoObjectType):
 class PollType(DjangoObjectType):
     options = DjangoListField(PollOptionType)
     vote_count = graphene.Int(source="total_vote_count")
+    can_vote = graphene.Boolean()
 
     class Meta:
         model = models.Poll
         fields = "__all__"
+
+    # noinspection PyUnresolvedReferences
+    def resolve_can_vote(self, info):
+        return models.Poll.can_vote(self.id, info.context.META['REMOTE_ADDR'])
