@@ -1,3 +1,5 @@
+import ipinfo
+from django.conf import settings
 from django.db import models
 from django.db.models import QuerySet
 
@@ -72,4 +74,14 @@ class PollVote(BaseModel):
 
     @classmethod
     def vote(cls, poll_id: str, option_id: str, ip: str, **kwargs) -> "PollVote":
-        return PollVote.objects.create(poll_id=poll_id, option_id=option_id, ip=ip, metadata=kwargs)
+        try:
+            handler = ipinfo.getHandler(settings.IPINFO_API_KEY)
+            details = handler.getDetails(ip)
+            metadata = {
+                "city": details.city,
+                "region": details.region,
+                "country": details.country
+            }
+        except:
+            metadata = {}
+        return PollVote.objects.create(poll_id=poll_id, option_id=option_id, ip=ip, metadata=metadata)

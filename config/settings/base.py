@@ -417,5 +417,9 @@ GRAPHQL_JWT = {
 }
 
 # Github
-#
+# ------------------------------------------------------------------------------
 GITHUB_WEBHOOK_KEY = env.str('GITHUB_WEBHOOK_KEY', default="")
+
+# IPinfo
+# ------------------------------------------------------------------------------
+IPINFO_API_KEY = env.str("IPINFO_API_KEY", default="")
