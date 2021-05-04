@@ -375,6 +375,7 @@ if SENTRY_DSN:
         level=SENTRY_LOG_LEVEL,  # Capture info and above as breadcrumbs
         event_level=logging.ERROR,  # Send errors as events
     )
+    # noinspection Pylint
     sentry_sdk.init(
         release=env.str('HEROKU_RELEASE_VERSION', default='1.0'),
         environment=env.str("DJANGO_SETTINGS_MODULE").split(".")[-1],
@@ -385,14 +386,21 @@ if SENTRY_DSN:
 # CHANNELS
 # ------------------------------------------------------------------------------
 ASGI_APPLICATION = "config.asgi.application"
-CHANNEL_LAYERS = {
-    "default": {
-        "BACKEND": "channels_redis.core.RedisChannelLayer",
-        "CONFIG": {
-            "hosts": [env.str('REDIS_URL')],
-        },
+if env.str("REDIS_URL", default=None):
+    CHANNEL_LAYERS = {
+        "default": {
+            "BACKEND": "channels_redis.core.RedisChannelLayer",
+            "CONFIG": {
+                "hosts": [env.str('REDIS_URL')],
+            },
+        }
     }
-}
+else:
+    CHANNEL_LAYERS = {
+        "default": {
+            "BACKEND": "channels.layers.InMemoryChannelLayer"
+        }
+    }
 
 # Snowflakes
 # ------------------------------------------------------------------------------
