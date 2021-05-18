@@ -3,8 +3,8 @@
 import django.db.models.deletion
 from django.db import migrations, models
 
-import codertheory.utils.custom_fields
-import codertheory.utils.generator
+import codertheory.general.custom_fields
+import codertheory.general.generator
 
 
 class Migration(migrations.Migration):
@@ -49,10 +49,10 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Tag',
             fields=[
-                ('id', codertheory.utils.custom_fields.NanoIDField(auto_created=True,
-                                                                   default=codertheory.utils.generator.generate_id,
-                                                                   editable=False, max_length=10, primary_key=True,
-                                                                   serialize=False)),
+                ('id', codertheory.general.custom_fields.NanoIDField(auto_created=True,
+                                                                     default=codertheory.general.generator.generate_id,
+                                                                     editable=False, max_length=10, primary_key=True,
+                                                                     serialize=False)),
                 ('name', models.CharField(max_length=120)),
                 ('content', models.CharField(max_length=1500)),
                 ('created_at', models.DateTimeField(auto_now_add=True)),
@@ -68,10 +68,10 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Task',
             fields=[
-                ('id', codertheory.utils.custom_fields.NanoIDField(auto_created=True,
-                                                                   default=codertheory.utils.generator.generate_id,
-                                                                   editable=False, max_length=10, primary_key=True,
-                                                                   serialize=False)),
+                ('id', codertheory.general.custom_fields.NanoIDField(auto_created=True,
+                                                                     default=codertheory.general.generator.generate_id,
+                                                                     editable=False, max_length=10, primary_key=True,
+                                                                     serialize=False)),
                 ('created_at', models.DateTimeField(auto_now_add=True)),
                 ('content', models.TextField()),
                 ('finished', models.BooleanField(default=False)),
@@ -84,10 +84,10 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='TagLookUp',
             fields=[
-                ('id', codertheory.utils.custom_fields.NanoIDField(auto_created=True,
-                                                                   default=codertheory.utils.generator.generate_id,
-                                                                   editable=False, max_length=10, primary_key=True,
-                                                                   serialize=False)),
+                ('id', codertheory.general.custom_fields.NanoIDField(auto_created=True,
+                                                                     default=codertheory.general.generator.generate_id,
+                                                                     editable=False, max_length=10, primary_key=True,
+                                                                     serialize=False)),
                 ('name', models.CharField(max_length=120)),
                 ('author', models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL,
                                              to='iceteabot.discorduser')),
@@ -111,10 +111,10 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Reminder',
             fields=[
-                ('id', codertheory.utils.custom_fields.NanoIDField(auto_created=True,
-                                                                   default=codertheory.utils.generator.generate_id,
-                                                                   editable=False, max_length=10, primary_key=True,
-                                                                   serialize=False)),
+                ('id', codertheory.general.custom_fields.NanoIDField(auto_created=True,
+                                                                     default=codertheory.general.generator.generate_id,
+                                                                     editable=False, max_length=10, primary_key=True,
+                                                                     serialize=False)),
                 ('message', models.CharField(max_length=1500)),
                 ('event', models.CharField(max_length=25)),
                 ('created_at', models.DateTimeField(auto_now_add=True)),
@@ -130,10 +130,10 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='ReactionRole',
             fields=[
-                ('id', codertheory.utils.custom_fields.NanoIDField(auto_created=True,
-                                                                   default=codertheory.utils.generator.generate_id,
-                                                                   editable=False, max_length=10, primary_key=True,
-                                                                   serialize=False)),
+                ('id', codertheory.general.custom_fields.NanoIDField(auto_created=True,
+                                                                     default=codertheory.general.generator.generate_id,
+                                                                     editable=False, max_length=10, primary_key=True,
+                                                                     serialize=False)),
                 ('message_id', models.BigIntegerField()),
                 ('emoji', models.CharField(max_length=100)),
                 ('created_at', models.DateTimeField(auto_now_add=True)),
@@ -148,10 +148,10 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='NickName',
             fields=[
-                ('id', codertheory.utils.custom_fields.NanoIDField(auto_created=True,
-                                                                   default=codertheory.utils.generator.generate_id,
-                                                                   editable=False, max_length=10, primary_key=True,
-                                                                   serialize=False)),
+                ('id', codertheory.general.custom_fields.NanoIDField(auto_created=True,
+                                                                     default=codertheory.general.generator.generate_id,
+                                                                     editable=False, max_length=10, primary_key=True,
+                                                                     serialize=False)),
                 ('name', models.TextField()),
                 ('changed_at', models.DateTimeField(auto_now_add=True)),
                 ('member',
@@ -164,10 +164,10 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='FAQ',
             fields=[
-                ('id', codertheory.utils.custom_fields.NanoIDField(auto_created=True,
-                                                                   default=codertheory.utils.generator.generate_id,
-                                                                   editable=False, max_length=10, primary_key=True,
-                                                                   serialize=False)),
+                ('id', codertheory.general.custom_fields.NanoIDField(auto_created=True,
+                                                                     default=codertheory.general.generator.generate_id,
+                                                                     editable=False, max_length=10, primary_key=True,
+                                                                     serialize=False)),
                 ('question', models.TextField()),
                 ('answer', models.TextField()),
                 ('created_at', models.DateTimeField(auto_now_add=True)),
@@ -184,10 +184,10 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='DiscordResponse',
             fields=[
-                ('id', codertheory.utils.custom_fields.NanoIDField(auto_created=True,
-                                                                   default=codertheory.utils.generator.generate_id,
-                                                                   editable=False, max_length=10, primary_key=True,
-                                                                   serialize=False)),
+                ('id', codertheory.general.custom_fields.NanoIDField(auto_created=True,
+                                                                     default=codertheory.general.generator.generate_id,
+                                                                     editable=False, max_length=10, primary_key=True,
+                                                                     serialize=False)),
                 ('content', models.TextField()),
                 ('author',
                  models.ForeignKey(on_delete=django.db.models.deletion.DO_NOTHING, to='iceteabot.discorduser')),
@@ -217,10 +217,10 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='CommandPrefix',
             fields=[
-                ('id', codertheory.utils.custom_fields.NanoIDField(auto_created=True,
-                                                                   default=codertheory.utils.generator.generate_id,
-                                                                   editable=False, max_length=10, primary_key=True,
-                                                                   serialize=False)),
+                ('id', codertheory.general.custom_fields.NanoIDField(auto_created=True,
+                                                                     default=codertheory.general.generator.generate_id,
+                                                                     editable=False, max_length=10, primary_key=True,
+                                                                     serialize=False)),
                 ('prefix', models.CharField(max_length=25)),
                 ('created_at', models.DateTimeField(auto_now_add=True)),
                 ('guild',
@@ -250,10 +250,10 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Activity',
             fields=[
-                ('id', codertheory.utils.custom_fields.NanoIDField(auto_created=True,
-                                                                   default=codertheory.utils.generator.generate_id,
-                                                                   editable=False, max_length=10, primary_key=True,
-                                                                   serialize=False)),
+                ('id', codertheory.general.custom_fields.NanoIDField(auto_created=True,
+                                                                     default=codertheory.general.generator.generate_id,
+                                                                     editable=False, max_length=10, primary_key=True,
+                                                                     serialize=False)),
                 ('status', models.TextField()),
                 ('role', models.BigIntegerField()),
                 ('guild',

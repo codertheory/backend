@@ -4,9 +4,9 @@ import django.contrib.auth.models
 import django.utils.timezone
 from django.db import migrations, models
 
+import codertheory.general.custom_fields
+import codertheory.general.generator
 import codertheory.users.models
-import codertheory.utils.custom_fields
-import codertheory.utils.generator
 
 
 class Migration(migrations.Migration):
@@ -27,10 +27,10 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='User',
             fields=[
-                ('id', codertheory.utils.custom_fields.NanoIDField(auto_created=True,
-                                                                   default=codertheory.utils.generator.generate_id,
-                                                                   editable=False, max_length=10, primary_key=True,
-                                                                   serialize=False)),
+                ('id', codertheory.general.custom_fields.NanoIDField(auto_created=True,
+                                                                     default=codertheory.general.generator.generate_id,
+                                                                     editable=False, max_length=10, primary_key=True,
+                                                                     serialize=False)),
                 ('password', models.CharField(max_length=128, verbose_name='password')),
                 ('last_login', models.DateTimeField(blank=True, null=True, verbose_name='last login')),
                 ('is_superuser', models.BooleanField(default=False,

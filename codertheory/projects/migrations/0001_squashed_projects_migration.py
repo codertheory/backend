@@ -4,8 +4,8 @@ import django.db.models.deletion
 from django.conf import settings
 from django.db import migrations, models
 
-import codertheory.utils.custom_fields
-import codertheory.utils.generator
+import codertheory.general.custom_fields
+import codertheory.general.generator
 
 
 class Migration(migrations.Migration):
@@ -22,10 +22,10 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Project',
             fields=[
-                ('id', codertheory.utils.custom_fields.NanoIDField(auto_created=True,
-                                                                   default=codertheory.utils.generator.generate_id,
-                                                                   editable=False, max_length=10, primary_key=True,
-                                                                   serialize=False)),
+                ('id', codertheory.general.custom_fields.NanoIDField(auto_created=True,
+                                                                     default=codertheory.general.generator.generate_id,
+                                                                     editable=False, max_length=10, primary_key=True,
+                                                                     serialize=False)),
                 ('name', models.TextField()),
                 ('description', models.TextField(null=True)),
                 ('created_at', models.DateTimeField()),
@@ -41,10 +41,10 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='ProjectChangeLog',
             fields=[
-                ('id', codertheory.utils.custom_fields.NanoIDField(auto_created=True,
-                                                                   default=codertheory.utils.generator.generate_id,
-                                                                   editable=False, max_length=10, primary_key=True,
-                                                                   serialize=False)),
+                ('id', codertheory.general.custom_fields.NanoIDField(auto_created=True,
+                                                                     default=codertheory.general.generator.generate_id,
+                                                                     editable=False, max_length=10, primary_key=True,
+                                                                     serialize=False)),
                 ('version', models.CharField(max_length=100)),
                 ('updated_at', models.DateTimeField()),
                 ('project', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='projects.project')),
@@ -70,10 +70,10 @@ class Migration(migrations.Migration):
             name='TaskBoard',
             fields=[
                 ('created', models.DateTimeField(auto_created=True, auto_now=True)),
-                ('id', codertheory.utils.custom_fields.NanoIDField(auto_created=True,
-                                                                   default=codertheory.utils.generator.generate_id,
-                                                                   editable=False, max_length=10, primary_key=True,
-                                                                   serialize=False)),
+                ('id', codertheory.general.custom_fields.NanoIDField(auto_created=True,
+                                                                     default=codertheory.general.generator.generate_id,
+                                                                     editable=False, max_length=10, primary_key=True,
+                                                                     serialize=False)),
                 ('name', models.CharField(max_length=256)),
                 ('description', models.TextField()),
                 ('author', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
@@ -87,10 +87,10 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Task',
             fields=[
-                ('id', codertheory.utils.custom_fields.NanoIDField(auto_created=True,
-                                                                   default=codertheory.utils.generator.generate_id,
-                                                                   editable=False, max_length=10, primary_key=True,
-                                                                   serialize=False)),
+                ('id', codertheory.general.custom_fields.NanoIDField(auto_created=True,
+                                                                     default=codertheory.general.generator.generate_id,
+                                                                     editable=False, max_length=10, primary_key=True,
+                                                                     serialize=False)),
                 ('name', models.CharField(max_length=256)),
                 ('description', models.TextField(blank=True, null=True)),
                 ('status', models.CharField(
@@ -109,10 +109,10 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='ProjectImage',
             fields=[
-                ('id', codertheory.utils.custom_fields.NanoIDField(auto_created=True,
-                                                                   default=codertheory.utils.generator.generate_id,
-                                                                   editable=False, max_length=10, primary_key=True,
-                                                                   serialize=False)),
+                ('id', codertheory.general.custom_fields.NanoIDField(auto_created=True,
+                                                                     default=codertheory.general.generator.generate_id,
+                                                                     editable=False, max_length=10, primary_key=True,
+                                                                     serialize=False)),
                 ('image', models.ImageField(height_field=590, upload_to='', width_field=360)),
                 ('posted', models.DateTimeField(auto_now_add=True)),
                 ('project', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='projects.project')),
@@ -125,10 +125,10 @@ class Migration(migrations.Migration):
             name='ProjectFeedBack',
             fields=[
                 ('posted_at', models.DateTimeField(auto_created=True)),
-                ('id', codertheory.utils.custom_fields.NanoIDField(auto_created=True,
-                                                                   default=codertheory.utils.generator.generate_id,
-                                                                   editable=False, max_length=10, primary_key=True,
-                                                                   serialize=False)),
+                ('id', codertheory.general.custom_fields.NanoIDField(auto_created=True,
+                                                                     default=codertheory.general.generator.generate_id,
+                                                                     editable=False, max_length=10, primary_key=True,
+                                                                     serialize=False)),
                 ('comment', models.TextField()),
                 ('project', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='projects.project')),
             ],
@@ -136,10 +136,10 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='ProjectFeature',
             fields=[
-                ('id', codertheory.utils.custom_fields.NanoIDField(auto_created=True,
-                                                                   default=codertheory.utils.generator.generate_id,
-                                                                   editable=False, max_length=10, primary_key=True,
-                                                                   serialize=False)),
+                ('id', codertheory.general.custom_fields.NanoIDField(auto_created=True,
+                                                                     default=codertheory.general.generator.generate_id,
+                                                                     editable=False, max_length=10, primary_key=True,
+                                                                     serialize=False)),
                 ('title', models.CharField(max_length=50)),
                 ('description', models.TextField()),
                 ('project', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='projects.project')),
@@ -148,10 +148,10 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='ProjectChangeLogFiledDiff',
             fields=[
-                ('id', codertheory.utils.custom_fields.NanoIDField(auto_created=True,
-                                                                   default=codertheory.utils.generator.generate_id,
-                                                                   editable=False, max_length=10, primary_key=True,
-                                                                   serialize=False)),
+                ('id', codertheory.general.custom_fields.NanoIDField(auto_created=True,
+                                                                     default=codertheory.general.generator.generate_id,
+                                                                     editable=False, max_length=10, primary_key=True,
+                                                                     serialize=False)),
                 ('filename', models.TextField()),
                 ('type', models.CharField(choices=[('New', 'New'), ('Updated', 'Updated'), ('Removed', 'Removed')],
                                           max_length=25)),
@@ -162,10 +162,10 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='ProjectChangeLogEntry',
             fields=[
-                ('id', codertheory.utils.custom_fields.NanoIDField(auto_created=True,
-                                                                   default=codertheory.utils.generator.generate_id,
-                                                                   editable=False, max_length=10, primary_key=True,
-                                                                   serialize=False)),
+                ('id', codertheory.general.custom_fields.NanoIDField(auto_created=True,
+                                                                     default=codertheory.general.generator.generate_id,
+                                                                     editable=False, max_length=10, primary_key=True,
+                                                                     serialize=False)),
                 ('type',
                  models.CharField(choices=[('Feature', 'Feature'), ('Improvement', 'Improvement'), ('Fix', 'Fix')],
                                   max_length=25)),

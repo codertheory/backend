@@ -4,8 +4,8 @@ import django.db.models.deletion
 from django.db import migrations, models
 
 import codertheory.shiritori.models
-import codertheory.utils.custom_fields
-import codertheory.utils.generator
+import codertheory.general.custom_fields
+import codertheory.general.generator
 
 
 class Migration(migrations.Migration):
@@ -18,10 +18,10 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Game',
             fields=[
-                ('id', codertheory.utils.custom_fields.NanoIDField(auto_created=True,
-                                                                   default=codertheory.utils.generator.generate_id,
-                                                                   editable=False, max_length=10, primary_key=True,
-                                                                   serialize=False)),
+                ('id', codertheory.general.custom_fields.NanoIDField(auto_created=True,
+                                                                     default=codertheory.general.generator.generate_id,
+                                                                     editable=False, max_length=10, primary_key=True,
+                                                                     serialize=False)),
                 ('name', models.CharField(max_length=512)),
                 ('password', models.CharField(max_length=5, null=True)),
                 ('started', models.BooleanField(default=False)),
@@ -37,10 +37,10 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Player',
             fields=[
-                ('id', codertheory.utils.custom_fields.NanoIDField(auto_created=True,
-                                                                   default=codertheory.utils.generator.generate_id,
-                                                                   editable=False, max_length=10, primary_key=True,
-                                                                   serialize=False)),
+                ('id', codertheory.general.custom_fields.NanoIDField(auto_created=True,
+                                                                     default=codertheory.general.generator.generate_id,
+                                                                     editable=False, max_length=10, primary_key=True,
+                                                                     serialize=False)),
                 ('name', models.CharField(max_length=512)),
                 ('score', models.IntegerField(default=100)),
                 ('game', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='shiritori.Game')),
@@ -49,10 +49,10 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='GameWord',
             fields=[
-                ('id', codertheory.utils.custom_fields.NanoIDField(auto_created=True,
-                                                                   default=codertheory.utils.generator.generate_id,
-                                                                   editable=False, max_length=10, primary_key=True,
-                                                                   serialize=False)),
+                ('id', codertheory.general.custom_fields.NanoIDField(auto_created=True,
+                                                                     default=codertheory.general.generator.generate_id,
+                                                                     editable=False, max_length=10, primary_key=True,
+                                                                     serialize=False)),
                 ('word', models.CharField(max_length=512)),
                 ('game', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='shiritori.Game')),
                 ('player', models.ForeignKey(on_delete=django.db.models.deletion.DO_NOTHING, to='shiritori.Player')),

@@ -1,7 +1,7 @@
-from django.db.models import *
+from django.db.models import Model,DateTimeField
 from django.forms import model_to_dict
 
-from codertheory.utils.custom_fields import NanoIDField
+from codertheory.general.custom_fields import NanoIDField
 
 
 class BaseModel(Model):

@@ -1,7 +1,7 @@
 from django.conf import settings
 from django.db import models
 
-from codertheory.utils.generator import generate_id
+from codertheory.general.generator import generate_id
 
 
 class NanoIDField(models.CharField):

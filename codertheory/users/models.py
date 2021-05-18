@@ -3,7 +3,7 @@ from django.db import models
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 
-from codertheory.utils.custom_fields import NanoIDField
+from codertheory.general.custom_fields import NanoIDField
 
 
 class CustomUserManager(UserManager):
@@ -20,7 +20,7 @@ class CustomUserManager(UserManager):
         return user
 
     def create_superuser(self, username=None, email=None, password=None, **extra_fields):
-        return super(CustomUserManager, self).create_superuser(None, email, password, **extra_fields)
+        return super().create_superuser(None, email, password, **extra_fields)
 
 
 class User(AbstractBaseUser, PermissionsMixin):
@@ -67,7 +67,7 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     def is_publisher(self) -> bool:
         if not isinstance(self, AnonymousUser):
-            self.has_perms("")
+            return self.has_perms("")
         else:
             return False
 

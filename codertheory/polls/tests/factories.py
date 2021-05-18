@@ -1,7 +1,7 @@
 import factory
 
 from codertheory.polls import models
-from codertheory.utils.generator import generate_id
+from codertheory.general.generator import generate_id
 
 __all__ = (
     "PollFactory",
