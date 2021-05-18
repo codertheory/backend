@@ -14,7 +14,7 @@ class GameFactory(factory.django.DjangoModelFactory):
 
     # noinspection PyUnusedLocal
     @factory.post_generation
-    def handle_start(self: models.ShiritoriGame, **kwargs):
+    def handle_start(self: models.ShiritoriGame,*args, **kwargs):
         if self.started and self.players:
             # noinspection PyAttributeOutsideInit
             self.current_player = self.players[0]
