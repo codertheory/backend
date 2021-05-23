@@ -1,0 +1,222 @@
+# This file was generated based on ".graphqlconfig". Do not edit manually.
+
+schema {
+    query: Query
+    mutation: Mutations
+    subscription: Subscription
+}
+
+type CreatePollMutation {
+    poll: PollType
+}
+
+type ErrorType {
+    field: String!
+    messages: [String!]!
+}
+
+type GameWordMutationPayload {
+    clientMutationId: String
+    "May contain more than one error for same field."
+    errors: [ErrorType]
+    score: Int
+    word: String
+}
+
+type LeaveGameMutation {
+    game: ShiritoriGameType
+}
+
+type Mutations {
+    createGame(input: GameWordMutationInput!): GameWordMutationPayload
+    createPoll(description: String, name: String!, options: [PollOptionInput]!): CreatePollMutation
+    createProject(input: ProjectMutationInput!): ProjectMutationPayload
+    leaveGame(gameId: ID, playerId: ID): LeaveGameMutation
+    refreshToken(token: String!): Refresh
+    takeTurn(gameId: ID, word: String): TakeTurnMutation
+    "Obtain JSON Web Token mutation"
+    tokenAuth(email: String!, password: String!): ObtainJSONWebToken
+    verifyToken(token: String!): Verify
+    votePoll(
+        "Poll Option ID"
+        optionId: ID,
+        "Poll ID"
+        pollId: ID
+    ): PollVoteMutation
+}
+
+"Obtain JSON Web Token mutation"
+type ObtainJSONWebToken {
+    token: String
+}
+
+type PollOptionType {
+    Order: Int!
+    createdAt: DateTime!
+    id: String!
+    option: String!
+    poll: PollType!
+    pollvoteSet: [PollVoteType!]!
+    votes: Int
+}
+
+type PollSubscription {
+    pollById: PollType
+}
+
+type PollType {
+    canVote: Boolean
+    createdAt: DateTime!
+    description: String
+    id: String!
+    name: String!
+    options: [PollOptionType!]
+    polloptionSet: [PollOptionType!]!
+    pollvoteSet: [PollVoteType!]!
+    voteCount: Int
+}
+
+type PollVoteMutation {
+    vote: PollVoteType
+}
+
+type PollVoteType {
+    option: PollOptionType!
+    poll: PollType!
+}
+
+type ProjectMutationPayload {
+    clientMutationId: String
+    createdAt: DateTime
+    currentVersion: String
+    description: String
+    "May contain more than one error for same field."
+    errors: [ErrorType]
+    id: String
+    lastUpdatedAt: DateTime
+    link: String
+    name: String
+    owner: String
+    slug: String
+    status: String
+}
+
+type ProjectType {
+    createdAt: DateTime!
+    currentVersion: String!
+    description: String
+    id: String!
+    lastUpdatedAt: DateTime
+    link: String
+    name: String!
+    owner: UserType!
+    slug: String
+    status: ProjectsProjectStatusChoices!
+}
+
+type Query {
+    games: [ShiritoriGameType]
+    pollById(id: ID): PollType
+    polls: [PollType]
+    projects: [ProjectType]
+    users: [UserType]
+}
+
+type Refresh {
+    payload: GenericScalar
+    token: String
+}
+
+type ShiritoriGameType {
+    createdAt: DateTime!
+    finished: Boolean!
+    id: String!
+    lastEdited: DateTime!
+    lastWord: String
+    playerIndex: Int!
+    started: Boolean!
+    timer: Int!
+}
+
+type Subscription {
+    pollSubscription(
+        "ID of the Poll"
+        id: ID
+    ): PollSubscription
+}
+
+type TakeTurnMutation {
+    score: Int
+}
+
+type UserType {
+    avatar: String
+    dateJoined: DateTime!
+    email: String!
+    firstName: String!
+    id: String!
+    "Designates whether this user should be treated as active. Unselect this instead of deleting accounts."
+    isActive: Boolean!
+    "Designates whether the user can log into the admin site."
+    isStaff: Boolean!
+    "Designates that this user has all permissions without explicitly assigning them."
+    isSuperuser: Boolean!
+    lastLogin: DateTime
+    lastName: String!
+    name: String!
+    projectSet: [ProjectType!]!
+    role: String!
+}
+
+type Verify {
+    payload: GenericScalar
+}
+
+"An enumeration."
+enum ProjectsProjectStatusChoices {
+    "Active"
+    ACTIVE
+    "Archived"
+    ARCHIVED
+    "Backlog"
+    BACKLOG
+    "Unactive"
+    UNACTIVE
+}
+
+input GameWordMutationInput {
+    clientMutationId: String
+    word: String!
+}
+
+input PollOptionInput {
+    option: String
+}
+
+input ProjectMutationInput {
+    clientMutationId: String
+    currentVersion: String!
+    description: String
+    id: String
+    lastUpdatedAt: DateTime
+    link: String
+    name: String!
+    owner: String!
+    slug: String
+    status: String
+}
+
+
+"""
+The `DateTime` scalar type represents a DateTime
+value as specified by
+[iso8601](https://en.wikipedia.org/wiki/ISO_8601).
+"""
+scalar DateTime
+
+"""
+The `GenericScalar` scalar type represents a generic
+GraphQL scalar value that could be:
+String, Boolean, Int, Float, List or Object.
+"""
+scalar GenericScalar

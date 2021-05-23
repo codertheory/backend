@@ -8,7 +8,7 @@ from django.views.decorators.csrf import csrf_exempt
 from graphene_django.views import GraphQLView
 
 urlpatterns = [
-                  path('graphql', csrf_exempt(GraphQLView.as_view(graphiql=settings.DEBUG))),
+                  path('graphql/', csrf_exempt(GraphQLView.as_view(graphiql=settings.DEBUG))),
                   path('grappelli/', include('grappelli.urls')),  # grappelli URLS
                   path(settings.ADMIN_URL, admin.site.urls),
                   path('accounts/', include(('allauth.urls', "allauth"), namespace="allauth")),
