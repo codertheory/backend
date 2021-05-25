@@ -6,7 +6,7 @@ ignore=migrations
 max-line-length=120
 
 [MESSAGES CONTROL]
-disable=missing-docstring,invalid-name,no-else-return,line-too-long,duplicate-code,attribute-defined-outside-init,too-few-public-methods
+disable=missing-docstring,invalid-name,no-else-return,line-too-long,duplicate-code,attribute-defined-outside-init,too-few-public-methods,unused-argument
 
 [DESIGN]
 max-parents=13

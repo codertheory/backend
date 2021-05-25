@@ -13,7 +13,7 @@ class PollAdmin(admin.ModelAdmin):
 
 @admin.register(models.PollOption)
 class PollOptionAdmin(admin.ModelAdmin):
-    pass
+    list_filter = ("poll",)
 
 
 @admin.register(models.PollVote)

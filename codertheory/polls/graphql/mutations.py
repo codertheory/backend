@@ -38,19 +38,20 @@ class CreatePollMutation(graphene.Mutation):
     class Arguments:
         name = graphene.String(required=True)
         options = graphene.List(PollOptionInput, required=True)
-        description = graphene.String()
+        description = graphene.String(required=False)
 
     poll = graphene.Field(types.PollType)
 
     @classmethod
-    def mutate(cls, *args, **kwargs):
-        options = kwargs.get('options')
+    def mutate(cls, root, info, name=None, options=None, description=None):
         if options:
             if len(set(option['option'] for option in options)) < len(options):
                 raise BadRequest("Options Must be Unique")
             if len(options) == 1:
                 raise BadRequest("Polls Must have more than 1 option")
-        instance = serializers.PollSerializer(data=kwargs)
+        instance = serializers.PollSerializer(data=dict(
+            name=name, options=options, description=description
+        ))
         if instance.is_valid():
             poll = instance.save()
             # noinspection PyArgumentList

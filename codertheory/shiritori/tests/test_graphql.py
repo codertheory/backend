@@ -1,14 +1,11 @@
-from unittest import skip
-
+from graphene_django.utils.testing import GraphQLTestCase
 from rest_framework.reverse import reverse
-from rest_framework.test import APITestCase
 
 from codertheory.shiritori import models
 from . import factories
 
 
-@skip("Refactor to use graphql")
-class ShiritoriViewTests(APITestCase):
+class ShiritoriGraphQLTests(GraphQLTestCase):
 
     @classmethod
     def setUpTestData(cls):

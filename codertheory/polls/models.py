@@ -1,7 +1,8 @@
 import ipinfo
 from django.conf import settings
 from django.db import models
-from django.db.models import QuerySet
+from django.db.models import Q
+from django.db.models import QuerySet, Count
 
 from codertheory.general.models import BaseModel
 
@@ -56,6 +57,16 @@ class PollOption(BaseModel):
     def vote_count(self):
         return PollVote.objects.filter(option=self).count()
 
+    @property
+    def vote_percentage(self):
+        option_vote_count = Count("option", filter=Q(option_id=self.id), output_field=models.FloatField())
+        total_vote_count = Count("poll", filter=Q(poll_id=self.poll.id), output_field=models.FloatField())
+        result = PollVote.objects.aggregate(total_vote_count=total_vote_count, vote_count=option_vote_count)
+        if result['total_vote_count'] > 0 and result['vote_count'] > 0:
+            return result['vote_count'] / result['total_vote_count']
+        else:
+            return 0
+
 
 class PollVote(BaseModel):
     poll = models.ForeignKey("Poll", on_delete=models.CASCADE)
@@ -82,6 +93,6 @@ class PollVote(BaseModel):
                 "region": details.region,
                 "country": details.country
             }
-        except:
+        except Exception:
             metadata = {}
         return PollVote.objects.create(poll_id=poll_id, option_id=option_id, ip=ip, metadata=metadata)

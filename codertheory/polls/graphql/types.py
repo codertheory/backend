@@ -1,7 +1,7 @@
 import graphene
 from channels_graphql_ws.scope_as_context import ScopeAsContext
-from graphene_django import DjangoObjectType, DjangoListField
 from django.core.handlers.asgi import ASGIRequest
+from graphene_django import DjangoObjectType, DjangoListField
 
 from .. import models
 
@@ -14,6 +14,7 @@ class PollVoteType(DjangoObjectType):
 
 class PollOptionType(DjangoObjectType):
     votes = graphene.Int(source="vote_count")
+    percentage = graphene.Float(source="vote_percentage")
 
     class Meta:
         model = models.PollOption

@@ -14,4 +14,7 @@ class PollQuery(graphene.ObjectType):
     poll_by_id = graphene.Field(types.PollType, id=graphene.ID())
 
     def resolve_poll_by_id(self, info, id):
-        return models.Poll.objects.get(pk=id)
+        try:
+            return models.Poll.objects.get(pk=id)
+        except models.Poll.DoesNotExist:
+            return None
