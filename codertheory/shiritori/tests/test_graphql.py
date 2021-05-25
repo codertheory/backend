@@ -1,3 +1,5 @@
+from unittest import skip
+
 from graphene_django.utils.testing import GraphQLTestCase
 from rest_framework.reverse import reverse
 
@@ -5,6 +7,7 @@ from codertheory.shiritori import models
 from . import factories
 
 
+@skip("Refactor to Graphql")
 class ShiritoriGraphQLTests(GraphQLTestCase):
 
     @classmethod
