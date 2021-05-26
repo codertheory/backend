@@ -13,6 +13,7 @@ from codertheory.general.models import BaseModel
 class Poll(BaseModel):
     name = models.CharField(max_length=1000)
     description = models.TextField(default=None, null=True, blank=True)
+    user = models.ForeignKey("users.User", on_delete=models.SET_NULL, null=True, blank=True)
 
     class Meta:
         ordering = [
@@ -73,6 +74,7 @@ class PollVote(BaseModel):
     option = models.ForeignKey("PollOption", on_delete=models.CASCADE)
     ip = models.GenericIPAddressField(null=True, blank=True)
     metadata = models.JSONField(null=True, blank=True)
+    user = models.ForeignKey("users.User", on_delete=models.SET_NULL, null=True, blank=True)
 
     class Meta:
         order_with_respect_to = "option"
