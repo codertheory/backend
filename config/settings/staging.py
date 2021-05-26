@@ -71,7 +71,7 @@ if env("MAILGUN_API_KEY", default=None):
 # Your stuff...
 # ------------------------------------------------------------------------------
 CORS_ORIGIN_WHITELIST += [
-    "https://polls.codertheory.dev"
+    "https://polls.codertheory.dev",
     "https://polls-a6yh67nyt-lucascodert.vercel.app",
     "https://codertheory-shiritori.herokuapp.com",
 ]
