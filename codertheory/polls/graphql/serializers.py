@@ -28,12 +28,14 @@ class PollSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         try:
             options = self.initial_data.pop("options")
-        except KeyError:
-            raise exceptions.ParseError({"options": self.fields['options'].default_error_messages['empty']})
-        poll = super(PollSerializer, self).create(validated_data)
-        for option_dict in options:
+        except KeyError as error:
+            raise exceptions.ParseError({"options": self.fields['options'].default_error_messages['empty']}) from error
+        poll = super().create(validated_data)
+        options_list = []
+        for index, option_dict in enumerate(options):
             option_dict['poll_id'] = poll.id
             option_serializer = PollOptionSerializer(data=option_dict)
             if option_serializer.is_valid():
-                option_serializer.save()
+                options_list.append(models.PollOption(**option_dict, _order=index))
+        models.PollOption.objects.bulk_create(options_list)
         return poll
