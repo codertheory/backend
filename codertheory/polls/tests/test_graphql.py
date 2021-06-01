@@ -88,3 +88,13 @@ class PollGraphQLTests(GraphQLTestCase):
         self.assertResponseNoErrors(response)
         self.assertEqual(self.poll.total_vote_count, 1)
         self.assertEqual(option.vote_count, 1)
+
+    def test_poll_exists(self):
+        response = self.query('''
+            query PollExists($pollID: ID){
+                pollExists(id:$pollID)
+            }
+        ''', variables={'pollID': self.poll.id})
+        self.assertResponseNoErrors(response)
+        data = json.loads(response.content)['data']['pollExists']
+        self.assertTrue(data)

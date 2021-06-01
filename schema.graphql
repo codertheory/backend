@@ -55,6 +55,7 @@ type PollOptionType {
     createdAt: DateTime!
     id: String!
     option: String!
+    percentage: Float
     poll: PollType!
     pollvoteSet: [PollVoteType!]!
     votes: Int
@@ -73,6 +74,7 @@ type PollType {
     options: [PollOptionType!]
     polloptionSet: [PollOptionType!]!
     pollvoteSet: [PollVoteType!]!
+    user: UserType
     voteCount: Int
 }
 
@@ -117,6 +119,7 @@ type ProjectType {
 type Query {
     games: [ShiritoriGameType]
     pollById(id: ID): PollType
+    pollExists(id: ID): Boolean
     polls: [PollType]
     projects: [ProjectType]
     users: [UserType]
@@ -164,6 +167,8 @@ type UserType {
     lastLogin: DateTime
     lastName: String!
     name: String!
+    pollSet: [PollType!]!
+    pollvoteSet: [PollVoteType!]!
     projectSet: [ProjectType!]!
     role: String!
 }

@@ -18,3 +18,8 @@ class PollQuery(graphene.ObjectType):
             return models.Poll.objects.get(pk=id)
         except models.Poll.DoesNotExist:
             return None
+
+    poll_exists = graphene.Field(graphene.Boolean, id=graphene.ID())
+
+    def resolve_poll_exists(self, info, id=None):
+        return models.Poll.objects.filter(pk=id).exists()
