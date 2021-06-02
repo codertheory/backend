@@ -1,6 +1,7 @@
 import json
 
 from graphene_django.utils.testing import GraphQLTestCase
+from graphql_relay import from_global_id
 
 from . import factories
 
@@ -16,7 +17,11 @@ class PollGraphQLTests(GraphQLTestCase):
             '''
             query {
                polls {
-                    id
+                    edges {
+                        node {
+                            id
+                        }
+                    }
                }
 
             }
@@ -26,7 +31,7 @@ class PollGraphQLTests(GraphQLTestCase):
         self.assertResponseNoErrors(response)
         data = json.loads(response.content)['data']['polls']
         self.assertEqual(len(data), 1)
-        self.assertEqual(data[0]['id'], self.poll.id)
+        self.assertEqual(from_global_id(data['edges'][0]['node']['id'])[1], self.poll.id)
 
     def test_create_poll(self):
         response = self.query(
@@ -89,12 +94,3 @@ class PollGraphQLTests(GraphQLTestCase):
         self.assertEqual(self.poll.total_vote_count, 1)
         self.assertEqual(option.vote_count, 1)
 
-    def test_poll_exists(self):
-        response = self.query('''
-            query PollExists($pollID: ID){
-                pollExists(id:$pollID)
-            }
-        ''', variables={'pollID': self.poll.id})
-        self.assertResponseNoErrors(response)
-        data = json.loads(response.content)['data']['pollExists']
-        self.assertTrue(data)

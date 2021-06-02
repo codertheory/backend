@@ -1,6 +1,7 @@
 import graphene
 from channels_graphql_ws.scope_as_context import ScopeAsContext
 from django.core.handlers.asgi import ASGIRequest
+from graphene import relay
 from graphene_django import DjangoObjectType, DjangoListField
 
 from .. import models
@@ -28,6 +29,11 @@ class PollType(DjangoObjectType):
 
     class Meta:
         model = models.Poll
+        filter_fields = {
+            'name': ['exact', 'icontains', 'istartswith'],
+            "active": ['exact']
+        }
+        interfaces = (relay.Node,)
         fields = "__all__"
 
     # noinspection PyUnresolvedReferences

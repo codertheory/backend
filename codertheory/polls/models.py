@@ -14,6 +14,7 @@ class Poll(BaseModel):
     name = models.CharField(max_length=1000)
     description = models.TextField(default=None, null=True, blank=True)
     user = models.ForeignKey("users.User", on_delete=models.SET_NULL, null=True, blank=True)
+    active = models.BooleanField(default=True)
 
     class Meta:
         ordering = [

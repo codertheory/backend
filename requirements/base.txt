@@ -29,6 +29,7 @@ django-grappelli==2.15.1 # https://github.com/sehmaschine/django-grappelli
 django-chunked-upload==2.0.0 # https://github.com/juliomalegria/django-chunked-upload
 django-money==2.0 # https://github.com/django-money/django-money
 git+https://github.com/jazzband/django-auditlog # https://github.com/jazzband/django-auditlog
+django-filter==2.4.0 # https://github.com/carltongibson/django-filter
 
 # ------------------------------------------------------------------------------
 djangorestframework==3.12.4  # https://github.com/encode/django-rest-framework
