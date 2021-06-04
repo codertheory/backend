@@ -2,7 +2,6 @@ import graphene
 from django.core.exceptions import BadRequest
 from django.db import IntegrityError
 from graphql.error import GraphQLLocatedError
-from graphql_relay import from_global_id
 
 from . import serializers, types
 from .. import models
@@ -53,8 +52,6 @@ class PollVoteMutation(graphene.Mutation):
 
     @classmethod
     def mutate(cls, root, info, poll_id=None, option_id=None):
-        _, poll_id = from_global_id(poll_id)
-        _, option_id = from_global_id(option_id)
         try:
             vote = models.PollVote.vote(poll_id, option_id, info.context.META['REMOTE_ADDR'])
             return PollVoteMutation(vote=vote)

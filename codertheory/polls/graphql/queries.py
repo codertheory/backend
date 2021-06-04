@@ -1,10 +1,10 @@
 import graphene
-from graphene import relay
 from graphene_django.filter import DjangoFilterConnectionField
 
 from . import types
+from ...general import node
 
 
 class PollQuery(graphene.ObjectType):
     polls = DjangoFilterConnectionField(types.PollType)
-    poll_by_id = relay.Node.Field(types.PollType)
+    poll_by_id = node.BaseNode.Field(types.PollType)

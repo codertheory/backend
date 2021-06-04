@@ -1,9 +1,9 @@
 import graphene
 from channels_graphql_ws.scope_as_context import ScopeAsContext
 from django.core.handlers.asgi import ASGIRequest
-from graphene import relay
 from graphene_django import DjangoObjectType, DjangoListField
 
+from codertheory.general import node
 from .. import models
 
 
@@ -20,7 +20,7 @@ class PollOptionType(DjangoObjectType):
     class Meta:
         model = models.PollOption
         fields = "__all__"
-        interfaces = (relay.Node,)
+        interfaces = (node.BaseNode,)
 
 
 class PollType(DjangoObjectType):
@@ -34,7 +34,7 @@ class PollType(DjangoObjectType):
             'name': ['exact', 'icontains', 'istartswith'],
             "active": ['exact']
         }
-        interfaces = (relay.Node,)
+        interfaces = (node.BaseNode,)
         fields = "__all__"
 
     # noinspection PyUnresolvedReferences
