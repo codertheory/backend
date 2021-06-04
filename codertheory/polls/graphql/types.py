@@ -20,6 +20,7 @@ class PollOptionType(DjangoObjectType):
     class Meta:
         model = models.PollOption
         fields = "__all__"
+        interfaces = (relay.Node,)
 
 
 class PollType(DjangoObjectType):

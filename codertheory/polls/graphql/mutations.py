@@ -1,33 +1,17 @@
 import graphene
 from django.core.exceptions import BadRequest
 from django.db import IntegrityError
-from graphene_django.rest_framework.mutation import SerializerMutation
 from graphql.error import GraphQLLocatedError
+from graphql_relay import from_global_id
 
 from . import serializers, types
 from .. import models
 
 __all__ = (
-    "PollOptionMutation",
-    "PollMutation",
     "PollOptionInput",
     "CreatePollMutation",
     "PollVoteMutation"
 )
-
-
-class PollOptionMutation(SerializerMutation):
-    class Meta:
-        serializer_class = serializers.PollOptionSerializer
-        convert_choices_to_enum = False
-
-
-class PollMutation(SerializerMutation):
-    options = graphene.List(types.PollOptionType)
-
-    class Meta:
-        serializer_class = serializers.PollSerializer
-        convert_choices_to_enum = False
 
 
 class PollOptionInput(graphene.InputObjectType):
@@ -67,10 +51,10 @@ class PollVoteMutation(graphene.Mutation):
 
     vote = graphene.Field(types.PollVoteType)
 
-    # noinspection PyUnusedLocal
-    # pylint: disable=unused-argument
     @classmethod
     def mutate(cls, root, info, poll_id=None, option_id=None):
+        _, poll_id = from_global_id(poll_id)
+        _, option_id = from_global_id(option_id)
         try:
             vote = models.PollVote.vote(poll_id, option_id, info.context.META['REMOTE_ADDR'])
             return PollVoteMutation(vote=vote)

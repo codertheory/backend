@@ -2,6 +2,7 @@ import time
 
 import channels_graphql_ws
 import graphene
+from graphql_relay import from_global_id
 
 from codertheory.polls import models
 from codertheory.polls.graphql.types import PollType
@@ -18,6 +19,7 @@ class PollSubscription(channels_graphql_ws.Subscription):
         """Called when user subscribes."""
 
         # Return the list of subscription group names.
+        _, id = from_global_id(id)
         return [id]
 
     @staticmethod
@@ -30,4 +32,5 @@ class PollSubscription(channels_graphql_ws.Subscription):
         # client. For example, this allows to avoid notifications for
         # the actions made by this particular client.
         time.sleep(0.5)  # TODO figure out why there is a race condition with the DB
+        _, id = from_global_id(id)
         return PollSubscription(pollById=models.Poll.objects.get(pk=id))
