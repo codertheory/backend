@@ -10,7 +10,7 @@ __all__ = (
 
 
 def send_game_event(game, event):
-    from codertheory.shiritori.api import serializers
+    from codertheory.shiritori.graphql import serializers
     data = {
         "game": serializers.GameDetailSerializer(game).data,
         "type": event

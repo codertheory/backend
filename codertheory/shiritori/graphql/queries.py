@@ -1,12 +1,11 @@
 import graphene
+from graphene_django.filter import DjangoFilterConnectionField
 
 from . import types
-from .. import models
+from ...general import node
 
 
 # noinspection PyMethodMayBeStatic
 class GameQuery(graphene.ObjectType):
-    games = graphene.List(types.ShiritoriGameType)
-
-    def resolve_games(self, info):
-        return models.ShiritoriGame.objects.all()
+    games = DjangoFilterConnectionField(types.ShiritoriGameType)
+    game_by_id = node.BaseNode.Field(types.ShiritoriGameType)

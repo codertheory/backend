@@ -24,7 +24,6 @@ class PollGraphQLTests(GraphQLTestCase):
                }
 
             }
-
             '''
         )
         self.assertResponseNoErrors(response)

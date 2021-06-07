@@ -2,31 +2,27 @@ pytz==2021.1  # https://github.com/stub42/pytz
 python-slugify==5.0.2  # https://github.com/un33k/python-slugify
 Pillow==8.2.0  # https://github.com/python-pillow/Pillow
 argon2-cffi==20.1.0  # https://github.com/hynek/argon2_cffi
-email-scrapper==0.6.0 # https://github.com/LucasCLuk/email-scrapper
+email-scrapper==0.6.0 # https://github.com/LucasCoderT/email-scrapper
 PyGithub==1.55 # https://github.com/PyGithub/PyGithub
-sentry-sdk==1.0.0 # https://github.com/getsentry/sentry-python
+sentry-sdk==1.1.0 # https://github.com/getsentry/sentry-python
 pyenchant==3.2.0 # https://pyenchant.github.io/pyenchant/
 nanoid==2.0.0 # https://github.com/puyuan/py-nanoid
 ipinfo==4.2.0 #https://github.com/ipinfo/python
 # ------------------------------------------------------------------------------
-django==3.2.3  # pyup: < 3.0  # https://www.djangoproject.com/
+django==3.2.4  # pyup: < 3.0  # https://www.djangoproject.com/
 channels==3.0.3 # https://github.com/django/channels/
 channels_redis==3.2.0 # http://github.com/django/channels_redis/
 graphql-core==2.3.2  # https://github.com/graphql-python/graphql-core
 graphene-django==2.15.0 # https://github.com/graphql-python/graphene-django
-django-graphql-jwt==0.3.0 # https://github.com/flavors/django-graphql-jwt
 git+https://github.com/datadvance/DjangoChannelsGraphqlWs # https://github.com/datadvance/DjangoChannelsGraphqlWs
 django-allauth==0.44.0 # https://github.com/pennersr/django-allauth
 django-environ==0.4.5  # https://github.com/joke2k/django-environ
 django-model-utils==4.1.1  # https://github.com/jazzband/django-model-utils
-django-redis==4.12.1  # https://github.com/niwinz/django-redis
+django-redis==5.0.0  # https://github.com/niwinz/django-redis
 django-cors-headers==3.7.0 # https://github.com/adamchainz/django-cors-headers
-django-ipware==3.0.2 # https://github.com/un33k/django-ipware
 django-taggit==1.4.0 # https://github.com/jazzband/django-taggit
-django-reversion==3.0.9 # https://github.com/etianen/django-reversion
 django-colorfield==0.4.1 # https://github.com/fabiocaccamo/django-colorfield
 django-grappelli==2.15.1 # https://github.com/sehmaschine/django-grappelli
-django-chunked-upload==2.0.0 # https://github.com/juliomalegria/django-chunked-upload
 django-money==2.0 # https://github.com/django-money/django-money
 git+https://github.com/jazzband/django-auditlog # https://github.com/jazzband/django-auditlog
 django-filter==2.4.0 # https://github.com/carltongibson/django-filter

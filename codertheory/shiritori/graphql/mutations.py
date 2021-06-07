@@ -1,34 +1,24 @@
 import graphene
-from graphene_django.rest_framework.mutation import SerializerMutation
 
-from . import serializers, types
+from . import types
 from .. import models
 
 __all__ = (
-    "GameMutation",
-    "PlayerMutation",
-    "GameWordMutation",
+    "CreateGameMutation",
     "LeaveGameMutation",
     "TakeTurnMutation"
 )
 
 
-class GameMutation(SerializerMutation):
-    class Meta:
-        serializer_class = serializers.GameSerializer
-        convert_choices_to_enum = False
+class CreateGameMutation(graphene.Mutation):
+    class Arguments:
+        password = graphene.String(required=False, deprecation_reason=False)
 
+    game = graphene.Field(types.ShiritoriGameType)
 
-class PlayerMutation(SerializerMutation):
-    class Meta:
-        serializer_class = serializers.PlayerSerializer
-        convert_choices_to_enum = False
-
-
-class GameWordMutation(SerializerMutation):
-    class Meta:
-        serializer_class = serializers.GameWordSerializer
-        convert_choices_to_enum = False
+    @classmethod
+    def mutate_and_get_payload(cls, root, info, **input):
+        return CreateGameMutation(models.ShiritoriGame.objects.create(**input))
 
 
 class LeaveGameMutation(graphene.Mutation):
