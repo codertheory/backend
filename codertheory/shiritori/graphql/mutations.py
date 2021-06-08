@@ -12,12 +12,12 @@ __all__ = (
 
 class CreateGameMutation(graphene.Mutation):
     class Arguments:
-        password = graphene.String(required=False, deprecation_reason=False)
+        password = graphene.String(required=False)
 
     game = graphene.Field(types.ShiritoriGameType)
 
     @classmethod
-    def mutate_and_get_payload(cls, root, info, **input):
+    def mutate(cls, root, info, **input):
         return CreateGameMutation(models.ShiritoriGame.objects.create(**input))
 
 

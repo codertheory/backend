@@ -2,8 +2,8 @@ from channels.generic.websocket import JsonWebsocketConsumer
 from graphene.utils.str_converters import to_camel_case
 
 from codertheory.shiritori import models
-from codertheory.shiritori.api import serializers
 from codertheory.shiritori.events import ShiritoriEvents
+from codertheory.shiritori.graphql import serializers
 
 __all__ = (
     "LobbyConsumer",

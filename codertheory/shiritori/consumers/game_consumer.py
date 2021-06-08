@@ -6,8 +6,8 @@ from graphene.utils.str_converters import to_camel_case
 from rest_framework.utils.serializer_helpers import ReturnDict
 
 from codertheory.shiritori import models
-from codertheory.shiritori.api import serializers
 from codertheory.shiritori.events import ShiritoriEvents
+from codertheory.shiritori.graphql import serializers
 
 __all__ = (
     "GameConsumer",
