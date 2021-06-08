@@ -121,7 +121,6 @@ MIGRATION_MODULES = {"sites": "codertheory.contrib.sites.migrations"}
 AUTHENTICATION_BACKENDS = [
     "django.contrib.auth.backends.ModelBackend",
     "allauth.account.auth_backends.AuthenticationBackend",
-    'graphql_jwt.backends.JSONWebTokenBackend',
 ]
 # https://docs.djangoproject.com/en/dev/ref/settings/#auth-user-model
 AUTH_USER_MODEL = "users.User"
@@ -413,7 +412,6 @@ GRAPHENE = {
     'SCHEMA': 'config.api.graphql.schema',  # Where your Graphene schema lives,
     'DJANGO_CHOICE_FIELD_ENUM_V3_NAMING': True,
     'MIDDLEWARE': [
-        'graphql_jwt.middleware.JSONWebTokenMiddleware',
     ],
     'SCHEMA_OUTPUT': 'data/schema.graphql',
     'SCHEMA_INDENT': 2,  # Defaults to None (displays all data on a single line)
