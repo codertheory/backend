@@ -6,10 +6,13 @@ schema {
     subscription: Subscription
 }
 
-"An object with an ID"
-interface Node {
+interface BaseNode {
     "The ID of the object."
     id: ID!
+}
+
+type CreateGameMutation {
+    game: ShiritoriGameType
 }
 
 type CreatePollMutation {
@@ -21,39 +24,22 @@ type ErrorType {
     messages: [String!]!
 }
 
-type GameWordMutationPayload {
-    clientMutationId: String
-    "May contain more than one error for same field."
-    errors: [ErrorType]
-    score: Int
-    word: String
-}
-
 type LeaveGameMutation {
     game: ShiritoriGameType
 }
 
 type Mutations {
-    createGame(input: GameWordMutationInput!): GameWordMutationPayload
+    createGame(password: String): CreateGameMutation
     createPoll(description: String, name: String!, options: [PollOptionInput]!): CreatePollMutation
     createProject(input: ProjectMutationInput!): ProjectMutationPayload
     leaveGame(gameId: ID, playerId: ID): LeaveGameMutation
-    refreshToken(token: String!): Refresh
     takeTurn(gameId: ID, word: String): TakeTurnMutation
-    "Obtain JSON Web Token mutation"
-    tokenAuth(email: String!, password: String!): ObtainJSONWebToken
-    verifyToken(token: String!): Verify
     votePoll(
         "Poll Option ID"
         optionId: ID,
         "Poll ID"
         pollId: ID
     ): PollVoteMutation
-}
-
-"Obtain JSON Web Token mutation"
-type ObtainJSONWebToken {
-    token: String
 }
 
 "The Relay compliant `PageInfo` type, containing data necessary to paginate this connection."
@@ -68,10 +54,11 @@ type PageInfo {
     startCursor: String
 }
 
-type PollOptionType {
+type PollOptionType implements BaseNode {
     Order: Int!
     createdAt: DateTime!
-    id: String!
+    "The ID of the object."
+    id: ID!
     option: String!
     percentage: Float
     poll: PollType!
@@ -79,11 +66,26 @@ type PollOptionType {
     votes: Int
 }
 
+type PollOptionTypeConnection {
+    "Contains the nodes in this connection."
+    edges: [PollOptionTypeEdge]!
+    "Pagination data for this connection."
+    pageInfo: PageInfo!
+}
+
+"A Relay edge containing a `PollOptionType` and its cursor."
+type PollOptionTypeEdge {
+    "A cursor for use in pagination"
+    cursor: String!
+    "The item at the end of the edge"
+    node: PollOptionType
+}
+
 type PollSubscription {
     pollById: PollType
 }
 
-type PollType implements Node {
+type PollType implements BaseNode {
     active: Boolean!
     canVote: Boolean
     createdAt: DateTime!
@@ -92,9 +94,10 @@ type PollType implements Node {
     id: ID!
     name: String!
     options: [PollOptionType!]
-    polloptionSet: [PollOptionType!]!
+    polloptionSet(after: String, before: String, first: Int, last: Int, offset: Int): PollOptionTypeConnection!
     pollvoteSet: [PollVoteType!]!
     user: UserType
+    vote: PollVoteType
     voteCount: Int
 }
 
@@ -118,8 +121,12 @@ type PollVoteMutation {
 }
 
 type PollVoteType {
-    option: PollOptionType!
-    poll: PollType!
+    Order: Int!
+    createdAt: DateTime!
+    id: String!
+    ip: String
+    metadata: JSONString
+    user: UserType
 }
 
 type ProjectMutationPayload {
@@ -152,7 +159,9 @@ type ProjectType {
 }
 
 type Query {
-    games: [ShiritoriGameType]
+    "The ID of the object"
+    gameById(id: ID!): ShiritoriGameType
+    games(after: String, before: String, finished: Boolean, first: Int, last: Int, offset: Int, started: Boolean): ShiritoriGameTypeConnection
     "The ID of the object"
     pollById(id: ID!): PollType
     polls(active: Boolean, after: String, before: String, first: Int, last: Int, name: String, name_Icontains: String, name_Istartswith: String, offset: Int): PollTypeConnection
@@ -160,20 +169,31 @@ type Query {
     users: [UserType]
 }
 
-type Refresh {
-    payload: GenericScalar
-    token: String
-}
-
-type ShiritoriGameType {
+type ShiritoriGameType implements BaseNode {
     createdAt: DateTime!
     finished: Boolean!
-    id: String!
+    "The ID of the object."
+    id: ID!
     lastEdited: DateTime!
     lastWord: String
     playerIndex: Int!
     started: Boolean!
     timer: Int!
+}
+
+type ShiritoriGameTypeConnection {
+    "Contains the nodes in this connection."
+    edges: [ShiritoriGameTypeEdge]!
+    "Pagination data for this connection."
+    pageInfo: PageInfo!
+}
+
+"A Relay edge containing a `ShiritoriGameType` and its cursor."
+type ShiritoriGameTypeEdge {
+    "A cursor for use in pagination"
+    cursor: String!
+    "The item at the end of the edge"
+    node: ShiritoriGameType
 }
 
 type Subscription {
@@ -208,10 +228,6 @@ type UserType {
     role: String!
 }
 
-type Verify {
-    payload: GenericScalar
-}
-
 "An enumeration."
 enum ProjectsProjectStatusChoices {
     "Active"
@@ -222,11 +238,6 @@ enum ProjectsProjectStatusChoices {
     BACKLOG
     "Unactive"
     UNACTIVE
-}
-
-input GameWordMutationInput {
-    clientMutationId: String
-    word: String!
 }
 
 input PollOptionInput {
@@ -255,8 +266,9 @@ value as specified by
 scalar DateTime
 
 """
-The `GenericScalar` scalar type represents a generic
-GraphQL scalar value that could be:
-String, Boolean, Int, Float, List or Object.
+Allows use of a JSON String for input / output from the GraphQL schema.
+
+Use of this type is *not recommended* as you lose the benefits of having a defined, static
+schema (one of the key benefits of GraphQL).
 """
-scalar GenericScalar
+scalar JSONString

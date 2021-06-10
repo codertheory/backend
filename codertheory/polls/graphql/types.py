@@ -1,16 +1,27 @@
 import graphene
 from channels_graphql_ws.scope_as_context import ScopeAsContext
 from django.core.handlers.asgi import ASGIRequest
+from django.core.handlers.wsgi import WSGIRequest
 from graphene_django import DjangoObjectType, DjangoListField
 
 from codertheory.general import node
 from .. import models
 
 
+def _get_ip(info):
+    ip = None
+    if isinstance(info.context, ScopeAsContext):
+        # noinspection PyProtectedMember
+        ip = info.context._scope['client'][0]
+    elif isinstance(info.context, (ASGIRequest, WSGIRequest)):
+        ip = info.context.META['REMOTE_ADDR']
+    return ip
+
+
 class PollVoteType(DjangoObjectType):
     class Meta:
         model = models.PollVote
-        fields = ("poll", "option")
+        exclude = ("poll", "option")
 
 
 class PollOptionType(DjangoObjectType):
@@ -27,6 +38,7 @@ class PollType(DjangoObjectType):
     options = DjangoListField(PollOptionType)
     vote_count = graphene.Int(source="total_vote_count")
     can_vote = graphene.Boolean()
+    vote = graphene.Field(PollVoteType, description="The Clients Vote, if one exists")
 
     class Meta:
         model = models.Poll
@@ -39,10 +51,13 @@ class PollType(DjangoObjectType):
 
     # noinspection PyUnresolvedReferences
     def resolve_can_vote(self, info):
-        ip = None
-        if isinstance(info.context, ScopeAsContext):
-            # noinspection PyProtectedMember
-            ip = info.context._scope['client'][0]
-        elif isinstance(info.context, ASGIRequest):
-            ip = info.context.META['REMOTE_ADDR']
+        ip = _get_ip(info)
         return models.Poll.can_vote(self.id, ip)
+
+    # noinspection PyUnresolvedReferences
+    def resolve_vote(self, info):
+        ip = _get_ip(info)
+        try:
+            return models.PollVote.objects.get(poll_id=self.id, ip=ip)
+        except models.PollVote.DoesNotExist:
+            return None

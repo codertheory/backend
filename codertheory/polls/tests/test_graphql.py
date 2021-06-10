@@ -91,3 +91,25 @@ class PollGraphQLTests(GraphQLTestCase):
         self.assertResponseNoErrors(response)
         self.assertEqual(self.poll.total_vote_count, 1)
         self.assertEqual(option.vote_count, 1)
+
+    def test_get_vote_by_ip(self):
+        option = factories.PollOptionFactory(poll=self.poll)
+        vote = factories.PollVoteFactory(poll=self.poll, option=option, ip="127.0.0.1")
+        response = self.query(
+            '''
+            query PollByID($pollID: ID!) {
+                pollById(id: $pollID) {
+                    id
+                    vote {
+                        id
+                        ip
+                    }
+                }
+            }
+            ''',
+            op_name="PollByID",
+            variables={"pollID": self.poll.id}
+        )
+        self.assertResponseNoErrors(response)
+        data = json.loads(response.content)
+        self.assertEqual(data['data']['pollById']['vote']['ip'], vote.ip)
