@@ -21,7 +21,7 @@ def _get_ip(info):
 class PollVoteType(DjangoObjectType):
     class Meta:
         model = models.PollVote
-        exclude = ("poll", "option")
+        fields = "__all__"
 
 
 class PollOptionType(DjangoObjectType):

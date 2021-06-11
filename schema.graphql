@@ -97,6 +97,7 @@ type PollType implements BaseNode {
     polloptionSet(after: String, before: String, first: Int, last: Int, offset: Int): PollOptionTypeConnection!
     pollvoteSet: [PollVoteType!]!
     user: UserType
+    "The Clients Vote, if one exists"
     vote: PollVoteType
     voteCount: Int
 }
@@ -126,6 +127,8 @@ type PollVoteType {
     id: String!
     ip: String
     metadata: JSONString
+    option: PollOptionType!
+    poll: PollType!
     user: UserType
 }
 
