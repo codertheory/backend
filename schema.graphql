@@ -11,6 +11,11 @@ interface BaseNode {
     id: ID!
 }
 
+type ClearVoteMutation {
+    error: String
+    success: Boolean
+}
+
 type CreateGameMutation {
     game: ShiritoriGameType
 }
@@ -29,6 +34,7 @@ type LeaveGameMutation {
 }
 
 type Mutations {
+    clearVote(voteId: ID): ClearVoteMutation
     createGame(password: String): CreateGameMutation
     createPoll(description: String, name: String!, options: [PollOptionInput]!): CreatePollMutation
     createProject(input: ProjectMutationInput!): ProjectMutationPayload
@@ -38,7 +44,9 @@ type Mutations {
         "Poll Option ID"
         optionId: ID,
         "Poll ID"
-        pollId: ID
+        pollId: ID,
+        "The ID of the Vote, used for changing a vote"
+        voteId: ID
     ): PollVoteMutation
 }
 
