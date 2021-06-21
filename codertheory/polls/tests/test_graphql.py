@@ -113,3 +113,28 @@ class PollGraphQLTests(GraphQLTestCase):
         self.assertResponseNoErrors(response)
         data = json.loads(response.content)
         self.assertEqual(data['data']['pollById']['vote']['ip'], vote.ip)
+
+    def test_change_vote(self):
+        option = factories.PollOptionFactory(poll=self.poll)
+        option_2 = factories.PollOptionFactory(poll=self.poll)
+        vote = factories.PollVoteFactory(poll=self.poll, option=option, ip="127.0.0.1")
+        response = self.query(
+            '''
+               mutation VotePoll($pollID: ID,$optionID: ID,$voteID: ID) {
+                    votePoll(optionId: $optionID, pollId: $pollID,voteId: $voteID) {
+                        vote {
+                            option {
+                                id
+                            }
+                        }
+                    }
+                }
+
+            ''',
+            op_name="VotePoll",
+            variables={'pollID': self.poll.id, 'optionID': option_2.id, 'voteID': vote.id}
+        )
+        self.assertResponseNoErrors(response)
+        data = json.loads(response.content)
+        self.assertEqual(data['data']['votePoll']['vote']['option']['id'], option_2.id)
+        self.assertEqual(self.poll.total_vote_count, 1)

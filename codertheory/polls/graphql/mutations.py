@@ -1,3 +1,6 @@
+import sys
+import traceback
+
 import graphene
 from django.core.exceptions import BadRequest
 from django.db import IntegrityError
@@ -9,7 +12,8 @@ from .. import models
 __all__ = (
     "PollOptionInput",
     "CreatePollMutation",
-    "PollVoteMutation"
+    "PollVoteMutation",
+    "ClearVoteMutation"
 )
 
 
@@ -47,17 +51,37 @@ class PollVoteMutation(graphene.Mutation):
     class Arguments:
         poll_id = graphene.ID(description="Poll ID")
         option_id = graphene.ID(description="Poll Option ID")
+        vote_id = graphene.ID(required=False, description="The ID of the Vote, used for changing a vote")
 
     vote = graphene.Field(types.PollVoteType)
 
     @classmethod
-    def mutate(cls, root, info, poll_id=None, option_id=None):
+    def mutate(cls, root, info, poll_id=None, option_id=None, vote_id=None):
         try:
-            vote = models.PollVote.vote(poll_id, option_id, info.context.META['REMOTE_ADDR'])
+            ip = types.get_ip(info)
+            vote = models.PollVote.vote(poll_id, option_id, ip, vote_id)
             return PollVoteMutation(vote=vote)
         except (IntegrityError, GraphQLLocatedError) as error:
+            traceback.print_exception(type(error), error, error.__traceback__, file=sys.stderr)
             if isinstance(error, IntegrityError):
                 for arg in error.args:
                     if 'unique constraint' in arg.lower():
                         raise Exception("IP Already Voted") from error
             raise error from error
+
+
+class ClearVoteMutation(graphene.Mutation):
+    class Arguments:
+        vote_id = graphene.ID()
+
+    success = graphene.Boolean()
+    error = graphene.String()
+
+    @classmethod
+    def mutate(cls, root, info, vote_id=None):
+        ip = types.get_ip(info)
+        try:
+            models.PollVote.clear(vote_id, ip)
+            return ClearVoteMutation(success=True)
+        except Exception as error:
+            return ClearVoteMutation(success=False, message=str(error))

@@ -1,4 +1,5 @@
 import ipinfo
+from auditlog.registry import auditlog
 from django.conf import settings
 from django.db import models
 from django.db.models import Q
@@ -87,7 +88,7 @@ class PollVote(BaseModel):
         ]
 
     @classmethod
-    def vote(cls, poll_id: str, option_id: str, ip: str, **kwargs) -> "PollVote":
+    def vote(cls, poll_id: str, option_id: str, ip: str, vote_id: str, **kwargs) -> "PollVote":
         try:
             handler = ipinfo.getHandler(settings.IPINFO_API_KEY)
             details = handler.getDetails(ip)
@@ -98,4 +99,21 @@ class PollVote(BaseModel):
             }
         except Exception:
             metadata = {}
-        return PollVote.objects.create(poll_id=poll_id, option_id=option_id, ip=ip, metadata=metadata)
+        if vote_id:
+            vote = PollVote.objects.get(pk=vote_id)
+            vote.option_id = option_id
+            vote.save()
+        else:
+            vote = PollVote.objects.create(poll_id=poll_id, option_id=option_id, ip=ip, metadata=metadata)
+        return vote
+
+    @classmethod
+    def clear(cls, vote_id: str, ip: str):
+        vote = PollVote.objects.get(pk=vote_id)
+        if vote.ip == ip:
+            vote.delete()
+        else:
+            raise Exception("No Vote Exists")
+
+
+auditlog.register(Poll, exclude_fields=("created_at",))

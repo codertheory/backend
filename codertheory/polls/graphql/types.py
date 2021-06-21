@@ -1,3 +1,5 @@
+import typing
+
 import graphene
 from channels_graphql_ws.scope_as_context import ScopeAsContext
 from django.core.handlers.asgi import ASGIRequest
@@ -8,7 +10,7 @@ from codertheory.general import node
 from .. import models
 
 
-def _get_ip(info):
+def get_ip(info) -> typing.Optional[str]:
     ip = None
     if isinstance(info.context, ScopeAsContext):
         # noinspection PyProtectedMember
@@ -51,12 +53,12 @@ class PollType(DjangoObjectType):
 
     # noinspection PyUnresolvedReferences
     def resolve_can_vote(self, info):
-        ip = _get_ip(info)
+        ip = get_ip(info)
         return models.Poll.can_vote(self.id, ip)
 
     # noinspection PyUnresolvedReferences
     def resolve_vote(self, info):
-        ip = _get_ip(info)
+        ip = get_ip(info)
         try:
             return models.PollVote.objects.get(poll_id=self.id, ip=ip)
         except models.PollVote.DoesNotExist:

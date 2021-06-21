@@ -2,6 +2,10 @@ from graphene_django.rest_framework.mutation import SerializerMutation
 
 from . import serializers
 
+__all__ = (
+    "ProjectMutation",
+)
+
 
 class ProjectMutation(SerializerMutation):
     class Meta:

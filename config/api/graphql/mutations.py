@@ -16,3 +16,4 @@ class Mutations(graphene.ObjectType):
     take_turn = TakeTurnMutation.Field()
     create_poll = CreatePollMutation.Field()
     vote_poll = PollVoteMutation.Field()
+    clear_vote = ClearVoteMutation.Field()
