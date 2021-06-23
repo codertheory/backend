@@ -17,8 +17,22 @@ class CreateGameMutation(graphene.Mutation):
     game = graphene.Field(types.ShiritoriGameType)
 
     @classmethod
-    def mutate(cls, root, info, **input):
-        return CreateGameMutation(models.ShiritoriGame.objects.create(**input))
+    def mutate(cls, root, info, **data):
+        return CreateGameMutation(models.ShiritoriGame.objects.create(**data))
+
+
+class JoinGameMutation(graphene.Mutation):
+    class Arguments:
+        player_name = graphene.String()
+        game_id = graphene.ID()
+
+    player = graphene.Field(types.ShiritoriPlayerType)
+
+    @classmethod
+    def mutate(cls, root, info, player_name=None, game_id=None):
+        game = models.ShiritoriGame.objects.get(pk=game_id)
+        player = game.join(player_name)
+        return JoinGameMutation(player=player)
 
 
 class LeaveGameMutation(graphene.Mutation):
@@ -33,6 +47,7 @@ class LeaveGameMutation(graphene.Mutation):
         try:
             game = models.ShiritoriPlayer.objects.get(pk=game_id)
             game.leave(player_id)
+            return LeaveGameMutation(game=game)
         except:
             return
 
@@ -46,4 +61,5 @@ class TakeTurnMutation(graphene.Mutation):
 
     @classmethod
     def mutate(cls, root, info, word=None, game_id=None):
-        pass
+        game = models.ShiritoriGame.objects.get(pk=game_id)
+        game.take_turn(word)

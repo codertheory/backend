@@ -4,12 +4,13 @@ import string
 from typing import Optional
 
 import enchant
+from auditlog.registry import auditlog
 from django.db import models
 from django.db.models import QuerySet
 
 from codertheory.general.models import BaseModel
 from codertheory.shiritori import exceptions
-from codertheory.shiritori.utils import *
+from codertheory.shiritori import utils
 
 __all__ = (
     "random_letter_generator",
@@ -51,7 +52,7 @@ class ShiritoriGame(BaseModel):
             except IndexError:
                 pass
             ShiritoriGame.objects.filter(id=self.id).update(started=self.started, current_player=self.current_player)
-            send_start_game_event(self)
+            utils.send_start_game_event(self)
         else:
             raise exceptions.GameCannotStartException(self)
 
@@ -61,7 +62,7 @@ class ShiritoriGame(BaseModel):
         self.winner = self.current_player
         ShiritoriGame.objects.filter(id=self.id).update(started=self.started, finished=self.finished,
                                                         winner=self.winner)
-        send_finish_game_event(self)
+        utils.send_finish_game_event(self)
 
     def is_current_player(self, player_id) -> bool:
         return player_id == self.current_player_id
@@ -70,12 +71,12 @@ class ShiritoriGame(BaseModel):
         new_player = ShiritoriPlayer.objects.create(
             name=name, game=self
         )
-        send_player_joined_or_left_event(self)
+        utils.send_player_joined_or_left_event(self)
         return new_player
 
     def leave(self, player_id):
         old_player = ShiritoriPlayer.objects.get(id=player_id).delete()
-        send_player_joined_or_left_event(self)
+        utils.send_player_joined_or_left_event(self)
         return old_player
 
     @staticmethod
@@ -132,7 +133,7 @@ class ShiritoriGame(BaseModel):
         finally:
             if not self.finished:
                 self.save()
-            send_turn_taken_event(self)
+            utils.send_turn_taken_event(self)
 
     def select_next_player(self):
         next_player = self.get_next_player()
@@ -209,3 +210,6 @@ class ShiritoriGameWord(BaseModel):
             models.UniqueConstraint(fields=["word", "game"], name="unique_word_per_game")
         ]
         order_with_respect_to = "game"
+
+
+auditlog.register(ShiritoriGame, include_fields=("started", "winner"))

@@ -3,7 +3,7 @@ python-slugify==5.0.2  # https://github.com/un33k/python-slugify
 Pillow==8.2.0  # https://github.com/python-pillow/Pillow
 argon2-cffi==20.1.0  # https://github.com/hynek/argon2_cffi
 email-scrapper==0.6.0 # https://github.com/LucasCoderT/email-scrapper
-PyGithub==1.55 # https://github.com/PyGithub/PyGithub
+PyGithub==1.54 # https://github.com/PyGithub/PyGithub
 sentry-sdk==1.1.0 # https://github.com/getsentry/sentry-python
 pyenchant==3.2.0 # https://pyenchant.github.io/pyenchant/
 nanoid==2.0.0 # https://github.com/puyuan/py-nanoid

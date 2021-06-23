@@ -10,10 +10,15 @@ __all__ = (
 
 
 class Mutations(graphene.ObjectType):
+    # Projects
     create_project = ProjectMutation.Field()
+
+    # Shiritori
     create_game = CreateGameMutation.Field()
     leave_game = LeaveGameMutation.Field()
     take_turn = TakeTurnMutation.Field()
+
+    # Polls
     create_poll = CreatePollMutation.Field()
     vote_poll = PollVoteMutation.Field()
     clear_vote = ClearVoteMutation.Field()
