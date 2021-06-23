@@ -10,7 +10,6 @@ from django.db.models import QuerySet
 
 from codertheory.general.models import BaseModel
 from codertheory.shiritori import exceptions
-from codertheory.shiritori import utils
 
 __all__ = (
     "random_letter_generator",
@@ -52,7 +51,6 @@ class ShiritoriGame(BaseModel):
             except IndexError:
                 pass
             ShiritoriGame.objects.filter(id=self.id).update(started=self.started, current_player=self.current_player)
-            utils.send_start_game_event(self)
         else:
             raise exceptions.GameCannotStartException(self)
 
@@ -62,7 +60,6 @@ class ShiritoriGame(BaseModel):
         self.winner = self.current_player
         ShiritoriGame.objects.filter(id=self.id).update(started=self.started, finished=self.finished,
                                                         winner=self.winner)
-        utils.send_finish_game_event(self)
 
     def is_current_player(self, player_id) -> bool:
         return player_id == self.current_player_id
@@ -71,12 +68,10 @@ class ShiritoriGame(BaseModel):
         new_player = ShiritoriPlayer.objects.create(
             name=name, game=self
         )
-        utils.send_player_joined_or_left_event(self)
         return new_player
 
     def leave(self, player_id):
         old_player = ShiritoriPlayer.objects.get(id=player_id).delete()
-        utils.send_player_joined_or_left_event(self)
         return old_player
 
     @staticmethod
@@ -109,8 +104,7 @@ class ShiritoriGame(BaseModel):
         if self.finished:
             if raise_exception:
                 raise exceptions.GameAlreadyFinishedException
-            else:
-                return
+            return
         try:
             self.validate_word(word)
             word_score = self.calculate_word_score(word)
@@ -133,7 +127,6 @@ class ShiritoriGame(BaseModel):
         finally:
             if not self.finished:
                 self.save()
-            utils.send_turn_taken_event(self)
 
     def select_next_player(self):
         next_player = self.get_next_player()
@@ -180,9 +173,9 @@ class ShiritoriPlayer(BaseModel):
     def is_current(self):
         return self == self.game.current_player
 
-    @property
-    def words(self):
-        return ShiritoriGameWord.objects.filter(game=self.game, player=self)
+    @staticmethod
+    def get_words(game_id, player_id) -> QuerySet['ShiritoriGameWord']:
+        return ShiritoriGameWord.objects.filter(game_id=game_id, player_id=player_id).order_by('-created_at')
 
     def update_points(self, points: int):
         self.score -= points

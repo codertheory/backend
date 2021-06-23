@@ -24,7 +24,7 @@ class PlayerSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = models.ShiritoriPlayer
-        fields = ("id", "name", "score", "words", "is_current")
+        fields = ("id", "name", "score", "get_words", "is_current")
 
 
 class GameDetailSerializer(serializers.ModelSerializer):

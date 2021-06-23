@@ -29,13 +29,21 @@ type ErrorType {
     messages: [String!]!
 }
 
+type GameSubscription {
+    gameById: ShiritoriGameType
+}
+
 type LeaveGameMutation {
     game: ShiritoriGameType
 }
 
 type Mutations {
     clearVote(voteId: ID): ClearVoteMutation
-    createGame(password: String): CreateGameMutation
+    createGame(
+        password: String,
+        "The amount of seconds each turn has, defaults to 10"
+        timer: Int
+    ): CreateGameMutation
     createPoll(description: String, name: String!, options: [PollOptionInput]!): CreatePollMutation
     createProject(input: ProjectMutationInput!): ProjectMutationPayload
     leaveGame(gameId: ID, playerId: ID): LeaveGameMutation
@@ -182,14 +190,18 @@ type Query {
 
 type ShiritoriGameType implements BaseNode {
     createdAt: DateTime!
+    currentPlayer: ShiritoriPlayerType
     finished: Boolean!
     "The ID of the object."
     id: ID!
     lastEdited: DateTime!
     lastWord: String
     playerIndex: Int!
+    shiritorigamewordSet: [ShiritoriGameWordType!]!
+    shiritoriplayerSet: [ShiritoriPlayerType!]!
     started: Boolean!
     timer: Int!
+    winner: ShiritoriPlayerType
 }
 
 type ShiritoriGameTypeConnection {
@@ -207,7 +219,30 @@ type ShiritoriGameTypeEdge {
     node: ShiritoriGameType
 }
 
+type ShiritoriGameWordType {
+    createdAt: DateTime!
+    id: String!
+    word: String!
+}
+
+type ShiritoriPlayerType {
+    Order: Int!
+    createdAt: DateTime!
+    currentPlayerGame(after: String, before: String, finished: Boolean, first: Int, last: Int, offset: Int, started: Boolean): ShiritoriGameTypeConnection!
+    game: ShiritoriGameType!
+    gameWinner(after: String, before: String, finished: Boolean, first: Int, last: Int, offset: Int, started: Boolean): ShiritoriGameTypeConnection!
+    id: String!
+    name: String!
+    score: Int!
+    shiritorigamewordSet: [ShiritoriGameWordType!]!
+    words: [ShiritoriGameWordType!]
+}
+
 type Subscription {
+    gameSubscription(
+        "ID of the game"
+        gameId: ID
+    ): GameSubscription
     pollSubscription(
         "ID of the Poll"
         id: ID

@@ -13,6 +13,7 @@ __all__ = (
 class CreateGameMutation(graphene.Mutation):
     class Arguments:
         password = graphene.String(required=False)
+        timer = graphene.Int(required=False, description="The amount of seconds each turn has, defaults to 10")
 
     game = graphene.Field(types.ShiritoriGameType)
 
