@@ -43,6 +43,12 @@ class BlankInputGivenException(PenaltyException):
         super(BlankInputGivenException, self).__init__(msg="No Input Given")
 
 
+class NotEnoughPlayersException(GameException):
+    def __init__(self, game):
+        self.game = game
+        super(NotEnoughPlayersException, self).__init__("A Game requires at least 2 players to start")
+
+
 class GameCannotStartException(GameException):
     def __init__(self, game):
         self.game = game

@@ -39,14 +39,11 @@ type LeaveGameMutation {
 
 type Mutations {
     clearVote(voteId: ID): ClearVoteMutation
-    createGame(
-        password: String,
-        "The amount of seconds each turn has, defaults to 10"
-        timer: Int
-    ): CreateGameMutation
+    createGame(private: Boolean): CreateGameMutation
     createPoll(description: String, name: String!, options: [PollOptionInput]!): CreatePollMutation
     createProject(input: ProjectMutationInput!): ProjectMutationPayload
     leaveGame(gameId: ID, playerId: ID): LeaveGameMutation
+    startGame(gameId: ID, timer: Int): StartGameMutation
     takeTurn(gameId: ID, word: String): TakeTurnMutation
     votePoll(
         "Poll Option ID"
@@ -197,6 +194,7 @@ type ShiritoriGameType implements BaseNode {
     lastEdited: DateTime!
     lastWord: String
     playerIndex: Int!
+    private: Boolean!
     shiritorigamewordSet: [ShiritoriGameWordType!]!
     shiritoriplayerSet: [ShiritoriPlayerType!]!
     started: Boolean!
@@ -236,6 +234,10 @@ type ShiritoriPlayerType {
     score: Int!
     shiritorigamewordSet: [ShiritoriGameWordType!]!
     words: [ShiritoriGameWordType!]
+}
+
+type StartGameMutation {
+    game: ShiritoriGameType
 }
 
 type Subscription {

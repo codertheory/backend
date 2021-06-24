@@ -29,7 +29,7 @@ TIMEOUT_POINTS_GAIN = 10
 # Create your models here.
 
 class ShiritoriGame(BaseModel):
-    password = models.CharField(max_length=5, blank=True, null=True)
+    private = models.BooleanField(default=True)
     started = models.BooleanField(default=False)
     current_player: Optional["ShiritoriPlayer"] = models.ForeignKey("ShiritoriPlayer", on_delete=models.CASCADE,
                                                                     blank=True, null=True,
@@ -50,16 +50,15 @@ class ShiritoriGame(BaseModel):
                 self.current_player = self.players[0]
             except IndexError:
                 pass
-            ShiritoriGame.objects.filter(id=self.id).update(started=self.started, current_player=self.current_player)
+            self.save()
         else:
-            raise exceptions.GameCannotStartException(self)
+            raise exceptions.NotEnoughPlayersException(self)
 
     def finish(self):
         self.started = True
         self.finished = True
         self.winner = self.current_player
-        ShiritoriGame.objects.filter(id=self.id).update(started=self.started, finished=self.finished,
-                                                        winner=self.winner)
+        self.save()
 
     def is_current_player(self, player_id) -> bool:
         return player_id == self.current_player_id

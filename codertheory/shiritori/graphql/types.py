@@ -6,14 +6,14 @@ from ...general import node
 
 __all__ = (
     "ShiritoriGameType",
-    "ShiritoriPlayerType"
+    "ShiritoriGameWordType",
+    "ShiritoriPlayerType",
 )
 
 
 class ShiritoriGameType(DjangoObjectType):
     class Meta:
         model = models.ShiritoriGame
-        exclude = ('password',)
         interfaces = (node.BaseNode,)
         filter_fields = {
             "finished": ['exact'],

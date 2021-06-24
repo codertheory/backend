@@ -1,25 +1,27 @@
 import graphene
 
+from codertheory.shiritori import exceptions
 from . import types
 from .. import models
 
 __all__ = (
     "CreateGameMutation",
+    "JoinGameMutation",
     "LeaveGameMutation",
+    "StartGameMutation",
     "TakeTurnMutation"
 )
 
 
 class CreateGameMutation(graphene.Mutation):
     class Arguments:
-        password = graphene.String(required=False)
-        timer = graphene.Int(required=False, description="The amount of seconds each turn has, defaults to 10")
+        private = graphene.Boolean()
 
     game = graphene.Field(types.ShiritoriGameType)
 
     @classmethod
-    def mutate(cls, root, info, **data):
-        return CreateGameMutation(models.ShiritoriGame.objects.create(**data))
+    def mutate(cls, root, info, private=False):
+        return CreateGameMutation(models.ShiritoriGame.objects.create(private=private))
 
 
 class JoinGameMutation(graphene.Mutation):
@@ -51,6 +53,24 @@ class LeaveGameMutation(graphene.Mutation):
             return LeaveGameMutation(game=game)
         except:
             return
+
+
+class StartGameMutation(graphene.Mutation):
+    class Arguments:
+        game_id = graphene.ID()
+        timer = graphene.Int()
+
+    game = graphene.Field(types.ShiritoriGameType)
+
+    @classmethod
+    def mutate(cls, root, info, game_id=None, timer=None):
+        game = models.ShiritoriGame.objects.get(pk=game_id)
+        game.timer = timer
+        try:
+            game.start()
+        except exceptions.NotEnoughPlayersException as error:
+            raise Exception(str(error))
+        return StartGameMutation(game=game)
 
 
 class TakeTurnMutation(graphene.Mutation):
