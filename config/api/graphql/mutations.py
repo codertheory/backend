@@ -16,6 +16,7 @@ class Mutations(graphene.ObjectType):
     # Shiritori
     create_game = CreateGameMutation.Field()
     start_game = StartGameMutation.Field()
+    join_game = JoinGameMutation.Field()
     leave_game = LeaveGameMutation.Field()
     take_turn = TakeTurnMutation.Field()
 

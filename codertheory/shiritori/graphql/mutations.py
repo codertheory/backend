@@ -16,12 +16,19 @@ __all__ = (
 class CreateGameMutation(graphene.Mutation):
     class Arguments:
         private = graphene.Boolean()
+        player_name = graphene.String()
 
     game = graphene.Field(types.ShiritoriGameType)
+    player = graphene.Field(types.ShiritoriPlayerType)
 
     @classmethod
-    def mutate(cls, root, info, private=False):
-        return CreateGameMutation(models.ShiritoriGame.objects.create(private=private))
+    def mutate(cls, root, info, private=False, player_name=None):
+        game = models.ShiritoriGame.objects.create(private=private)
+        if player_name:
+            player = game.join(player_name)
+        else:
+            player = None
+        return CreateGameMutation(game=game, player=player)
 
 
 class JoinGameMutation(graphene.Mutation):
@@ -48,10 +55,9 @@ class LeaveGameMutation(graphene.Mutation):
     @classmethod
     def mutate(cls, root, info, player_id=None, game_id=None):
         try:
-            game = models.ShiritoriPlayer.objects.get(pk=game_id)
-            game.leave(player_id)
-            return LeaveGameMutation(game=game)
-        except:
+            player = models.ShiritoriPlayer.objects.get(pk=player_id, game__id=game_id).leave()
+            return LeaveGameMutation(game=player.game)
+        except models.ShiritoriPlayer.DoesNotExist:
             return
 
 

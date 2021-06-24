@@ -70,7 +70,12 @@ class ShiritoriGame(BaseModel):
         return new_player
 
     def leave(self, player_id):
-        old_player = ShiritoriPlayer.objects.get(id=player_id).delete()
+        old_player = ShiritoriPlayer.objects.get(id=player_id)
+        if old_player == self.current_player:
+            self.select_next_player()
+        old_player.delete()
+        if self.players.count() == 0:
+            self.delete()
         return old_player
 
     @staticmethod
@@ -157,7 +162,7 @@ class ShiritoriGame(BaseModel):
 
 
 class ShiritoriPlayer(BaseModel):
-    name = models.CharField(max_length=512)
+    name = models.CharField(max_length=25)
     score = models.IntegerField(default=100)
     game: Optional["ShiritoriGame"] = models.ForeignKey(ShiritoriGame, on_delete=models.CASCADE)
 

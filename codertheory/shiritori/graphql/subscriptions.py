@@ -21,10 +21,19 @@ class GameSubscription(channels_graphql_ws.Subscription):
 
     class Arguments:
         game_id = graphene.ID(description="ID of the game")
+        player_id = graphene.ID(description="ID of the player")
 
     @staticmethod
-    def subscribe(root, info, game_id=None):
+    def subscribe(root, info, game_id=None, player_id=None):
         return [game_id]
+
+    @staticmethod
+    def unsubscribed(root, info, game_id=None, player_id=None):
+        try:
+            game = models.ShiritoriGame.objects.get(pk=game_id)
+            game.leave(player_id)
+        except models.ShiritoriGame.DoesNotExist:
+            pass
 
     @staticmethod
     @database_sync_to_async
