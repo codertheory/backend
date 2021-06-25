@@ -8,12 +8,12 @@ from codertheory.polls.graphql.subscriptions import PollSubscription
 @receiver(signals.post_save, sender=models.Poll)
 def on_poll_save(instance: models.Poll, created: bool, **kwargs):
     if created:
-        PollSubscription.broadcast_async(group=instance.id, payload={"poll": {"id": instance.id}})
+        PollSubscription.broadcast(group=instance.id, payload={"poll": {"id": instance.id}})
 
 
 @receiver(signals.post_delete, sender=models.Poll)
 def on_poll_delete(instance: models.Poll, **kwargs):
-    PollSubscription.broadcast_async(group=instance.id, payload={"poll": {"id": instance.id}})
+    PollSubscription.broadcast(group=instance.id, payload={"poll": {"id": instance.id}})
 
 
 @receiver(signals.post_save, sender=models.PollVote)
