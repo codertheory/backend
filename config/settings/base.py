@@ -105,7 +105,7 @@ LOCAL_APPS = [
     "codertheory.general",
     "codertheory.users",
     "codertheory.projects",
-    "codertheory.iceteabot",
+    # "codertheory.iceteabot",
     "codertheory.shiritori",
     "codertheory.polls"
 
@@ -167,6 +167,7 @@ MIDDLEWARE = [
     "corsheaders.middleware.CorsMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
+    "corsheaders.middleware.CorsPostCsrfMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
@@ -238,6 +239,9 @@ FIXTURE_DIRS = (str(APPS_DIR.path("fixtures")),)
 SESSION_COOKIE_HTTPONLY = True
 # https://docs.djangoproject.com/en/dev/ref/settings/#csrf-cookie-httponly
 CSRF_COOKIE_HTTPONLY = True
+CSRF_TRUSTED_ORIGINS = [
+    'localhost',
+]
 # https://docs.djangoproject.com/en/dev/ref/settings/#secure-browser-xss-filter
 SECURE_BROWSER_XSS_FILTER = True
 # https://docs.djangoproject.com/en/dev/ref/settings/#x-frame-options
@@ -475,3 +479,19 @@ GITHUB_WEBHOOK_KEY = env.str('GITHUB_WEBHOOK_KEY', default="")
 # IPinfo
 # ------------------------------------------------------------------------------
 IPINFO_API_KEY = env.str("IPINFO_API_KEY", default="")
+
+# GraphQL Auth
+# ------------------------------------------------------------------------------
+GRAPHQL_AUTH = {
+    'LOGIN_ALLOWED_FIELDS': ['email'],
+    'REGISTER_MUTATION_FIELDS': ['email'],
+    'USER_NODE_FILTER_FIELDS': {
+        "email": ["exact", ],
+        "is_active": ["exact"],
+        "status__archived": ["exact"],
+        "status__verified": ["exact"],
+        "status__secondary_email": ["exact"],
+    },
+    'USER_NODE_EXCLUDE_FIELDS': ['password']
+    # ...
+}

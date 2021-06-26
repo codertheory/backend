@@ -1,9 +1,9 @@
 import graphene
+from graphql_auth.schema import UserQuery, MeQuery
 
 from codertheory.polls.graphql.queries import PollQuery
 from codertheory.projects.graphql.queries import ProjectQuery
 from codertheory.shiritori.graphql.queries import GameQuery
-from codertheory.users.graphql.query import UserQuery
 
 __all__ = (
     "Query",
@@ -12,6 +12,7 @@ __all__ = (
 
 class Query(
     UserQuery,
+    MeQuery,
     ProjectQuery,
     GameQuery,
     PollQuery,
