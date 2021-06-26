@@ -69,23 +69,27 @@ class ShiritoriGraphQLTests(GraphQLTestCase):
 
     def test_start_game(self):
         factories.PlayerFactory.create_batch(2, game=self.game)
-        response = self.query(
-            '''
-                mutation StartGame($gameId: ID){
-                    startGame(gameId: $gameId) {
-                        game {
-                            started
-                        }
+        query_kwargs = dict(
+            query='''
+            mutation StartGame($gameId: ID){
+                startGame(gameId: $gameId) {
+                    game {
+                        started
                     }
                 }
-            ''',
+            }
+        ''',
             op_name="StartGame",
             variables={
                 "gameId": self.game.id,
             }
         )
+        response = self.query(**query_kwargs)
         self.assertResponseNoErrors(response)
-        self.game.save(update_fields={"started": True})
+        self.game.started = True
+        self.game.save(update_fields=['started'])
+        response = self.query(**query_kwargs)
+        self.assertResponseHasErrors(response)
 
     @skip
     def test_take_game_turn(self):

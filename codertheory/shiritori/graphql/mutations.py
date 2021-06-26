@@ -1,4 +1,5 @@
 import graphene
+from graphql import GraphQLError
 
 from codertheory.shiritori import exceptions
 from . import types
@@ -67,16 +68,19 @@ class StartGameMutation(graphene.Mutation):
         timer = graphene.Int()
 
     game = graphene.Field(types.ShiritoriGameType)
+    errors = graphene.List(graphene.String)
 
     @classmethod
     def mutate(cls, root, info, game_id=None, timer=None):
         game = models.ShiritoriGame.objects.get(pk=game_id)
         if timer:
             game.timer = timer
+        if game.started:
+            raise GraphQLError("Game Already Started")
         try:
             game.start()
         except exceptions.NotEnoughPlayersException as error:
-            raise Exception(str(error)) from error
+            return StartGameMutation(errors=[str(error)])
         return StartGameMutation(game=game)
 
 

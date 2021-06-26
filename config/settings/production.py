@@ -2,8 +2,6 @@ from .base import *  # noqa
 
 # GENERAL
 # ------------------------------------------------------------------------------
-# https://docs.djangoproject.com/en/dev/ref/settings/#secret-key
-SECRET_KEY = env("DJANGO_SECRET_KEY")
 # https://docs.djangoproject.com/en/dev/ref/settings/#allowed-hosts
 ALLOWED_HOSTS = env.list("DJANGO_ALLOWED_HOSTS", default=["codertheory.dev"])
 
@@ -111,39 +109,21 @@ if env("MAILGUN_API_KEY", default=None):
 # https://docs.djangoproject.com/en/dev/ref/settings/#logging
 # See https://docs.djangoproject.com/en/dev/topics/logging for
 # more details on how to customize your logging configuration.
-
-LOGGING = {
-    "version": 1,
-    "disable_existing_loggers": True,
-    "formatters": {
-        "verbose": {
-            "format": "%(levelname)s %(asctime)s %(module)s "
-                      "%(process)d %(thread)d %(message)s"
-        }
+LOGGING['disable_existing_loggers'] = True
+LOGGING['loggers'].update({
+    "django.db.backends": {
+        "level": "ERROR",
+        "handlers": ["console"],
+        "propagate": False,
     },
-    "handlers": {
-        "console": {
-            "level": "DEBUG",
-            "class": "logging.StreamHandler",
-            "formatter": "verbose",
-        }
+    # Errors logged by the SDK itself
+    "sentry_sdk": {"level": "ERROR", "handlers": ["console"], "propagate": False},
+    "django.security.DisallowedHost": {
+        "level": "ERROR",
+        "handlers": ["console"],
+        "propagate": False,
     },
-    "root": {"level": "INFO", "handlers": ["console"]},
-    "loggers": {
-        "django.db.backends": {
-            "level": "ERROR",
-            "handlers": ["console"],
-            "propagate": False,
-        },
-        # Errors logged by the SDK itself
-        "sentry_sdk": {"level": "ERROR", "handlers": ["console"], "propagate": False},
-        "django.security.DisallowedHost": {
-            "level": "ERROR",
-            "handlers": ["console"],
-            "propagate": False,
-        },
-    },
-}
+})
 # Your stuff...
 # ------------------------------------------------------------------------------
 ELASTICSEARCH_DSL['default']['use_ssl'] = True

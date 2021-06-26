@@ -8,8 +8,9 @@ from datetime import timedelta
 import environ
 import sentry_sdk
 from django.contrib.messages import constants as messages
+from graphql import GraphQLError
 from sentry_sdk.integrations.django import DjangoIntegration
-from sentry_sdk.integrations.logging import LoggingIntegration
+from sentry_sdk.integrations.logging import LoggingIntegration, ignore_logger
 from sentry_sdk.integrations.redis import RedisIntegration
 
 ROOT_DIR = (
@@ -28,6 +29,11 @@ if READ_DOT_ENV_FILE:
 # ------------------------------------------------------------------------------
 # https://docs.djangoproject.com/en/dev/ref/settings/#debug
 DEBUG = env.bool("DJANGO_DEBUG", False)
+# https://docs.djangoproject.com/en/dev/ref/settings/#secret-key
+SECRET_KEY = env(
+    "DJANGO_SECRET_KEY",
+    default="xca4H4RV5gWB0TJgFKi3CGdqG1DkOOyqLn3fXqz8KOQLPVT9tjFdY8JEvX1bWyKh",
+)
 # Local time zone. Choices are
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
 # though not all of them may be available with every OS.
@@ -250,11 +256,28 @@ EMAIL_TIMEOUT = 5
 # ------------------------------------------------------------------------------
 # Django Admin URL.
 ADMIN_URL = "admin/"
+
+
 # LOGGING
 # ------------------------------------------------------------------------------
 # https://docs.djangoproject.com/en/dev/ref/settings/#logging
 # See https://docs.djangoproject.com/en/dev/topics/logging for
 # more details on how to customize your logging configuration.
+
+class GraphQLLogFilter(logging.Filter):
+    def filter(self, record):
+        if record.exc_info:
+            etype, _, _ = record.exc_info
+            if etype == GraphQLError:
+                return None
+        if record.stack_info and 'GraphQLError' in record.stack_info:
+            return None
+        if record.msg and 'GraphQLError' in record.msg:
+            return None
+
+        return True
+
+
 LOGGING = {
     "version": 1,
     "disable_existing_loggers": False,
@@ -270,6 +293,18 @@ LOGGING = {
             "class": "logging.StreamHandler",
             "formatter": "verbose",
         }
+    },
+    'filters': {
+        'graphql_log_filter': {
+            '()': GraphQLLogFilter,
+        }
+    },
+    'loggers': {
+        'graphql.execution.utils': {
+            'level': 'WARNING',
+            'handlers': ['console'],
+            'filters': ['graphql_log_filter'],
+        },
     },
     "root": {"level": "INFO", "handlers": ["console"]},
 }
@@ -372,7 +407,7 @@ ELASTICSEARCH_DSL = {
 SENTRY_DSN = env("SENTRY_DSN", default="")
 if SENTRY_DSN:
     SENTRY_LOG_LEVEL = env.int("DJANGO_SENTRY_LOG_LEVEL", logging.INFO)
-
+    ignore_logger('graphql.execution.utils')
     sentry_logging = LoggingIntegration(
         level=SENTRY_LOG_LEVEL,  # Capture info and above as breadcrumbs
         event_level=logging.ERROR,  # Send errors as events
@@ -383,6 +418,14 @@ if SENTRY_DSN:
         environment=env.str("DJANGO_SETTINGS_MODULE").split(".")[-1],
         dsn=SENTRY_DSN,
         integrations=[sentry_logging, DjangoIntegration(), RedisIntegration()],
+        # Set traces_sample_rate to 1.0 to capture 100%
+        # of transactions for performance monitoring.
+        # We recommend adjusting this value in production.
+        traces_sample_rate=1.0,
+
+        # If you wish to associate users to errors (assuming you are using
+        # django.contrib.auth) you may enable sending PII data.
+        send_default_pii=True
     )
 
 # CHANNELS
