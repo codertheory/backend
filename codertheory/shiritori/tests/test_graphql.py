@@ -1,7 +1,4 @@
-from unittest import skip
-
 from graphene_django.utils.testing import GraphQLTestCase
-from rest_framework.reverse import reverse
 
 from codertheory.shiritori import models
 from . import factories
@@ -16,7 +13,7 @@ class ShiritoriGraphQLTests(GraphQLTestCase):
     def test_create_game(self):
         response = self.query(
             '''
-            mutation CreateGame($private: Boolean){
+            mutation ($private: Boolean){
                 createGame(private: $private){
                     game {
                         id
@@ -31,7 +28,7 @@ class ShiritoriGraphQLTests(GraphQLTestCase):
     def test_join_game(self):
         response = self.query(
             '''
-            mutation JoinGame($gameId: ID, $playerName: String){
+            mutation ($gameId: ID, $playerName: String){
                 joinGame(gameId: $gameId, playerName: $playerName){
                     player {
                         id
@@ -39,7 +36,6 @@ class ShiritoriGraphQLTests(GraphQLTestCase):
                 }
             }
             ''',
-            op_name="JoinGame",
             variables={
                 "gameId": self.game.id,
                 "playerName": "John"
@@ -51,7 +47,7 @@ class ShiritoriGraphQLTests(GraphQLTestCase):
         player = self.game.join("name")
         response = self.query(
             '''
-            mutation LeaveGame($gameId: ID, $playerID: ID){
+            mutation ($gameId: ID, $playerID: ID){
                 leaveGame(gameId: $gameId, playerId: $playerID){
                     game {
                         id
@@ -59,7 +55,6 @@ class ShiritoriGraphQLTests(GraphQLTestCase):
                 }
             }
             ''',
-            op_name="LeaveGame",
             variables={
                 "gameId": self.game.id,
                 "playerID": player.id
@@ -71,7 +66,7 @@ class ShiritoriGraphQLTests(GraphQLTestCase):
         factories.PlayerFactory.create_batch(2, game=self.game)
         query_kwargs = dict(
             query='''
-            mutation StartGame($gameId: ID){
+            mutation ($gameId: ID){
                 startGame(gameId: $gameId) {
                     game {
                         started
@@ -79,7 +74,6 @@ class ShiritoriGraphQLTests(GraphQLTestCase):
                 }
             }
         ''',
-            op_name="StartGame",
             variables={
                 "gameId": self.game.id,
             }
@@ -91,31 +85,28 @@ class ShiritoriGraphQLTests(GraphQLTestCase):
         response = self.query(**query_kwargs)
         self.assertResponseHasErrors(response)
 
-    @skip
     def test_take_game_turn(self):
         player = factories.PlayerFactory(game=self.game)
         self.game.current_player = player
         self.game.last_word = "b"
         self.game.started = True
         self.game.save()
-        url = reverse("api:v1:shiritori_game-take-turn", kwargs={"pk": self.game.id})
-        data = {
-            "word": "bar",
-            "player": player.id
-        }
-        response = self.client.post(url, data)
-        self.assertEqual(response.status_code, 200)
-
-    @skip
-    def test_Take_game_turn_already_finished(self):
-        self.game.started = True
+        query_kwargs = dict(
+            query='''
+                mutation ($gameID: ID,$word:String){
+                    takeTurn(gameId: $gameID,word: $word){
+                        score
+                    }
+                }
+            ''',
+            variables={
+                "gameID": self.game.id,
+                "word": "bar"
+            }
+        )
+        response = self.query(**query_kwargs)
+        self.assertResponseNoErrors(response)
         self.game.finished = True
         self.game.save()
-        player = factories.PlayerFactory(game=self.game)
-        url = reverse("api:v1:shiritori_game-take-turn", kwargs={"pk": self.game.id})
-        data = {
-            "word": "bar",
-            "player": player.id
-        }
-        response = self.client.post(url, data)
-        self.assertEqual(response.status_code, 406)
+        response = self.query(**query_kwargs)
+        self.assertResponseHasErrors(response)
