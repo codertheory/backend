@@ -18,6 +18,7 @@ type ClearVoteMutation {
 
 type CreateGameMutation {
     game: ShiritoriGameType
+    player: ShiritoriPlayerType
 }
 
 type CreatePollMutation {
@@ -33,15 +34,20 @@ type GameSubscription {
     gameById: ShiritoriGameType
 }
 
+type JoinGameMutation {
+    player: ShiritoriPlayerType
+}
+
 type LeaveGameMutation {
     game: ShiritoriGameType
 }
 
 type Mutations {
     clearVote(voteId: ID): ClearVoteMutation
-    createGame(private: Boolean): CreateGameMutation
+    createGame(playerName: String, private: Boolean): CreateGameMutation
     createPoll(description: String, name: String!, options: [PollOptionInput]!): CreatePollMutation
     createProject(input: ProjectMutationInput!): ProjectMutationPayload
+    joinGame(gameId: ID, playerName: String): JoinGameMutation
     leaveGame(gameId: ID, playerId: ID): LeaveGameMutation
     startGame(gameId: ID, timer: Int): StartGameMutation
     takeTurn(gameId: ID, word: String): TakeTurnMutation
@@ -243,7 +249,9 @@ type StartGameMutation {
 type Subscription {
     gameSubscription(
         "ID of the game"
-        gameId: ID
+        gameId: ID,
+        "ID of the player"
+        playerId: ID
     ): GameSubscription
     pollSubscription(
         "ID of the Poll"

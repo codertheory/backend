@@ -58,7 +58,7 @@ class LeaveGameMutation(graphene.Mutation):
             player = models.ShiritoriPlayer.objects.get(pk=player_id, game__id=game_id).leave()
             return LeaveGameMutation(game=player.game)
         except models.ShiritoriPlayer.DoesNotExist:
-            return
+            return LeaveGameMutation(None)
 
 
 class StartGameMutation(graphene.Mutation):
@@ -71,11 +71,12 @@ class StartGameMutation(graphene.Mutation):
     @classmethod
     def mutate(cls, root, info, game_id=None, timer=None):
         game = models.ShiritoriGame.objects.get(pk=game_id)
-        game.timer = timer
+        if timer:
+            game.timer = timer
         try:
             game.start()
         except exceptions.NotEnoughPlayersException as error:
-            raise Exception(str(error))
+            raise Exception(str(error)) from error
         return StartGameMutation(game=game)
 
 

@@ -7,7 +7,6 @@ from codertheory.shiritori import models
 from . import factories
 
 
-@skip("Refactor to Graphql")
 class ShiritoriGraphQLTests(GraphQLTestCase):
 
     @classmethod
@@ -15,64 +14,80 @@ class ShiritoriGraphQLTests(GraphQLTestCase):
         cls.game: models.ShiritoriGame = factories.GameFactory()
 
     def test_create_game(self):
-        url = reverse("api:v1:shiritori_game-list")
-        data = {
-            "name": "foobar",
-            "password": "1234"
-        }
-        response = self.client.post(url, data)
-        self.assertEqual(response.status_code, 201)
+        response = self.query(
+            '''
+            mutation CreateGame($private: Boolean){
+                createGame(private: $private){
+                    game {
+                        id
+                    }
+                }
+            }
+
+            '''
+        )
+        self.assertResponseNoErrors(response)
 
     def test_join_game(self):
-        url = reverse("api:v1:shiritori_game-join", kwargs={"pk": self.game.id})
-        data = {
-            "name": "foobar"
-        }
-        response = self.client.post(url, data)
-        self.assertEqual(response.status_code, 202)
-
-    def test_join_game_already_started(self):
-        self.game.save(update_fields={"started": True})
-        url = reverse("api:v1:shiritori_game-join", kwargs={"pk": self.game.id})
-        data = {
-            "name": "foobar"
-        }
-        response = self.client.post(url, data)
-        self.assertEqual(response.status_code, 403)
+        response = self.query(
+            '''
+            mutation JoinGame($gameId: ID, $playerName: String){
+                joinGame(gameId: $gameId, playerName: $playerName){
+                    player {
+                        id
+                    }
+                }
+            }
+            ''',
+            op_name="JoinGame",
+            variables={
+                "gameId": self.game.id,
+                "playerName": "John"
+            }
+        )
+        self.assertResponseNoErrors(response)
 
     def test_leave_game(self):
-        player = self.game.join("foobar")
-        url = reverse("api:v1:shiritori_game-leave", kwargs={"pk": player.game.id})
-        data = {
-            "id": player.id
-        }
-        response = self.client.delete(url, data)
-        self.assertEqual(response.status_code, 204)
+        player = self.game.join("name")
+        response = self.query(
+            '''
+            mutation LeaveGame($gameId: ID, $playerID: ID){
+                leaveGame(gameId: $gameId, playerId: $playerID){
+                    game {
+                        id
+                    }
+                }
+            }
+            ''',
+            op_name="LeaveGame",
+            variables={
+                "gameId": self.game.id,
+                "playerID": player.id
+            }
+        )
+        self.assertResponseNoErrors(response)
 
     def test_start_game(self):
-        self.game.join("p1")
-        self.game.join("p2")
-        url = reverse("api:v1:shiritori_game-start", kwargs={"pk": self.game.id})
-        response = self.client.post(url)
-        self.assertEqual(response.status_code, 200)
-        self.game.refresh_from_db()
-        self.assertTrue(self.game.started)
-
-    def test_start_game_already_started(self):
-        self.game.save(update_fields={"started": True})
-        url = reverse("api:v1:shiritori_game-start", kwargs={"pk": self.game.id})
-        response = self.client.post(url)
-        self.assertEqual(response.status_code, 403)
-
-    def test_finish_game(self):
         factories.PlayerFactory.create_batch(2, game=self.game)
-        self.game.start()
-        url = reverse("api:v1:shiritori_game-finish", kwargs={"pk": self.game.id})
-        response = self.client.post(url)
-        self.assertEqual(response.status_code, 200)
-        self.game.refresh_from_db()
-        self.assertTrue(self.game.finished)
+        response = self.query(
+            '''
+                mutation StartGame($gameId: ID){
+                    startGame(gameId: $gameId) {
+                        game {
+                            started
+                        }
+                    }
+                }
+            ''',
+            op_name="StartGame",
+            variables={
+                "gameId": self.game.id,
+            }
+        )
+        self.assertResponseNoErrors(response)
+        self.game.save(update_fields={"started": True})
 
+    @skip
     def test_take_game_turn(self):
         player = factories.PlayerFactory(game=self.game)
         self.game.current_player = player
@@ -87,6 +102,7 @@ class ShiritoriGraphQLTests(GraphQLTestCase):
         response = self.client.post(url, data)
         self.assertEqual(response.status_code, 200)
 
+    @skip
     def test_Take_game_turn_already_finished(self):
         self.game.started = True
         self.game.finished = True
