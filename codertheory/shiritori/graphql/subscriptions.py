@@ -41,7 +41,7 @@ class GameSubscription(channels_graphql_ws.Subscription):
         return models.ShiritoriGame.objects.get(pk=game_id)
 
     @staticmethod
-    async def publish(payload, info, game_id=None):
+    async def publish(payload, info, game_id=None,player_id=None):
         await asyncio.sleep(0.5)
         game = await GameSubscription.get_game(game_id)
         return GameSubscription(gameById=game)

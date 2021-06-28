@@ -4,11 +4,12 @@ from django.contrib import admin
 from django.urls import include
 from django.urls import path
 from django.views import defaults as default_views
+from django.views.decorators.csrf import csrf_exempt
 
 from config.graphql_view import CustomGraphQLView
 
 urlpatterns = [
-                  path('graphql/', CustomGraphQLView.as_view(graphiql=settings.DEBUG)),
+                  path('graphql/', csrf_exempt(CustomGraphQLView.as_view(graphiql=settings.DEBUG))),
                   path('grappelli/', include('grappelli.urls')),  # grappelli URLS
                   path(settings.ADMIN_URL, admin.site.urls),
                   path('accounts/', include(('allauth.urls', "allauth"), namespace="allauth")),
