@@ -11,6 +11,24 @@ interface BaseNode {
     id: ID!
 }
 
+"An object with an ID"
+interface Node {
+    "The ID of the object."
+    id: ID!
+}
+
+"""
+
+Archive account and revoke refresh tokens.
+
+User must be verified and confirm password.
+"""
+type ArchiveAccountPayload {
+    clientMutationId: String
+    errors: ExpectedErrorType
+    success: Boolean
+}
+
 type ClearVoteMutation {
     error: String
     success: Boolean
@@ -25,6 +43,21 @@ type CreatePollMutation {
     poll: PollType
 }
 
+"""
+
+Delete account permanently or make `user.is_active=False`.
+
+The behavior is defined on settings.
+Anyway user refresh tokens are revoked.
+
+User must be verified and confirm password.
+"""
+type DeleteAccountPayload {
+    clientMutationId: String
+    errors: ExpectedErrorType
+    success: Boolean
+}
+
 type ErrorType {
     field: String!
     messages: [String!]!
@@ -35,6 +68,7 @@ type GameSubscription {
 }
 
 type JoinGameMutation {
+    game: ShiritoriGameType
     player: ShiritoriPlayerType
 }
 
@@ -43,14 +77,185 @@ type LeaveGameMutation {
 }
 
 type Mutations {
+    """
+
+    Archive account and revoke refresh tokens.
+
+    User must be verified and confirm password.
+    """
+    archiveAccount(input: ArchiveAccountInput!): ArchiveAccountPayload
     clearVote(voteId: ID): ClearVoteMutation
     createGame(playerName: String, private: Boolean): CreateGameMutation
     createPoll(description: String, name: String!, options: [PollOptionInput]!): CreatePollMutation
     createProject(input: ProjectMutationInput!): ProjectMutationPayload
+    """
+
+    Delete account permanently or make `user.is_active=False`.
+
+    The behavior is defined on settings.
+    Anyway user refresh tokens are revoked.
+
+    User must be verified and confirm password.
+    """
+    deleteAccount(input: DeleteAccountInput!): DeleteAccountPayload
     joinGame(gameId: ID, playerName: String): JoinGameMutation
-    leaveGame(gameId: ID, playerId: ID): LeaveGameMutation
+    leaveGame(playerId: ID): LeaveGameMutation
+    """
+
+    Change account password when user knows the old password.
+
+    A new token and refresh token are sent. User must be verified.
+    """
+    passwordChange(input: PasswordChangeInput!): PasswordChangePayload
+    """
+
+    Change user password without old password.
+
+    Receive the token that was sent by email.
+
+    If token and new passwords are valid, update
+    user password and in case of using refresh
+    tokens, revoke all of them.
+
+    Also, if user has not been verified yet, verify it.
+    """
+    passwordReset(input: PasswordResetInput!): PasswordResetPayload
+    """
+
+    Set user password - for passwordless registration
+
+    Receive the token that was sent by email.
+
+    If token and new passwords are valid, set
+    user password and in case of using refresh
+    tokens, revoke all of them.
+
+    Also, if user has not been verified yet, verify it.
+    """
+    passwordSet(input: PasswordSetInput!): PasswordSetPayload
+    "Same as `grapgql_jwt` implementation, with standard output."
+    refreshToken(input: RefreshTokenInput!): RefreshTokenPayload
+    """
+
+    Register user with fields defined in the settings.
+
+    If the email field of the user model is part of the
+    registration fields (default), check if there is
+    no user with that email or as a secondary email.
+
+    If it exists, it does not register the user,
+    even if the email field is not defined as unique
+    (default of the default django user model).
+
+    When creating the user, it also creates a `UserStatus`
+    related to that user, making it possible to track
+    if the user is archived, verified and has a secondary
+    email.
+
+    Send account verification email.
+
+    If allowed to not verified users login, return token.
+    """
+    register(input: RegisterInput!): RegisterPayload
+    """
+
+    Remove user secondary email.
+
+    Require password confirmation.
+    """
+    removeSecondaryEmail(input: RemoveSecondaryEmailInput!): RemoveSecondaryEmailPayload
+    """
+
+    Sends activation email.
+
+    It is called resend because theoretically
+    the first activation email was sent when
+    the user registered.
+
+    If there is no user with the requested email,
+    a successful response is returned.
+    """
+    resendActivationEmail(input: ResendActivationEmailInput!): ResendActivationEmailPayload
+    "Same as `grapgql_jwt` implementation, with standard output."
+    revokeToken(input: RevokeTokenInput!): RevokeTokenPayload
+    """
+
+    Send password reset email.
+
+    For non verified users, send an activation
+    email instead.
+
+    Accepts both primary and secondary email.
+
+    If there is no user with the requested email,
+    a successful response is returned.
+    """
+    sendPasswordResetEmail(input: SendPasswordResetEmailInput!): SendPasswordResetEmailPayload
+    """
+
+    Send activation to secondary email.
+
+    User must be verified and confirm password.
+    """
+    sendSecondaryEmailActivation(input: SendSecondaryEmailActivationInput!): SendSecondaryEmailActivationPayload
     startGame(gameId: ID, timer: Int): StartGameMutation
+    """
+
+    Swap between primary and secondary emails.
+
+    Require password confirmation.
+    """
+    swapEmails(input: SwapEmailsInput!): SwapEmailsPayload
     takeTurn(gameId: ID, word: String): TakeTurnMutation
+    """
+
+    Obtain JSON web token for given user.
+
+    Allow to perform login with different fields,
+    and secondary email if set. The fields are
+    defined on settings.
+
+    Not verified users can login by default. This
+    can be changes on settings.
+
+    If user is archived, make it unarchive and
+    return `unarchiving=True` on output.
+    """
+    tokenAuth(input: ObtainJSONWebTokenInput!): ObtainJSONWebTokenPayload
+    """
+
+    Update user model fields, defined on settings.
+
+    User must be verified.
+    """
+    updateAccount(input: UpdateAccountInput!): UpdateAccountPayload
+    """
+
+    Verify user account.
+
+    Receive the token that was sent by email.
+    If the token is valid, make the user verified
+    by making the `user.status.verified` field true.
+    """
+    verifyAccount(input: VerifyAccountInput!): VerifyAccountPayload
+    """
+
+    Verify user secondary email.
+
+    Receive the token that was sent by email.
+    User is already verified when using this mutation.
+
+    If the token is valid, add the secondary email
+    to `user.status.secondary_email` field.
+
+    Note that until the secondary email is verified,
+    it has not been saved anywhere beyond the token,
+    so it can still be used to create a new account.
+    After being verified, it will no longer be available.
+    """
+    verifySecondaryEmail(input: VerifySecondaryEmailInput!): VerifySecondaryEmailPayload
+    "Same as `grapgql_jwt` implementation, with standard output."
+    verifyToken(input: VerifyTokenInput!): VerifyTokenPayload
     votePoll(
         "Poll Option ID"
         optionId: ID,
@@ -59,6 +264,29 @@ type Mutations {
         "The ID of the Vote, used for changing a vote"
         voteId: ID
     ): PollVoteMutation
+}
+
+"""
+
+Obtain JSON web token for given user.
+
+Allow to perform login with different fields,
+and secondary email if set. The fields are
+defined on settings.
+
+Not verified users can login by default. This
+can be changes on settings.
+
+If user is archived, make it unarchive and
+return `unarchiving=True` on output.
+"""
+type ObtainJSONWebTokenPayload {
+    clientMutationId: String
+    errors: ExpectedErrorType
+    success: Boolean
+    token: String
+    unarchiving: Boolean
+    user: UserNode
 }
 
 "The Relay compliant `PageInfo` type, containing data necessary to paginate this connection."
@@ -71,6 +299,55 @@ type PageInfo {
     hasPreviousPage: Boolean!
     "When paginating backwards, the cursor to continue."
     startCursor: String
+}
+
+"""
+
+Change account password when user knows the old password.
+
+A new token and refresh token are sent. User must be verified.
+"""
+type PasswordChangePayload {
+    clientMutationId: String
+    errors: ExpectedErrorType
+    success: Boolean
+    token: String
+}
+
+"""
+
+Change user password without old password.
+
+Receive the token that was sent by email.
+
+If token and new passwords are valid, update
+user password and in case of using refresh
+tokens, revoke all of them.
+
+Also, if user has not been verified yet, verify it.
+"""
+type PasswordResetPayload {
+    clientMutationId: String
+    errors: ExpectedErrorType
+    success: Boolean
+}
+
+"""
+
+Set user password - for passwordless registration
+
+Receive the token that was sent by email.
+
+If token and new passwords are valid, set
+user password and in case of using refresh
+tokens, revoke all of them.
+
+Also, if user has not been verified yet, verify it.
+"""
+type PasswordSetPayload {
+    clientMutationId: String
+    errors: ExpectedErrorType
+    success: Boolean
 }
 
 type PollOptionType implements BaseNode {
@@ -115,7 +392,6 @@ type PollType implements BaseNode {
     options: [PollOptionType!]
     polloptionSet(after: String, before: String, first: Int, last: Int, offset: Int): PollOptionTypeConnection!
     pollvoteSet: [PollVoteType!]!
-    user: UserType
     "The Clients Vote, if one exists"
     vote: PollVoteType
     voteCount: Int
@@ -148,7 +424,6 @@ type PollVoteType {
     metadata: JSONString
     option: PollOptionType!
     poll: PollType!
-    user: UserType
 }
 
 type ProjectMutationPayload {
@@ -175,7 +450,6 @@ type ProjectType {
     lastUpdatedAt: DateTime
     link: String
     name: String!
-    owner: UserType!
     slug: String
     status: ProjectsProjectStatusChoices!
 }
@@ -184,11 +458,118 @@ type Query {
     "The ID of the object"
     gameById(id: ID!): ShiritoriGameType
     games(after: String, before: String, finished: Boolean, first: Int, last: Int, offset: Int, started: Boolean): ShiritoriGameTypeConnection
+    me: UserNode
     "The ID of the object"
     pollById(id: ID!): PollType
     polls(active: Boolean, after: String, before: String, first: Int, last: Int, name: String, name_Icontains: String, name_Istartswith: String, offset: Int): PollTypeConnection
     projects: [ProjectType]
-    users: [UserType]
+    "The ID of the object"
+    user(id: ID!): UserNode
+    users(after: String, before: String, email: String, first: Int, isActive: Boolean, last: Int, offset: Int, status_Archived: Boolean, status_SecondaryEmail: String, status_Verified: Boolean): UserNodeConnection
+}
+
+"Same as `grapgql_jwt` implementation, with standard output."
+type RefreshTokenPayload {
+    clientMutationId: String
+    errors: ExpectedErrorType
+    payload: GenericScalar
+    success: Boolean
+    token: String
+}
+
+"""
+
+Register user with fields defined in the settings.
+
+If the email field of the user model is part of the
+registration fields (default), check if there is
+no user with that email or as a secondary email.
+
+If it exists, it does not register the user,
+even if the email field is not defined as unique
+(default of the default django user model).
+
+When creating the user, it also creates a `UserStatus`
+related to that user, making it possible to track
+if the user is archived, verified and has a secondary
+email.
+
+Send account verification email.
+
+If allowed to not verified users login, return token.
+"""
+type RegisterPayload {
+    clientMutationId: String
+    errors: ExpectedErrorType
+    success: Boolean
+    token: String
+}
+
+"""
+
+Remove user secondary email.
+
+Require password confirmation.
+"""
+type RemoveSecondaryEmailPayload {
+    clientMutationId: String
+    errors: ExpectedErrorType
+    success: Boolean
+}
+
+"""
+
+Sends activation email.
+
+It is called resend because theoretically
+the first activation email was sent when
+the user registered.
+
+If there is no user with the requested email,
+a successful response is returned.
+"""
+type ResendActivationEmailPayload {
+    clientMutationId: String
+    errors: ExpectedErrorType
+    success: Boolean
+}
+
+"Same as `grapgql_jwt` implementation, with standard output."
+type RevokeTokenPayload {
+    clientMutationId: String
+    errors: ExpectedErrorType
+    revoked: Int
+    success: Boolean
+}
+
+"""
+
+Send password reset email.
+
+For non verified users, send an activation
+email instead.
+
+Accepts both primary and secondary email.
+
+If there is no user with the requested email,
+a successful response is returned.
+"""
+type SendPasswordResetEmailPayload {
+    clientMutationId: String
+    errors: ExpectedErrorType
+    success: Boolean
+}
+
+"""
+
+Send activation to secondary email.
+
+User must be verified and confirm password.
+"""
+type SendSecondaryEmailActivationPayload {
+    clientMutationId: String
+    errors: ExpectedErrorType
+    success: Boolean
 }
 
 type ShiritoriGameType implements BaseNode {
@@ -243,6 +624,7 @@ type ShiritoriPlayerType {
 }
 
 type StartGameMutation {
+    errors: [String]
     game: ShiritoriGameType
 }
 
@@ -259,16 +641,42 @@ type Subscription {
     ): PollSubscription
 }
 
+"""
+
+Swap between primary and secondary emails.
+
+Require password confirmation.
+"""
+type SwapEmailsPayload {
+    clientMutationId: String
+    errors: ExpectedErrorType
+    success: Boolean
+}
+
 type TakeTurnMutation {
     score: Int
 }
 
-type UserType {
+"""
+
+Update user model fields, defined on settings.
+
+User must be verified.
+"""
+type UpdateAccountPayload {
+    clientMutationId: String
+    errors: ExpectedErrorType
+    success: Boolean
+}
+
+type UserNode implements Node {
+    archived: Boolean
     avatar: String
     dateJoined: DateTime!
     email: String!
     firstName: String!
-    id: String!
+    "The ID of the object."
+    id: ID!
     "Designates whether this user should be treated as active. Unselect this instead of deleting accounts."
     isActive: Boolean!
     "Designates whether the user can log into the admin site."
@@ -278,10 +686,71 @@ type UserType {
     lastLogin: DateTime
     lastName: String!
     name: String!
+    pk: Int
     pollSet(active: Boolean, after: String, before: String, first: Int, last: Int, name: String, name_Icontains: String, name_Istartswith: String, offset: Int): PollTypeConnection!
     pollvoteSet: [PollVoteType!]!
     projectSet: [ProjectType!]!
     role: String!
+    secondaryEmail: String
+    verified: Boolean
+}
+
+type UserNodeConnection {
+    "Contains the nodes in this connection."
+    edges: [UserNodeEdge]!
+    "Pagination data for this connection."
+    pageInfo: PageInfo!
+}
+
+"A Relay edge containing a `UserNode` and its cursor."
+type UserNodeEdge {
+    "A cursor for use in pagination"
+    cursor: String!
+    "The item at the end of the edge"
+    node: UserNode
+}
+
+"""
+
+Verify user account.
+
+Receive the token that was sent by email.
+If the token is valid, make the user verified
+by making the `user.status.verified` field true.
+"""
+type VerifyAccountPayload {
+    clientMutationId: String
+    errors: ExpectedErrorType
+    success: Boolean
+}
+
+"""
+
+Verify user secondary email.
+
+Receive the token that was sent by email.
+User is already verified when using this mutation.
+
+If the token is valid, add the secondary email
+to `user.status.secondary_email` field.
+
+Note that until the secondary email is verified,
+it has not been saved anywhere beyond the token,
+so it can still be used to create a new account.
+After being verified, it will no longer be available.
+"""
+type VerifySecondaryEmailPayload {
+    clientMutationId: String
+    errors: ExpectedErrorType
+    success: Boolean
+}
+
+"Same as `grapgql_jwt` implementation, with standard output."
+type VerifyTokenPayload {
+    clientMutationId: String
+    errors: ExpectedErrorType
+    payload: GenericScalar
+    success: Boolean
 }
 
 "An enumeration."
@@ -294,6 +763,43 @@ enum ProjectsProjectStatusChoices {
     BACKLOG
     "Unactive"
     UNACTIVE
+}
+
+input ArchiveAccountInput {
+    clientMutationId: String
+    password: String!
+}
+
+input DeleteAccountInput {
+    clientMutationId: String
+    password: String!
+}
+
+input ObtainJSONWebTokenInput {
+    clientMutationId: String
+    email: String
+    password: String!
+}
+
+input PasswordChangeInput {
+    clientMutationId: String
+    newPassword1: String!
+    newPassword2: String!
+    oldPassword: String!
+}
+
+input PasswordResetInput {
+    clientMutationId: String
+    newPassword1: String!
+    newPassword2: String!
+    token: String!
+}
+
+input PasswordSetInput {
+    clientMutationId: String
+    newPassword1: String!
+    newPassword2: String!
+    token: String!
 }
 
 input PollOptionInput {
@@ -313,6 +819,70 @@ input ProjectMutationInput {
     status: String
 }
 
+input RefreshTokenInput {
+    clientMutationId: String
+    token: String!
+}
+
+input RegisterInput {
+    clientMutationId: String
+    email: String!
+    password1: String!
+    password2: String!
+}
+
+input RemoveSecondaryEmailInput {
+    clientMutationId: String
+    password: String!
+}
+
+input ResendActivationEmailInput {
+    clientMutationId: String
+    email: String!
+}
+
+input RevokeTokenInput {
+    clientMutationId: String
+    refreshToken: String!
+}
+
+input SendPasswordResetEmailInput {
+    clientMutationId: String
+    email: String!
+}
+
+input SendSecondaryEmailActivationInput {
+    clientMutationId: String
+    email: String!
+    password: String!
+}
+
+input SwapEmailsInput {
+    clientMutationId: String
+    password: String!
+}
+
+input UpdateAccountInput {
+    clientMutationId: String
+    firstName: String
+    lastName: String
+}
+
+input VerifyAccountInput {
+    clientMutationId: String
+    token: String!
+}
+
+input VerifySecondaryEmailInput {
+    clientMutationId: String
+    token: String!
+}
+
+input VerifyTokenInput {
+    clientMutationId: String
+    token: String!
+}
+
 
 """
 The `DateTime` scalar type represents a DateTime
@@ -328,3 +898,37 @@ Use of this type is *not recommended* as you lose the benefits of having a defin
 schema (one of the key benefits of GraphQL).
 """
 scalar JSONString
+
+"""
+Errors messages and codes mapped to
+fields or non fields errors.
+Example:
+{
+field_name: [
+{
+"message": "error message",
+"code": "error_code"
+            }
+],
+other_field: [
+{
+"message": "error message",
+"code": "error_code"
+            }
+],
+nonFieldErrors: [
+{
+"message": "error message",
+"code": "error_code"
+            }
+]
+}
+"""
+scalar ExpectedErrorType
+
+"""
+The `GenericScalar` scalar type represents a generic
+GraphQL scalar value that could be:
+String, Boolean, Int, Float, List or Object.
+"""
+scalar GenericScalar

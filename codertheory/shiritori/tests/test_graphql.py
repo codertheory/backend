@@ -44,11 +44,11 @@ class ShiritoriGraphQLTests(GraphQLTestCase):
         self.assertResponseNoErrors(response)
 
     def test_leave_game(self):
-        player = self.game.join("name")
+        player = self.game.join(self.game.id, "name")
         response = self.query(
             '''
-            mutation ($gameId: ID, $playerID: ID){
-                leaveGame(gameId: $gameId, playerId: $playerID){
+            mutation ($playerID: ID){
+                leaveGame(playerId: $playerID){
                     game {
                         id
                     }
@@ -56,7 +56,6 @@ class ShiritoriGraphQLTests(GraphQLTestCase):
             }
             ''',
             variables={
-                "gameId": self.game.id,
                 "playerID": player.id
             }
         )

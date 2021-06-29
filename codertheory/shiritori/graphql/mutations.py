@@ -26,7 +26,7 @@ class CreateGameMutation(graphene.Mutation):
     def mutate(cls, root, info, private=False, player_name=None):
         game = models.ShiritoriGame.objects.create(private=private)
         if player_name:
-            player = game.join(player_name)
+            player = game.join(game.id, player_name)
         else:
             player = None
         return CreateGameMutation(game=game, player=player)
@@ -37,26 +37,30 @@ class JoinGameMutation(graphene.Mutation):
         player_name = graphene.String()
         game_id = graphene.ID()
 
+    game = graphene.Field(types.ShiritoriGameType)
     player = graphene.Field(types.ShiritoriPlayerType)
 
     @classmethod
     def mutate(cls, root, info, player_name=None, game_id=None):
-        game = models.ShiritoriGame.objects.get(pk=game_id)
-        player = game.join(player_name)
-        return JoinGameMutation(player=player)
+        player = models.ShiritoriGame.join(game_id, player_name)
+        player.game.refresh_from_db()
+        return JoinGameMutation(player=player, game=player.game)
 
 
 class LeaveGameMutation(graphene.Mutation):
     class Arguments:
         player_id = graphene.ID()
-        game_id = graphene.ID()
 
     game = graphene.Field(types.ShiritoriGameType)
 
     @classmethod
-    def mutate(cls, root, info, player_id=None, game_id=None):
+    def mutate(cls, root, info, player_id=None):
         try:
-            player = models.ShiritoriPlayer.objects.get(pk=player_id, game__id=game_id).leave()
+            player = models.ShiritoriPlayer.objects.get(pk=player_id).leave()
+            try:
+                player.game.refresh_from_db()
+            except models.ShiritoriGame.DoesNotExist:
+                pass
             return LeaveGameMutation(game=player.game)
         except models.ShiritoriPlayer.DoesNotExist:
             return LeaveGameMutation(None)

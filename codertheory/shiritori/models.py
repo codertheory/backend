@@ -63,9 +63,10 @@ class ShiritoriGame(BaseModel):
     def is_current_player(self, player_id) -> bool:
         return player_id == self.current_player_id
 
-    def join(self, name) -> "ShiritoriPlayer":
+    @staticmethod
+    def join(game_id, name) -> "ShiritoriPlayer":
         new_player = ShiritoriPlayer.objects.create(
-            name=name, game=self
+            name=name, game_id=game_id
         )
         return new_player
 

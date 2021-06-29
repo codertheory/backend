@@ -1,4 +1,5 @@
 import asyncio
+import time
 import typing
 
 import channels_graphql_ws
@@ -36,14 +37,9 @@ class GameSubscription(channels_graphql_ws.Subscription):
             pass
 
     @staticmethod
-    @database_sync_to_async
-    def get_game(game_id) -> typing.Awaitable[models.ShiritoriGame]:
-        return models.ShiritoriGame.objects.get(pk=game_id)
-
-    @staticmethod
-    async def publish(payload, info, game_id=None,player_id=None):
-        await asyncio.sleep(0.5)
-        game = await GameSubscription.get_game(game_id)
+    def publish(payload, info, game_id=None, player_id=None):
+        time.sleep(0.1)
+        game = models.ShiritoriGame.objects.get(pk=game_id)
         return GameSubscription(gameById=game)
 
 
