@@ -26,7 +26,7 @@ class ShiritoriModelTests(TestCase):
         self.assertTrue(self.game.is_current_player(self.player_one.id))
 
     def test_join_game(self):
-        player = self.game.join("Player 2")
+        player = self.game.join(self.game.id,"Player 2")
         self.assertEqual(player.game, self.game)
 
     def test_get_next_player(self):
@@ -41,7 +41,7 @@ class ShiritoriModelTests(TestCase):
         self.assertListEqual(players, [self.game.current_player, *new_players])
 
     def test_join_game_duplicate_name(self):
-        self.assertRaises(IntegrityError, lambda: self.game.join(self.player_one.name))
+        self.assertRaises(IntegrityError, lambda: self.game.join(self.game.id,self.player_one.name))
 
     def test_leave_game(self):
         response = self.game.leave(self.player_one.id)
