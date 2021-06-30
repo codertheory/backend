@@ -125,7 +125,6 @@ class ShiritoriModelTests(TestCase):
         self.player_one.update_points(10)
         self.assertEqual(self.player_one.score, 90)
 
-
     def test_run_out_of_lives(self):
         factories.PlayerFactory(game=self.game)
         self.game.current_player.lives = 1
