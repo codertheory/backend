@@ -7,5 +7,5 @@ from ...general import node
 
 # noinspection PyMethodMayBeStatic
 class GameQuery(graphene.ObjectType):
-    games = DjangoFilterConnectionField(types.ShiritoriGameType)
+    games = DjangoFilterConnectionField(types.ShiritoriGameInProgressType)
     game_by_id = node.BaseNode.Field(types.ShiritoriGameType)
