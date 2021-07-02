@@ -1,4 +1,3 @@
-import graphene
 import graphene_django_optimizer as gql_optimizer
 from graphene_django import DjangoObjectType, DjangoListField
 
@@ -6,32 +5,13 @@ from .. import models
 from ...general import node
 
 __all__ = (
-    "ShiritoriGameLobbyType",
-    "ShiritoriGameInProgressType",
     "ShiritoriGameType",
     "ShiritoriGameWordType",
     "ShiritoriPlayerType",
 )
 
 
-class ShiritoriGameLobbyType(DjangoObjectType):
-    class Meta:
-        model = models.ShiritoriGame
-        interfaces = (node.BaseNode,)
-        fields = (
-            "id",
-            "private",
-            "started",
-            "finished",
-            "shiritoriplayer_set"
-        )
-        filter_fields = {
-            "finished": ['exact'],
-            "started": ['exact']
-        }
-
-
-class ShiritoriGameInProgressType(DjangoObjectType):
+class ShiritoriGameType(DjangoObjectType):
     class Meta:
         model = models.ShiritoriGame
         interfaces = (node.BaseNode,)
@@ -39,11 +19,6 @@ class ShiritoriGameInProgressType(DjangoObjectType):
             "finished": ['exact'],
             "started": ['exact']
         }
-
-
-class ShiritoriGameType(graphene.Union):
-    class Meta:
-        types = (ShiritoriGameLobbyType, ShiritoriGameInProgressType)
 
 
 class ShiritoriGameWordType(DjangoObjectType):
@@ -57,7 +32,6 @@ class ShiritoriPlayerType(DjangoObjectType):
 
     class Meta:
         model = models.ShiritoriPlayer
-        fields = "__all__"
         filter_fields = {
             "name": ['exact']
         }

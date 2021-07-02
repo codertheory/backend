@@ -19,7 +19,7 @@ class CreateGameMutation(graphene.Mutation):
         private = graphene.Boolean()
         player_name = graphene.String()
 
-    game = graphene.Field(types.ShiritoriGameInProgressType)
+    game = graphene.Field(types.ShiritoriGameType)
     player = graphene.Field(types.ShiritoriPlayerType)
 
     @classmethod
@@ -37,7 +37,7 @@ class JoinGameMutation(graphene.Mutation):
         player_name = graphene.String()
         game_id = graphene.ID()
 
-    game = graphene.Field(types.ShiritoriGameLobbyType)
+    game = graphene.Field(types.ShiritoriGameType)
     player = graphene.Field(types.ShiritoriPlayerType)
 
     @classmethod
@@ -51,7 +51,7 @@ class LeaveGameMutation(graphene.Mutation):
     class Arguments:
         player_id = graphene.ID()
 
-    game = graphene.Field(types.ShiritoriGameLobbyType)
+    game = graphene.Field(types.ShiritoriGameType)
 
     @classmethod
     def mutate(cls, root, info, player_id=None):
@@ -71,7 +71,7 @@ class StartGameMutation(graphene.Mutation):
         game_id = graphene.ID()
         timer = graphene.Int()
 
-    game = graphene.Field(types.ShiritoriGameInProgressType)
+    game = graphene.Field(types.ShiritoriGameType)
     errors = graphene.List(graphene.String)
 
     @classmethod

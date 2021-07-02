@@ -17,8 +17,6 @@ interface Node {
     id: ID!
 }
 
-union ShiritoriGameType = ShiritoriGameInProgressType | ShiritoriGameLobbyType
-
 """
 
 Archive account and revoke refresh tokens.
@@ -37,7 +35,7 @@ type ClearVoteMutation {
 }
 
 type CreateGameMutation {
-    game: ShiritoriGameInProgressType
+    game: ShiritoriGameType
     player: ShiritoriPlayerType
 }
 
@@ -70,12 +68,12 @@ type GameSubscription {
 }
 
 type JoinGameMutation {
-    game: ShiritoriGameLobbyType
+    game: ShiritoriGameType
     player: ShiritoriPlayerType
 }
 
 type LeaveGameMutation {
-    game: ShiritoriGameLobbyType
+    game: ShiritoriGameType
 }
 
 type Mutations {
@@ -459,7 +457,7 @@ type ProjectType {
 type Query {
     "The ID of the object"
     gameById(id: ID!): ShiritoriGameType
-    games(after: String, before: String, finished: Boolean, first: Int, last: Int, offset: Int, started: Boolean): ShiritoriGameInProgressTypeConnection
+    games(after: String, before: String, finished: Boolean, first: Int, last: Int, offset: Int, started: Boolean): ShiritoriGameTypeConnection
     me: UserNode
     "The ID of the object"
     pollById(id: ID!): PollType
@@ -574,7 +572,7 @@ type SendSecondaryEmailActivationPayload {
     success: Boolean
 }
 
-type ShiritoriGameInProgressType implements BaseNode {
+type ShiritoriGameType implements BaseNode {
     createdAt: DateTime!
     currentPlayer: ShiritoriPlayerType
     finished: Boolean!
@@ -584,59 +582,82 @@ type ShiritoriGameInProgressType implements BaseNode {
     lastWord: String
     playerIndex: Int!
     private: Boolean!
-    shiritorigamewordSet: [ShiritoriGameWordType!]!
-    shiritoriplayerSet: [ShiritoriPlayerType!]!
+    shiritorigamewordSet(after: String, before: String, first: Int, last: Int, offset: Int): ShiritoriGameWordTypeConnection!
+    shiritoriplayerSet(after: String, before: String, first: Int, last: Int, name: String, offset: Int): ShiritoriPlayerTypeConnection!
     started: Boolean!
     timer: Int!
     winner: ShiritoriPlayerType
 }
 
-type ShiritoriGameInProgressTypeConnection {
+type ShiritoriGameTypeConnection {
     "Contains the nodes in this connection."
-    edges: [ShiritoriGameInProgressTypeEdge]!
+    edges: [ShiritoriGameTypeEdge]!
     "Pagination data for this connection."
     pageInfo: PageInfo!
 }
 
-"A Relay edge containing a `ShiritoriGameInProgressType` and its cursor."
-type ShiritoriGameInProgressTypeEdge {
+"A Relay edge containing a `ShiritoriGameType` and its cursor."
+type ShiritoriGameTypeEdge {
     "A cursor for use in pagination"
     cursor: String!
     "The item at the end of the edge"
-    node: ShiritoriGameInProgressType
+    node: ShiritoriGameType
 }
 
-type ShiritoriGameLobbyType implements BaseNode {
-    finished: Boolean!
+type ShiritoriGameWordType implements BaseNode {
+    createdAt: DateTime!
     "The ID of the object."
     id: ID!
-    private: Boolean!
-    shiritoriplayerSet: [ShiritoriPlayerType!]!
-    started: Boolean!
-}
-
-type ShiritoriGameWordType {
-    createdAt: DateTime!
-    id: String!
     word: String!
 }
 
-type ShiritoriPlayerType {
+type ShiritoriGameWordTypeConnection {
+    "Contains the nodes in this connection."
+    edges: [ShiritoriGameWordTypeEdge]!
+    "Pagination data for this connection."
+    pageInfo: PageInfo!
+}
+
+"A Relay edge containing a `ShiritoriGameWordType` and its cursor."
+type ShiritoriGameWordTypeEdge {
+    "A cursor for use in pagination"
+    cursor: String!
+    "The item at the end of the edge"
+    node: ShiritoriGameWordType
+}
+
+type ShiritoriPlayerType implements BaseNode {
     Order: Int!
     createdAt: DateTime!
-    currentPlayerGame(after: String, before: String, finished: Boolean, first: Int, last: Int, offset: Int, started: Boolean): ShiritoriGameInProgressTypeConnection!
-    game: ShiritoriGameInProgressType!
-    gameWinner(after: String, before: String, finished: Boolean, first: Int, last: Int, offset: Int, started: Boolean): ShiritoriGameInProgressTypeConnection!
-    id: String!
+    currentPlayerGame(after: String, before: String, finished: Boolean, first: Int, last: Int, offset: Int, started: Boolean): ShiritoriGameTypeConnection!
+    game: ShiritoriGameType!
+    gameWinner(after: String, before: String, finished: Boolean, first: Int, last: Int, offset: Int, started: Boolean): ShiritoriGameTypeConnection!
+    "The ID of the object."
+    id: ID!
     name: String!
     score: Int!
-    shiritorigamewordSet: [ShiritoriGameWordType!]!
+    shiritorigamewordSet(after: String, before: String, first: Int, last: Int, offset: Int): ShiritoriGameWordTypeConnection!
     words: [ShiritoriGameWordType!]
+}
+
+type ShiritoriPlayerTypeConnection {
+    "Contains the nodes in this connection."
+    edges: [ShiritoriPlayerTypeEdge]!
+    "Pagination data for this connection."
+    pageInfo: PageInfo!
+}
+
+"A Relay edge containing a `ShiritoriPlayerType` and its cursor."
+type ShiritoriPlayerTypeEdge {
+    "A cursor for use in pagination"
+    cursor: String!
+    "The item at the end of the edge"
+    node: ShiritoriPlayerType
 }
 
 type StartGameMutation {
     errors: [String]
-    game: ShiritoriGameInProgressType
+    game: ShiritoriGameType
 }
 
 type Subscription {
