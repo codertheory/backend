@@ -30,11 +30,7 @@ class GameSubscription(channels_graphql_ws.Subscription):
 
     @staticmethod
     def unsubscribed(root, info, game_id=None, player_id=None):
-        try:
-            game = models.ShiritoriGame.objects.get(pk=game_id)
-            game.leave(player_id)
-        except models.ShiritoriGame.DoesNotExist:
-            pass
+        pass
 
     @staticmethod
     def publish(payload, info, game_id=None, player_id=None):

@@ -1,6 +1,7 @@
 import itertools
 import random
 import string
+import typing
 from typing import Optional
 
 import enchant
@@ -105,14 +106,14 @@ class ShiritoriGame(BaseModel):
     def calculate_word_score(word: str):
         return round(len(word) * 1.25)
 
-    def take_turn(self, word: str = None, *, raise_exception: bool = True):
+    def take_turn(self, word: str = None, *, raise_exception: bool = True) -> typing.Optional[int]:
+        word_score = self.calculate_word_score(word)
         if self.finished:
             if raise_exception:
                 raise exceptions.GameAlreadyFinishedException
             return
         try:
             self.validate_word(word)
-            word_score = self.calculate_word_score(word)
             ShiritoriGameWord.objects.create(
                 word=word.lower(), game=self, player=self.current_player
             )
@@ -132,6 +133,7 @@ class ShiritoriGame(BaseModel):
         finally:
             if not self.finished:
                 self.save()
+        return word_score
 
     def select_next_player(self):
         next_player = self.get_next_player()
