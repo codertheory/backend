@@ -24,7 +24,7 @@ class ShiritoriGameType(DjangoObjectType):
 class ShiritoriGameWordType(DjangoObjectType):
     class Meta:
         model = models.ShiritoriGameWord
-        fields = ("id", "word", "created_at")
+        fields = ("id", "word", "created_at", "points")
 
 
 class ShiritoriPlayerType(DjangoObjectType):

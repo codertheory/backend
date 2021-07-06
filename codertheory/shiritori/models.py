@@ -115,7 +115,7 @@ class ShiritoriGame(BaseModel):
         try:
             self.validate_word(word)
             ShiritoriGameWord.objects.create(
-                word=word.lower(), game=self, player=self.current_player
+                word=word.lower(), game=self, player=self.current_player, points=word_score
             )
             self.current_player.update_points(word_score)
             self.last_word = word
@@ -198,6 +198,7 @@ class ShiritoriPlayer(BaseModel):
 
 class ShiritoriGameWord(BaseModel):
     word = models.CharField(max_length=512)
+    points = models.IntegerField(default=0)
     game: "ShiritoriGame" = models.ForeignKey(ShiritoriGame, on_delete=models.CASCADE)
     player: "ShiritoriPlayer" = models.ForeignKey(ShiritoriPlayer, on_delete=models.DO_NOTHING)
 

@@ -582,8 +582,8 @@ type ShiritoriGameType implements BaseNode {
     lastWord: String
     playerIndex: Int!
     private: Boolean!
-    shiritorigamewordSet(after: String, before: String, first: Int, last: Int, offset: Int): ShiritoriGameWordTypeConnection!
-    shiritoriplayerSet(after: String, before: String, first: Int, last: Int, name: String, offset: Int): ShiritoriPlayerTypeConnection!
+    shiritorigamewordSet: [ShiritoriGameWordType!]!
+    shiritoriplayerSet: [ShiritoriPlayerType!]!
     started: Boolean!
     timer: Int!
     winner: ShiritoriPlayerType
@@ -604,55 +604,24 @@ type ShiritoriGameTypeEdge {
     node: ShiritoriGameType
 }
 
-type ShiritoriGameWordType implements BaseNode {
+type ShiritoriGameWordType {
     createdAt: DateTime!
-    "The ID of the object."
-    id: ID!
+    id: String!
+    points: Int!
     word: String!
 }
 
-type ShiritoriGameWordTypeConnection {
-    "Contains the nodes in this connection."
-    edges: [ShiritoriGameWordTypeEdge]!
-    "Pagination data for this connection."
-    pageInfo: PageInfo!
-}
-
-"A Relay edge containing a `ShiritoriGameWordType` and its cursor."
-type ShiritoriGameWordTypeEdge {
-    "A cursor for use in pagination"
-    cursor: String!
-    "The item at the end of the edge"
-    node: ShiritoriGameWordType
-}
-
-type ShiritoriPlayerType implements BaseNode {
+type ShiritoriPlayerType {
     Order: Int!
     createdAt: DateTime!
     currentPlayerGame(after: String, before: String, finished: Boolean, first: Int, last: Int, offset: Int, started: Boolean): ShiritoriGameTypeConnection!
     game: ShiritoriGameType!
     gameWinner(after: String, before: String, finished: Boolean, first: Int, last: Int, offset: Int, started: Boolean): ShiritoriGameTypeConnection!
-    "The ID of the object."
-    id: ID!
+    id: String!
     name: String!
     score: Int!
-    shiritorigamewordSet(after: String, before: String, first: Int, last: Int, offset: Int): ShiritoriGameWordTypeConnection!
+    shiritorigamewordSet: [ShiritoriGameWordType!]!
     words: [ShiritoriGameWordType!]
-}
-
-type ShiritoriPlayerTypeConnection {
-    "Contains the nodes in this connection."
-    edges: [ShiritoriPlayerTypeEdge]!
-    "Pagination data for this connection."
-    pageInfo: PageInfo!
-}
-
-"A Relay edge containing a `ShiritoriPlayerType` and its cursor."
-type ShiritoriPlayerTypeEdge {
-    "A cursor for use in pagination"
-    cursor: String!
-    "The item at the end of the edge"
-    node: ShiritoriPlayerType
 }
 
 type StartGameMutation {
@@ -687,6 +656,7 @@ type SwapEmailsPayload {
 
 type TakeTurnMutation {
     score: Int
+    word: String
 }
 
 """
