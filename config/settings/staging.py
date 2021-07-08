@@ -72,5 +72,5 @@ CORS_ORIGIN_WHITELIST += [
     "https://polls-lucascodert.vercel.app",
     "https://polls.codertheory.dev",
     "https://polls-a6yh67nyt-lucascodert.vercel.app",
-    "https://codertheory-shiritori.herokuapp.com",
+    "https://shiritori-lucascodert.vercel.app"
 ]

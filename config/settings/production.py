@@ -128,5 +128,7 @@ LOGGING['loggers'].update({
 # ------------------------------------------------------------------------------
 ELASTICSEARCH_DSL['default']['use_ssl'] = True
 CORS_ORIGIN_WHITELIST += [
-    "https://siritori.codertheory.dev"
+    "https://shiritori.codertheory.dev",
+    "https://polls.codertheory.dev",
+    "https://shiritori-lucascodert.vercel.app"
 ]
