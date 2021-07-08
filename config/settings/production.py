@@ -3,7 +3,7 @@ from .base import *  # noqa
 # GENERAL
 # ------------------------------------------------------------------------------
 # https://docs.djangoproject.com/en/dev/ref/settings/#allowed-hosts
-ALLOWED_HOSTS = env.list("DJANGO_ALLOWED_HOSTS", default=["api.codertheory.dev"])
+ALLOWED_HOSTS = env.list("DJANGO_ALLOWED_HOSTS", default=["api.codertheory.dev", "codertheory-api.herokuapp.com"])
 
 # DATABASES
 # ------------------------------------------------------------------------------
@@ -130,5 +130,6 @@ ELASTICSEARCH_DSL['default']['use_ssl'] = True
 CORS_ORIGIN_WHITELIST += [
     "https://shiritori.codertheory.dev",
     "https://polls.codertheory.dev",
-    "https://shiritori-lucascodert.vercel.app"
+    "https://shiritori-lucascodert.vercel.app",
+    "https://codertheory-api.herokuapp.com",
 ]
