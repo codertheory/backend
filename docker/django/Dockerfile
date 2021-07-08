@@ -1,5 +1,6 @@
 FROM python:3.9.0
 ENV PYTHONUNBUFFERED 1
+RUN apt install libenchant-dev
 RUN mkdir /code
 WORKDIR /code
 COPY requirements.txt /code/
