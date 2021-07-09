@@ -8,7 +8,7 @@ ALLOWED_HOSTS = env.list("DJANGO_ALLOWED_HOSTS", default=["api.codertheory.dev",
 # DATABASES
 # ------------------------------------------------------------------------------
 DATABASES["default"]["CONN_MAX_AGE"] = env.int("CONN_MAX_AGE", default=60)  # noqa F405
-DATABASES["default"]["OPTIONS"] = {"sslmode": "require"}
+# DATABASES["default"]["OPTIONS"] = {"sslmode": "require"}
 # CACHES
 # ------------------------------------------------------------------------------
 CACHES = {

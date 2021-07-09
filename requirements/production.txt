@@ -4,10 +4,10 @@
 
 gunicorn==20.1.0  # https://github.com/benoitc/gunicorn
 daphne==3.0.2 # https://github.com/django/daphne
-psycopg2==2.8.6    # https://github.com/psycopg/psycopg2
+psycopg2==2.9.1    # https://github.com/psycopg/psycopg2
 Collectfast==2.2.0  # https://github.com/antonagestam/collectfast
 whitenoise==5.2.0 # http://whitenoise.evans.io/
 # Django
 # ------------------------------------------------------------------------------
 django-storages[boto3]==1.11.1  # https://github.com/jschneier/django-storages
-django-anymail[mailgun]==8.3  # https://github.com/anymail/django-anymail
+django-anymail[mailgun]==8.4  # https://github.com/anymail/django-anymail

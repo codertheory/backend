@@ -1,4 +1,4 @@
-FROM postgres:12-alpine
+FROM postgres:13-alpine
 
 ENV POSTGRES_PASSWORD=Codertheory
 ENV POSTGRES_USER=codertheory

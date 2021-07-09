@@ -3,12 +3,16 @@ version: "3.2"
 services:
   postgres:
     build:
-      context: docker/postgres/
+      context: .
+      dockerfile: docker/postgres/Dockerfile
     restart: always
     volumes:
       - postgresql:/var/lib/postgresql
       # This needs explicit mapping due to https://github.com/docker-library/postgres/blob/4e48e3228a30763913ece952c611e5e9b95c8759/Dockerfile.template#L52
       - postgresql_data:/var/lib/postgresql/data
+    hostname: "postgres"
+    ports:
+      - "5432:5432"
 
   redis:
     image: redis
@@ -18,8 +22,15 @@ services:
 
   django:
     build:
-      context: docker/django/
-    command: python manage.py runserver 0.0.0.0:8000
+      context: .
+      dockerfile: docker/django/Dockerfile
+    command: daphne config.asgi:application --port 8000 --bind 0.0.0.0
+    environment:
+      DJANGO_SECRET_KEY: "xca4H4RV5gWB0TJgFKi3CGdqG1DkOOyqLn3fXqz8KOQLPVT9tjFdY8JEvX1bWyKh"
+      DJANGO_SETTINGS_MODULE: config.settings.production
+      REDIS_URL: "redis://redis:6379/0"
+      DATABASE_URL: "postgres://codertheory:Codertheory@postgres:5432/codertheory"
+      DJANGO_ALLOWED_HOSTS: "localhost"
     volumes:
       - .:/code
     ports:

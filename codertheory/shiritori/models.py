@@ -4,10 +4,10 @@ import string
 import typing
 from typing import Optional
 
-import enchant
 from auditlog.registry import auditlog
 from django.db import models
 from django.db.models import QuerySet
+from spellchecker import SpellChecker
 
 from codertheory.general.models import BaseModel
 from codertheory.shiritori import exceptions
@@ -82,8 +82,8 @@ class ShiritoriGame(BaseModel):
 
     @staticmethod
     def is_real_word(word: str) -> bool:
-        d = enchant.Dict("en_US")
-        return d.check(word)
+        d = SpellChecker()
+        return word in d
 
     def word_uses_last_letter(self, word: str) -> bool:
         return word.lower().startswith(self.last_word.lower()[-1])
